@@ -9,6 +9,7 @@ import androidx.databinding.DataBindingUtil
 import androidx.lifecycle.ViewModelProvider
 import com.example.socialhelper.R
 import com.example.socialhelper.databinding.FragmentPregnantBinding
+import java.net.Socket
 
 class PregnantFragment : Fragment() {
 
@@ -28,6 +29,8 @@ class PregnantFragment : Fragment() {
                 viewModel.onDoneSetSpotFree()
             }
         })
+
+
 
         binding.lifecycleOwner = this
         return binding.root

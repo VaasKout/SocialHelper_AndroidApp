@@ -21,9 +21,9 @@
             app:layout_constraintBottom_toTopOf="@+id/getSpotButton"
             app:layout_constraintEnd_toEndOf="parent"
             app:layout_constraintStart_toStartOf="parent"
-            android:text="@string/spot_is_free"
             android:textAppearance="@style/TextAppearance.MaterialComponents.Headline5"
             android:visibility="gone"
+            android:text="String sent"
             android:gravity="center"/>
 
         <com.google.android.material.button.MaterialButton
