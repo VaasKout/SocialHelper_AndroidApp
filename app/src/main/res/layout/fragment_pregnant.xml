@@ -22,8 +22,7 @@
             app:layout_constraintEnd_toEndOf="parent"
             app:layout_constraintStart_toStartOf="parent"
             android:textAppearance="@style/TextAppearance.MaterialComponents.Headline5"
-            android:visibility="gone"
-            android:text="String sent"
+            android:text="@{viewModel.sentValue}"
             android:gravity="center"/>
 
         <com.google.android.material.button.MaterialButton

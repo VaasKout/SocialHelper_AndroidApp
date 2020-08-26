@@ -17,6 +17,8 @@
     <string name="wait_for_response">Ожидайте ответа в течение 24х часов</string>
     <string name="welcome2">пожаловать&#160;</string>
     <string name="welcome3">в</string>
+    <string name="bruh">Fuck</string>
+    <string name="connection_error">Connection Error</string>
     <string-array name="category">
         <item>Инвалид</item>
         <item>Феминистка</item>
