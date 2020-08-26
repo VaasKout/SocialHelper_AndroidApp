@@ -34,10 +34,26 @@ class LoginFragment : Fragment() {
             if (passwordInput.isEmpty()){
                 binding.passwordTextInput.error = getString(R.string.password_input_error)}
 
+
+            /**
+             * Navigation to fragments depends on username(for now)
+             */
             if (it == true && userInput.isNotEmpty() && passwordInput.isNotEmpty()){
-            this.findNavController()
-                .navigate(LoginFragmentDirections.actionLoginFragmentToMainFragment())
-            loginViewModel.onDoneNavigationToMain()
+                if(userInput == "1") {
+                    this.findNavController()
+                        .navigate(LoginFragmentDirections.actionLoginFragmentToPregnantFragment())
+                    loginViewModel.onDoneNavigationToMain()
+                }
+                    if (userInput == "2"){
+                        this.findNavController()
+                            .navigate(LoginFragmentDirections.actionLoginFragmentToDisabledFragment())
+                        loginViewModel.onDoneNavigationToMain()
+                    }
+                if (userInput == "3"){
+                    this.findNavController()
+                        .navigate(LoginFragmentDirections.actionLoginFragmentToSocialFragment())
+                    loginViewModel.onDoneNavigationToMain()
+                }
             }
         })
 //        Navigation to fragment_registration
