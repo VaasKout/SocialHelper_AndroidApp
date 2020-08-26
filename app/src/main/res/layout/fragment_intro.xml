@@ -2,35 +2,62 @@
 <layout xmlns:android="http://schemas.android.com/apk/res/android"
     xmlns:app="http://schemas.android.com/apk/res-auto"
     xmlns:tools="http://schemas.android.com/tools">
+
     <androidx.constraintlayout.widget.ConstraintLayout
         android:layout_width="match_parent"
         android:layout_height="match_parent"
-        tools:context=".intro.IntroFragment"
-        android:padding="24dp">
+        android:padding="24dp"
+        tools:context=".intro.IntroFragment">
 
         <TextView
-            android:id="@+id/textView"
+            android:id="@+id/welcome2"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
-            android:layout_marginTop="48dp"
-            android:gravity="center"
-            android:text="@string/welcome"
+            android:text="@string/welcome2"
             android:textAppearance="@style/TextAppearance.MaterialComponents.Headline4"
-            app:layout_constraintEnd_toEndOf="parent"
-            app:layout_constraintStart_toStartOf="parent"
-            app:layout_constraintTop_toTopOf="parent" />
+            app:layout_constraintBaseline_toBaselineOf="@+id/welcome1"
+            app:layout_constraintEnd_toStartOf="@+id/welcome3"
+            app:layout_constraintStart_toEndOf="@+id/welcome1"
+            android:textColor="@color/background"/>
 
         <TextView
+            android:id="@+id/welcome1"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_marginStart="12dp"
+            android:layout_marginTop="48dp"
+            android:gravity="center"
+            android:text="@string/welcome1"
+            android:textAppearance="@style/TextAppearance.MaterialComponents.Headline4"
+            app:layout_constraintStart_toStartOf="@+id/welcome4"
+            app:layout_constraintTop_toTopOf="parent"
+            android:textColor="@color/background"
+            />
+
+        <TextView
+            android:id="@+id/welcome3"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+
+            android:layout_marginEnd="12dp"
+            android:text="@string/welcome3"
+            android:textAppearance="@style/TextAppearance.MaterialComponents.Headline4"
+            app:layout_constraintBaseline_toBaselineOf="@+id/welcome2"
+            app:layout_constraintEnd_toEndOf="@+id/welcome4"
+            app:layout_constraintStart_toEndOf="@+id/welcome2"
+            android:textColor="@color/background"/>
+
+        <TextView
+            android:id="@+id/welcome4"
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
+            android:fontFamily="@font/font"
+            android:gravity="center"
             android:text="@string/social_helper"
             android:textAppearance="@style/TextAppearance.MaterialComponents.Headline3"
+            android:textColor="@color/background"
             app:layout_constraintEnd_toEndOf="parent"
             app:layout_constraintStart_toStartOf="parent"
-            app:layout_constraintTop_toBottomOf="@+id/textView"
-            android:textColor="@color/colorPrimary"
-            android:fontFamily="@font/font"
-            android:gravity="center"/>
-
+            app:layout_constraintTop_toBottomOf="@+id/welcome1" />
     </androidx.constraintlayout.widget.ConstraintLayout>
 </layout>
