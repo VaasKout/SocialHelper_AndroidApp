@@ -29,7 +29,6 @@ class IntroFragment : Fragment() {
         val viewModelJob = Job()
         val uiScope = CoroutineScope(Dispatchers.Main + viewModelJob)
 
-
         uiScope.launch {
 
             for (i in wordList) {
@@ -49,7 +48,7 @@ class IntroFragment : Fragment() {
                 }
             }
         }
-        GlobalScope.launch {
+        uiScope.launch {
             delay(3000)
             this@IntroFragment.findNavController()
                 .navigate(IntroFragmentDirections.actionIntroFragmentToLoginFragment())
