@@ -1,39 +1,64 @@
 package com.example.socialhelper.network;
 
+import android.util.Log;
+
 import java.io.BufferedReader;
 import java.io.BufferedWriter;
 import java.io.Closeable;
 import java.io.IOException;
 import java.io.InputStreamReader;
 import java.io.OutputStreamWriter;
-import java.net.ServerSocket;
+import java.net.InetSocketAddress;
 import java.net.Socket;
+import java.net.SocketAddress;
+import java.net.SocketTimeoutException;
 
 public class ReadWrite implements Closeable {
-    private final Socket socket;
-    private final BufferedReader reader;
-    private final BufferedWriter writer;
+
+    /**
+     *  True bruh moment
+     */
+    private Socket socket = new Socket();
+    private BufferedReader reader;
+    private BufferedWriter writer;
+
+    /**
+     * Now we use default constructor
+     */
+
     //Client constructor(its for my debugging and tests)
-    public ReadWrite(String ip, int port) {
-        try {
-            this.socket = new Socket(ip, port);
-            this.reader = createReader();
-            this.writer = createWriter();
-        } catch (IOException e) {
-            throw new RuntimeException(e);
+//    public ReadWrite() {
+//        try {
+//            this.reader = createReader();
+//            this.writer = createWriter();
+//        } catch (IOException e) {
+//            throw new RuntimeException(e);
+//        }
+//    }
+
+
+    /**
+     * Check if connection is available, if not, get logs without throwing IOException
+     */
+    public boolean isAlive(String ip, int port){
+        int timeout = 2000;
+        SocketAddress socketAddress = new InetSocketAddress(ip, port);
+        try{
+            //make connection
+            socket.connect(socketAddress, timeout);
+            reader = createReader();
+            writer = createWriter();
+            return true;
+        }catch (SocketTimeoutException exception){
+            Log.e("timeout", "SocketTimeoutException"+ ip +":"+ port);
+            return false;
+        }catch (IOException e){
+            Log.e("error", "Unable to connect");
+            return false;
         }
     }
 
-    //Server constructor
-    public ReadWrite(ServerSocket server) {
-        try {
-            this.socket = server.accept();
-            this.reader = createReader();
-            this.writer = createWriter();
-        } catch (IOException e) {
-            throw new RuntimeException(e);
-        }
-    }
+
 
     //Here i create BReader(InputStream)
     private BufferedReader createReader() throws IOException {
@@ -52,7 +77,7 @@ public class ReadWrite implements Closeable {
             throw new RuntimeException(e);
         }
     }
-    public  void writeLine(String message) {
+    public void writeLine(String message) {
         try {
             writer.write(message);
             writer.newLine();

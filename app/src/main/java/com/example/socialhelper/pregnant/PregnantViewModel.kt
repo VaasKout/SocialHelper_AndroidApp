@@ -38,19 +38,15 @@ class PregnantViewModel: ViewModel(){
     }
 
     private suspend fun request(): String{
-
         var result: String
         withContext(Dispatchers.IO){
-            result = try {
-                val readWrite = ReadWrite("192.168.0.105", 9000)
+                val readWrite = ReadWrite()
+            result = if (readWrite.isAlive("192.168.0.105", 9000)){
                 readWrite.writeLine("userRegData")
                 readWrite.writeUserData("pregnant", "Gay Gaivich Gayev", "110")
                 val id = readWrite.read()
                 id.toString()
-
-            } catch (e: ConnectException){
-                "Fuck"
-            }
+            } else "No Connection"
         }
         return result
     }
