@@ -9,9 +9,6 @@ import androidx.fragment.app.Fragment
 import androidx.lifecycle.ViewModelProvider
 import com.example.socialhelper.R
 import com.example.socialhelper.databinding.FragmentPregnantBinding
-import com.example.socialhelper.network.ReadWrite
-import java.io.IOException
-import java.net.ConnectException
 
 class PregnantFragment : Fragment() {
 
@@ -27,7 +24,7 @@ class PregnantFragment : Fragment() {
 
         viewModel.spotIsFree.observe(viewLifecycleOwner, {
             if (it == true) {
-                viewModel.onRequest()
+                binding.result.text = getString(R.string.bruh)
                 viewModel.onDoneSetSpotFree()
             }
         })

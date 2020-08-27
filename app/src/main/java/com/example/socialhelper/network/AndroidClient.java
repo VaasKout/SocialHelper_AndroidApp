@@ -13,7 +13,7 @@ import java.net.Socket;
 import java.net.SocketAddress;
 import java.net.SocketTimeoutException;
 
-public class ReadWrite implements Closeable {
+public class AndroidClient implements Closeable {
 
     /**
      *  True bruh moment
@@ -40,7 +40,7 @@ public class ReadWrite implements Closeable {
     /**
      * Check if connection is available, if not, get logs without throwing IOException
      */
-    public boolean isAlive(String ip, int port){
+    public boolean isAlive(String ip, int port) throws IOException {
         int timeout = 2000;
         SocketAddress socketAddress = new InetSocketAddress(ip, port);
         try{
@@ -51,8 +51,10 @@ public class ReadWrite implements Closeable {
             return true;
         }catch (SocketTimeoutException exception){
             Log.e("timeout", "SocketTimeoutException"+ ip +":"+ port);
+            socket.close();
             return false;
         }catch (IOException e){
+            socket.close();
             Log.e("error", "Unable to connect");
             return false;
         }

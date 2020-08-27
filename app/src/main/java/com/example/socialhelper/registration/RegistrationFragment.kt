@@ -8,9 +8,12 @@ import android.view.ViewGroup
 import android.widget.ArrayAdapter
 import androidx.databinding.DataBindingUtil
 import androidx.lifecycle.ViewModelProvider
+import androidx.navigation.fragment.DialogFragmentNavigatorDestinationBuilder
 import androidx.navigation.fragment.findNavController
 import com.example.socialhelper.R
+import com.example.socialhelper.database.Info
 import com.example.socialhelper.databinding.FragmentRegistrationBinding
+import com.google.android.material.snackbar.Snackbar
 
 class RegistrationFragment : Fragment(){
 
@@ -25,21 +28,37 @@ class RegistrationFragment : Fragment(){
             ViewModelProvider(this).get(RegistrationViewModel::class.java)
         binding.viewModel = viewModel
         binding.exposeDownMenu.setText("Инвалид", false)
+        viewModel.onRequestServer()
 
-        viewModel.navigateToMain.observe(viewLifecycleOwner, {
+        viewModel.navigateToWait.observe(viewLifecycleOwner, {
             val userName = binding.textInputUserEditReg.text.toString()
             val password = binding.textInputPassEditReg.text.toString()
-            val autoText = binding.exposeDownMenu.text.toString()
+            val category = binding.exposeDownMenu.text.toString()
 
             binding.userInputReg.error = null
             binding.passwordInputReg.error = null
             if (userName.isEmpty())binding.userInputReg.error = getString(R.string.user_input_error)
             if(password.isEmpty())binding.passwordInputReg.error = getString(R.string.password_input_error)
 
-            if (it == true && userName.isNotEmpty() && password.isNotEmpty() && autoText.isNotEmpty()){
+
+            if (it == true && userName.isNotEmpty() && password.isNotEmpty()){
+
+                if (viewModel.onServerRequest){
+                    val info =
+                        Info(name = userName, password = password, group = category)
+                    viewModel.onInsert(info)
                 this.findNavController()
                     .navigate(RegistrationFragmentDirections.actionRegistrationFragmentToResponseFragment())
                 viewModel.onDoneNavigating()
+                }
+                if (!viewModel.onServerRequest){
+                    Snackbar.make(binding.materialButton, getString(R.string.retry_later),
+                Snackbar.LENGTH_SHORT).setAction("Обновить"){
+                       this.findNavController()
+                           .navigate(RegistrationFragmentDirections.actionRegistrationFragmentSelf())
+                    }
+                        .show()
+                }
             }
         })
 

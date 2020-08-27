@@ -19,9 +19,11 @@
     <string name="welcome3">в</string>
     <string name="bruh">Fuck</string>
     <string name="connection_error">Connection Error</string>
+    <string name="retry_later">Нет подключения, повторите попытку позже</string>
+    <string name="you_have_registered">Вы зарегестрировались как:</string>
     <string-array name="category">
         <item>Инвалид</item>
-        <item>Феминистка</item>
-        <item>Беременный</item>
+        <item>Беременная</item>
+        <item>Соц.работник</item>
     </string-array>
 </resources>
