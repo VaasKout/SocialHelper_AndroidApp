@@ -58,7 +58,7 @@
             app:layout_constraintStart_toStartOf="parent"
             app:layout_constraintTop_toBottomOf="@+id/category_text"
             android:textAppearance="@style/TextAppearance.MaterialComponents.Headline6"
-            tools:text="500"/>
+            app:intToText="@{viewModel.userInfo.key}"/>
 
 
         <TextView

@@ -1,6 +1,7 @@
 package com.example.socialhelper.registration
 
 import android.app.Application
+import android.util.Log
 import androidx.lifecycle.AndroidViewModel
 import androidx.lifecycle.LiveData
 import androidx.lifecycle.MutableLiveData
@@ -15,12 +16,12 @@ import java.io.IOException
 class RegistrationViewModel(application: Application): AndroidViewModel(application) {
 
     private val repository: InfoRepository
-
-    var key = 0
+    val allInfo: LiveData<Info>
 
     init {
         val infoDao = InfoDatabase.getDatabase(application).infoDao()
         repository = InfoRepository(infoDao)
+        allInfo = repository.allInfo
     }
 
     var onServerRequest: Boolean = false
@@ -29,12 +30,8 @@ class RegistrationViewModel(application: Application): AndroidViewModel(applicat
     private val _navigateToWait = MutableLiveData<Boolean>()
     val navigateToWait: LiveData<Boolean> = _navigateToWait
 
-    private val _regInfo = MutableLiveData<Info>()
-    val regInfo: LiveData<Info> =_regInfo
-
-    fun onInitInfo(){
-        _regInfo.value = repository.userInfo.value
-    }
+    private val _key = MutableLiveData<Int>()
+    val key: LiveData<Int> = _key
 
 
     fun onDoneNavigating(){
@@ -77,31 +74,27 @@ class RegistrationViewModel(application: Application): AndroidViewModel(applicat
         onServerRequest = requestServer()
     }
 
-    fun onWriteData() = uiScope.launch {
-        writeData()
-    }
-
-    private suspend fun writeData(){
-        withContext(Dispatchers.IO){
-            if (_regInfo.value != null)
-            readWrite.
-            writeUserData(_regInfo.value?.group, _regInfo.value?.name, _regInfo.value?.password)
-            key = readWrite.read()
-            }
-        }
-
     private suspend fun requestServer(): Boolean{
         var connection: Boolean
         withContext(Dispatchers.IO){
-            connection = if (readWrite.isAlive("192.168.0.105", 9000)){
-                readWrite.writeLine("userRegData")
-                true
-            }else{
-                false
-            }
+            connection = readWrite.isAlive("192.168.0.105", 9000)
         }
         return connection
     }
+
+    /**
+     * Ёбаный блять работай нахой сука
+     */
+//   fun fuck(){
+//        uiScope.launch {
+//            withContext(Dispatchers.IO){
+//                readWrite.writeLine("userRegData")
+//                readWrite.writeUserData("blet", "fuck", "help")
+//                _key.postValue(readWrite.read())
+//                Log.e("fuck", key.value.toString())
+//            }
+//        }
+//    }
 
     override fun onCleared() {
         super.onCleared()

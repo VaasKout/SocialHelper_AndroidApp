@@ -7,8 +7,10 @@ import android.view.View
 import android.view.ViewGroup
 import androidx.databinding.DataBindingUtil
 import androidx.lifecycle.ViewModelProvider
+import androidx.navigation.fragment.navArgs
 import com.example.socialhelper.R
 import com.example.socialhelper.databinding.FragmentResponceBinding
+import kotlinx.coroutines.*
 
 class ResponseFragment : Fragment() {
 
@@ -21,7 +23,6 @@ class ResponseFragment : Fragment() {
         val viewModel =
             ViewModelProvider(this).get(ResponseViewModel::class.java)
         binding.viewModel = viewModel
-
         binding.lifecycleOwner = this
         return binding.root
     }

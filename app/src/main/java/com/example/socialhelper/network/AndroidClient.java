@@ -50,9 +50,11 @@ public class AndroidClient implements Closeable {
             writer = createWriter();
             return true;
         }catch (SocketTimeoutException exception){
+//            socket.close();
             Log.e("timeout", "SocketTimeoutException"+ ip +":"+ port);
             return false;
         }catch (IOException e){
+//            socket.close();
             Log.e("error", "Unable to connect");
             return false;
         }
