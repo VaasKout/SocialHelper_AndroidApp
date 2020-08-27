@@ -29,6 +29,11 @@ class RegistrationFragment : Fragment(){
         binding.viewModel = viewModel
         binding.exposeDownMenu.setText("Инвалид", false)
         viewModel.onRequestServer()
+        viewModel.onInitInfo()
+
+        /**
+         * Handle Server Request
+         */
 
         viewModel.navigateToWait.observe(viewLifecycleOwner, {
             val userName = binding.textInputUserEditReg.text.toString()
@@ -42,11 +47,13 @@ class RegistrationFragment : Fragment(){
 
 
             if (it == true && userName.isNotEmpty() && password.isNotEmpty()){
+                val info =
+                    Info(id = 1, name = userName, password = password, group = category)
+                viewModel.onInsert(info)
+                viewModel.onInitInfo()
 
                 if (viewModel.onServerRequest){
-                    val info =
-                        Info(name = userName, password = password, group = category)
-                    viewModel.onInsert(info)
+                    viewModel.onWriteData()
                 this.findNavController()
                     .navigate(RegistrationFragmentDirections.actionRegistrationFragmentToResponseFragment())
                 viewModel.onDoneNavigating()
@@ -62,6 +69,10 @@ class RegistrationFragment : Fragment(){
             }
         })
 
+
+        /**
+         * DropDownMenu
+         */
 
         ArrayAdapter.createFromResource(
             application,

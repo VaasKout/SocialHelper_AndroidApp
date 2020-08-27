@@ -6,9 +6,9 @@ import androidx.room.PrimaryKey
 
 @Entity(tableName = "user_info")
 data class Info(
-    @PrimaryKey(autoGenerate = true) var id: Int = 0,
+    @PrimaryKey var id: Int = 0,
     @ColumnInfo (name = "name") val name: String,
-    @ColumnInfo (name = "password")val password: String,
-    @ColumnInfo (name = "group")val group: String,
-    @ColumnInfo(name = "isChecked")val key: Int = 0
+    @ColumnInfo (name = "password") val password: String,
+    @ColumnInfo (name = "group") val group: String,
+    @ColumnInfo(name = "key") var key: Int = 0
 )

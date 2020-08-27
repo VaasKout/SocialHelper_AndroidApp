@@ -16,11 +16,12 @@ class RegistrationViewModel(application: Application): AndroidViewModel(applicat
 
     private val repository: InfoRepository
 
+    var key = 0
+
     init {
         val infoDao = InfoDatabase.getDatabase(application).infoDao()
         repository = InfoRepository(infoDao)
     }
-
 
     var onServerRequest: Boolean = false
     private val readWrite = AndroidClient()
@@ -29,7 +30,12 @@ class RegistrationViewModel(application: Application): AndroidViewModel(applicat
     val navigateToWait: LiveData<Boolean> = _navigateToWait
 
     private val _regInfo = MutableLiveData<Info>()
-    val regInfo: LiveData<Info> = _regInfo
+    val regInfo: LiveData<Info> =_regInfo
+
+    fun onInitInfo(){
+        _regInfo.value = repository.userInfo.value
+    }
+
 
     fun onDoneNavigating(){
         _navigateToWait.value = false
@@ -38,15 +44,9 @@ class RegistrationViewModel(application: Application): AndroidViewModel(applicat
         _navigateToWait.value = true
     }
 
-
-
-
-
-
-
     //Coroutines
-    private val viewModelScope = Job()
-    private val uiScope = CoroutineScope(Dispatchers.Main + viewModelScope)
+    private val viewModelJob = Job()
+    private val uiScope = CoroutineScope(Dispatchers.Main + viewModelJob)
 
     //Database methods
     fun onInsert(info: Info){
@@ -61,9 +61,34 @@ class RegistrationViewModel(application: Application): AndroidViewModel(applicat
         }
     }
 
+    fun onClear(){
+        uiScope.launch {
+            deleteInfo()
+        }
+    }
+
+    private suspend fun deleteInfo(){
+        withContext(Dispatchers.IO){
+            repository.deleteInfo()
+        }
+    }
+    //Server methods
     fun onRequestServer() = uiScope.launch {
         onServerRequest = requestServer()
     }
+
+    fun onWriteData() = uiScope.launch {
+        writeData()
+    }
+
+    private suspend fun writeData(){
+        withContext(Dispatchers.IO){
+            if (_regInfo.value != null)
+            readWrite.
+            writeUserData(_regInfo.value?.group, _regInfo.value?.name, _regInfo.value?.password)
+            key = readWrite.read()
+            }
+        }
 
     private suspend fun requestServer(): Boolean{
         var connection: Boolean
@@ -78,4 +103,8 @@ class RegistrationViewModel(application: Application): AndroidViewModel(applicat
         return connection
     }
 
+    override fun onCleared() {
+        super.onCleared()
+        viewModelJob.cancel()
+    }
 }

@@ -13,10 +13,4 @@ class InfoRepository (private val infoDao: InfoDao){
     suspend fun deleteInfo(){
         infoDao.deleteInfo()
     }
-    suspend fun updateInfo(info: Info){
-        infoDao.updateNote(info)
-    }
-    fun getInfo(): LiveData<Info>{
-        return infoDao.getAllInfo()
-    }
 }

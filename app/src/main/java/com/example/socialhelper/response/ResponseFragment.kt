@@ -6,6 +6,7 @@ import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
 import androidx.databinding.DataBindingUtil
+import androidx.lifecycle.ViewModelProvider
 import com.example.socialhelper.R
 import com.example.socialhelper.databinding.FragmentResponceBinding
 
@@ -17,6 +18,9 @@ class ResponseFragment : Fragment() {
     ): View? {
         val binding: FragmentResponceBinding =
             DataBindingUtil.inflate(inflater, R.layout.fragment_responce, container, false)
+        val viewModel =
+            ViewModelProvider(this).get(ResponseViewModel::class.java)
+        binding.viewModel = viewModel
 
         binding.lifecycleOwner = this
         return binding.root

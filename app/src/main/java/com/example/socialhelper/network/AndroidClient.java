@@ -51,10 +51,8 @@ public class AndroidClient implements Closeable {
             return true;
         }catch (SocketTimeoutException exception){
             Log.e("timeout", "SocketTimeoutException"+ ip +":"+ port);
-            socket.close();
             return false;
         }catch (IOException e){
-            socket.close();
             Log.e("error", "Unable to connect");
             return false;
         }
@@ -79,6 +77,7 @@ public class AndroidClient implements Closeable {
             throw new RuntimeException(e);
         }
     }
+    //Write message to server to recognise, how has connected
     public void writeLine(String message) {
         try {
             writer.write(message);
@@ -88,7 +87,10 @@ public class AndroidClient implements Closeable {
             throw new RuntimeException(e);
         }
     }
+
     //Reading/Writing an int value
+
+    //get int
     public int read() {
         try {
             return reader.read();

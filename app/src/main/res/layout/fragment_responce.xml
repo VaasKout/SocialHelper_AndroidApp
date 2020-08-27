@@ -4,8 +4,8 @@
 
     <data>
         <variable
-            name="info"
-            type="com.example.socialhelper.database.Info" />
+            name="viewModel"
+            type="com.example.socialhelper.response.ResponseViewModel"/>
     </data>
 
     <androidx.constraintlayout.widget.ConstraintLayout
@@ -34,6 +34,7 @@
             app:layout_constraintHorizontal_bias="0.497"
             app:layout_constraintStart_toStartOf="@+id/textView"
             app:layout_constraintTop_toBottomOf="@+id/textView"
+            android:text="@{viewModel.userInfo.name}"
             tools:text="Имя" />
 
         <TextView
@@ -46,7 +47,18 @@
             app:layout_constraintStart_toStartOf="parent"
             app:layout_constraintTop_toBottomOf="@+id/name_text"
             app:layout_constraintVertical_bias="0.0"
+            android:text="@{viewModel.userInfo.group}"
             tools:text="Категория" />
+
+        <TextView
+            android:id="@+id/key_text"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            app:layout_constraintEnd_toEndOf="parent"
+            app:layout_constraintStart_toStartOf="parent"
+            app:layout_constraintTop_toBottomOf="@+id/category_text"
+            android:textAppearance="@style/TextAppearance.MaterialComponents.Headline6"
+            tools:text="500"/>
 
 
         <TextView
