@@ -34,6 +34,8 @@ class ResponseViewModel (application: Application): AndroidViewModel(application
         }
     }
 
+
+    //get ServerKey
     private suspend fun getServerKey(){
         userInfo.value?.let {
             withContext(Dispatchers.IO){
