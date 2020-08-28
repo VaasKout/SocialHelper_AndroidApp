@@ -60,6 +60,15 @@
             android:textAppearance="@style/TextAppearance.MaterialComponents.Headline6"
             app:intToText="@{viewModel.userInfo.key}"/>
 
+        <TextView
+            android:id="@+id/server_key"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            app:layout_constraintEnd_toEndOf="parent"
+            app:layout_constraintStart_toStartOf="parent"
+            app:layout_constraintTop_toBottomOf="@+id/key_text"
+            android:textAppearance="@style/TextAppearance.MaterialComponents.Headline6"/>
+
 
         <TextView
             android:id="@+id/textView2"
@@ -71,7 +80,8 @@
             app:layout_constraintBottom_toBottomOf="parent"
             app:layout_constraintEnd_toEndOf="parent"
             app:layout_constraintStart_toStartOf="parent"
-            app:layout_constraintTop_toTopOf="parent" />
+            app:layout_constraintTop_toTopOf="parent"
+            android:onClick="@{() -> viewModel.onServerKey()}"/>
 
     </androidx.constraintlayout.widget.ConstraintLayout>
 </layout>

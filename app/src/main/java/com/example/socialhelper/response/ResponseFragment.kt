@@ -1,6 +1,7 @@
 package com.example.socialhelper.response
 
 import android.os.Bundle
+import android.util.Log
 import androidx.fragment.app.Fragment
 import android.view.LayoutInflater
 import android.view.View
@@ -22,6 +23,9 @@ class ResponseFragment : Fragment() {
             DataBindingUtil.inflate(inflater, R.layout.fragment_responce, container, false)
         val viewModel =
             ViewModelProvider(this).get(ResponseViewModel::class.java)
+//        viewModel.onServerKey()
+//        binding.serverKey.text = viewModel.serverKey.value.toString()
+//        Log.e("serverKey", viewModel.serverKey.value.toString())
         binding.viewModel = viewModel
         binding.lifecycleOwner = this
         return binding.root

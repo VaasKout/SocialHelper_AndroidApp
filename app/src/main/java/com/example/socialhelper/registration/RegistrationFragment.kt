@@ -1,11 +1,13 @@
 package com.example.socialhelper.registration
 
 import android.os.Bundle
+import android.util.Log
 import androidx.fragment.app.Fragment
 import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
 import android.widget.ArrayAdapter
+import android.widget.Toast
 import androidx.databinding.DataBindingUtil
 import androidx.lifecycle.ViewModelProvider
 import androidx.navigation.fragment.DialogFragmentNavigatorDestinationBuilder
@@ -13,13 +15,20 @@ import androidx.navigation.fragment.findNavController
 import com.example.socialhelper.R
 import com.example.socialhelper.database.Info
 import com.example.socialhelper.databinding.FragmentRegistrationBinding
+import com.google.android.material.dialog.MaterialAlertDialogBuilder
 import com.google.android.material.snackbar.Snackbar
+import kotlinx.coroutines.*
+import java.io.IOException
 
 class RegistrationFragment : Fragment(){
+
+    private val viewModelJob = Job()
+    private val uiScope = CoroutineScope(Dispatchers.Main + viewModelJob)
 
     override fun onCreateView(
         inflater: LayoutInflater, container: ViewGroup?,
         savedInstanceState: Bundle?
+
     ): View? {
         val binding: FragmentRegistrationBinding =
             DataBindingUtil.inflate(inflater, R.layout.fragment_registration, container, false)
@@ -27,7 +36,6 @@ class RegistrationFragment : Fragment(){
         val viewModel =
             ViewModelProvider(this).get(RegistrationViewModel::class.java)
         binding.viewModel = viewModel
-        binding.exposeDownMenu.setText("Инвалид", false)
 
 
         /**
@@ -45,26 +53,56 @@ class RegistrationFragment : Fragment(){
             if(password.isEmpty())binding.passwordInputReg.error = getString(R.string.password_input_error)
 
             if (it == true && userName.isNotEmpty() && password.isNotEmpty() && category.isNotEmpty()){
+
                 var info =
                     Info(id = 1, name = userName, password = password, group = category, key = 0)
                 viewModel.onInsert(info)
-                viewModel.onRequestServer()
-                if (viewModel.onServerRequest){
-                this.findNavController()
-                    .navigate(RegistrationFragmentDirections.
-                    actionRegistrationFragmentToResponseFragment())
-                viewModel.onDoneNavigating()
+
+                try {
+
+                    viewModel.onRequestServer()
+                    MaterialAlertDialogBuilder(requireContext())
+                        .setMessage("Данные введены верно?")
+                        .setNegativeButton("Нет"){ _, _ ->
+                        }
+                        .setPositiveButton("Да"){ _, _ ->
+                            info = Info(id = 1,
+                                name = userName,
+                                password = password,
+                                group = category,
+                                viewModel.keyId)
+                            viewModel.onUpdate(info)
+//                            viewModel.onServerKey()
+                            Log.e("regKey", viewModel.keyId.toString())
+                            if (viewModel.readWrite.isAlive) {
+                                this.findNavController()
+                                    .navigate(
+                                        RegistrationFragmentDirections.
+                                        actionRegistrationFragmentToResponseFragment()
+                                    )
+                                viewModel.onDoneNavigating()
+                            } else{
+                                Snackbar.make(binding.materialButton, getString(R.string.retry_later),
+                                    Snackbar.LENGTH_SHORT).setAction("Обновить"){
+                                    this.findNavController()
+                                        .navigate(RegistrationFragmentDirections.
+                                        actionRegistrationFragmentSelf())
+                                }.show()
+                            }
+                        }.show()
                 }
-                if (!viewModel.onServerRequest){
+                catch (e: IOException){
                     Snackbar.make(binding.materialButton, getString(R.string.retry_later),
-                Snackbar.LENGTH_SHORT).setAction("Обновить"){
-                       this.findNavController()
-                           .navigate(RegistrationFragmentDirections.actionRegistrationFragmentSelf())
-                    }
-                        .show()
+                        Snackbar.LENGTH_SHORT).setAction("Обновить"){
+                        this.findNavController()
+                            .navigate(RegistrationFragmentDirections.
+                            actionRegistrationFragmentSelf())
+                    }.show()
                 }
             }
         })
+
+
 
         /**
          * DropDownMenu

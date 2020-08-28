@@ -16,6 +16,7 @@ import java.io.IOException
 class RegistrationViewModel(application: Application): AndroidViewModel(application) {
 
     var keyId = 0
+    var serverKey = 0
     private val repository: InfoRepository
     val allInfo: LiveData<Info>
 
@@ -26,7 +27,7 @@ class RegistrationViewModel(application: Application): AndroidViewModel(applicat
     }
 
     var onServerRequest: Boolean = false
-    private val readWrite = AndroidClient()
+    val readWrite = AndroidClient()
 //Live Data
     private val _navigateToWait = MutableLiveData<Boolean>()
     val navigateToWait: LiveData<Boolean> = _navigateToWait
@@ -70,47 +71,61 @@ class RegistrationViewModel(application: Application): AndroidViewModel(applicat
             repository.deleteInfo()
         }
     }
-    //Server methods
-    fun onRequestServer() = uiScope.launch {
-        onServerRequest = requestServer()
-    }
-
-    private suspend fun requestServer(): Boolean{
-        var connection: Boolean
-        withContext(Dispatchers.IO){
-            connection = if (readWrite.isAlive("192.168.0.110", 9000)){
-                readWrite.writeLine("userRegData")
-                var s = ""
-                when(allInfo.value?.group){
-                    "Инвалид" -> s = "wheelchair"
-                    "Беременная" -> s = "pregnant"
-                    "Соц.работник" -> s = "socialworker"
-                }
-                allInfo.value?.let {
-                    readWrite.
-                    writeUserData(s, it.name, it.password.toInt())
-                    keyId = readWrite.read()
-                    Log.e("key", keyId.toString())
-                }
-                true
-            }else{
-                false
-            }
+    fun onUpdate(info: Info){
+        uiScope.launch {
+            updateInfo(info)
         }
-        return connection
     }
 
+    private suspend fun updateInfo(info: Info){
+        withContext(Dispatchers.IO){
+            repository.updateInfo(info)
+        }
+    }
 
-//   fun fuck(){
+//    fun onServerKey(){
 //        uiScope.launch {
+//            getServerKey()
+//        }
+//    }
+//
+//    private suspend fun getServerKey(){
+//        allInfo.value?.let {
 //            withContext(Dispatchers.IO){
-//                readWrite.writeLine("userRegData")
-//                readWrite.writeUserData("pregnant", "fuck", "help")
-//                _key.postValue(readWrite.read())
-//                Log.e("fuck", key.value.toString())
+//                    readWrite.connectSockect("192.168.0.110", 9000)
+//                    readWrite.writeLine("userId")
+//                    readWrite.write(it.key)
+//                    serverKey = readWrite.read()
+//                    Log.e("serverKey", serverKey.toString())
 //            }
 //        }
 //    }
+    //Server methods
+    fun onRequestServer() = uiScope.launch {
+         requestServer()
+    }
+
+    private suspend fun requestServer(){
+
+        withContext(Dispatchers.IO) {
+            allInfo.value?.let {
+                try {
+                    readWrite.connectSockect("192.168.0.110", 9000)
+                    readWrite.writeLine("userRegData")
+                    var s = ""
+                    when (allInfo.value?.group) {
+                        "Инвалид" -> s = "wheelchair"
+                        "Беременная" -> s = "pregnant"
+                        "Соц.работник" -> s = "socialworker"
+                    }
+                    readWrite.writeUserData(s, it.name, it.password.toInt())
+                    keyId = readWrite.read()
+                    Log.e("key", keyId.toString())
+                } catch (e: IOException){
+                }
+            }
+        }
+    }
 
     override fun onCleared() {
         super.onCleared()

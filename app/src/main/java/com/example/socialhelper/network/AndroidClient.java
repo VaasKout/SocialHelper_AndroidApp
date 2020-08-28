@@ -21,6 +21,7 @@ public class AndroidClient implements Closeable {
     private Socket socket = new Socket();
     private BufferedReader reader;
     private BufferedWriter writer;
+    public boolean isAlive;
 
     /**
      * Now we use default constructor
@@ -40,23 +41,24 @@ public class AndroidClient implements Closeable {
     /**
      * Check if connection is available, if not, get logs without throwing IOException
      */
-    public boolean isAlive(String ip, int port) throws IOException {
+    public void connectSockect(String ip, int port){
         int timeout = 2000;
         SocketAddress socketAddress = new InetSocketAddress(ip, port);
         try{
             //make connection
             socket.connect(socketAddress, timeout);
+            isAlive = true;
             reader = createReader();
             writer = createWriter();
-            return true;
+
         }catch (SocketTimeoutException exception){
 //            socket.close();
             Log.e("timeout", "SocketTimeoutException"+ ip +":"+ port);
-            return false;
+            isAlive = false;
         }catch (IOException e){
 //            socket.close();
             Log.e("error", "Unable to connect");
-            return false;
+            isAlive = false;
         }
     }
 

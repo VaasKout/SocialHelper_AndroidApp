@@ -12,4 +12,7 @@ class InfoRepository (private val infoDao: InfoDao){
     suspend fun deleteInfo(){
         infoDao.deleteInfo()
     }
+    suspend fun updateInfo(info: Info){
+        infoDao.update(info)
+    }
 }
