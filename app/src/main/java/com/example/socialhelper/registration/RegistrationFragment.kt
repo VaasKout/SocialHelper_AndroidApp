@@ -28,7 +28,7 @@ class RegistrationFragment : Fragment(){
             ViewModelProvider(this).get(RegistrationViewModel::class.java)
         binding.viewModel = viewModel
         binding.exposeDownMenu.setText("Инвалид", false)
-        viewModel.onRequestServer()
+
 
         /**
          * Handle Server Request
@@ -48,8 +48,8 @@ class RegistrationFragment : Fragment(){
                 var info =
                     Info(id = 1, name = userName, password = password, group = category, key = 0)
                 viewModel.onInsert(info)
+                viewModel.onRequestServer()
                 if (viewModel.onServerRequest){
-//                    viewModel.fuck()
                 this.findNavController()
                     .navigate(RegistrationFragmentDirections.
                     actionRegistrationFragmentToResponseFragment())

@@ -110,7 +110,7 @@ public class AndroidClient implements Closeable {
     }
 
     //Writing userRegData as a consequence of three Strings
-    public void writeUserData(String userType, String FIO, String password) {
+    public void writeUserData(String userType, String FIO, int password) {
         try {
             writer.write(userType);
             writer.newLine();

@@ -15,6 +15,7 @@ import java.io.IOException
 
 class RegistrationViewModel(application: Application): AndroidViewModel(application) {
 
+    var keyId = 0
     private val repository: InfoRepository
     val allInfo: LiveData<Info>
 
@@ -77,19 +78,34 @@ class RegistrationViewModel(application: Application): AndroidViewModel(applicat
     private suspend fun requestServer(): Boolean{
         var connection: Boolean
         withContext(Dispatchers.IO){
-            connection = readWrite.isAlive("192.168.0.105", 9000)
+            connection = if (readWrite.isAlive("192.168.0.110", 9000)){
+                readWrite.writeLine("userRegData")
+                var s = ""
+                when(allInfo.value?.group){
+                    "Инвалид" -> s = "wheelchair"
+                    "Беременная" -> s = "pregnant"
+                    "Соц.работник" -> s = "socialworker"
+                }
+                allInfo.value?.let {
+                    readWrite.
+                    writeUserData(s, it.name, it.password.toInt())
+                    keyId = readWrite.read()
+                    Log.e("key", keyId.toString())
+                }
+                true
+            }else{
+                false
+            }
         }
         return connection
     }
 
-    /**
-     * Ёбаный блять работай нахой сука
-     */
+
 //   fun fuck(){
 //        uiScope.launch {
 //            withContext(Dispatchers.IO){
 //                readWrite.writeLine("userRegData")
-//                readWrite.writeUserData("blet", "fuck", "help")
+//                readWrite.writeUserData("pregnant", "fuck", "help")
 //                _key.postValue(readWrite.read())
 //                Log.e("fuck", key.value.toString())
 //            }
