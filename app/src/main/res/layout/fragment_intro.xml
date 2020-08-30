@@ -10,32 +10,43 @@
         tools:context=".intro.IntroFragment">
 
         <TextView
-            android:id="@+id/welcome2"
-            android:layout_width="wrap_content"
-            android:layout_height="wrap_content"
-            android:text="@string/welcome2"
-            android:textAppearance="@style/TextAppearance.MaterialComponents.Headline4"
-            android:textColor="@color/background"/>
-
-        <TextView
             android:id="@+id/welcome1"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
             android:gravity="center"
             android:text="@string/welcome1"
             android:textAppearance="@style/TextAppearance.MaterialComponents.Headline4"
-            android:textColor="@color/background"
             android:layout_alignParentStart="true"
+            android:layout_alignParentEnd="true"
+            android:alpha="0.0"
             />
+
+        <TextView
+            android:id="@+id/welcome2"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:text="@string/welcome2"
+            android:textAppearance="@style/TextAppearance.MaterialComponents.Headline4"
+            android:layout_below="@id/welcome1"
+            android:layout_alignParentStart="true"
+            android:gravity="center"
+            android:alpha="0.0"
+            android:layout_marginStart="12dp" />
+
 
         <TextView
             android:id="@+id/welcome3"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
-            android:layout_marginEnd="12dp"
+            android:layout_below="@id/welcome1"
             android:text="@string/welcome3"
             android:textAppearance="@style/TextAppearance.MaterialComponents.Headline4"
-            android:textColor="@color/background"/>
+            android:layout_toEndOf="@id/welcome2"
+            android:layout_alignParentEnd="true"
+            android:gravity="center"
+            android:layout_marginEnd="24dp"
+            android:alpha="0.0"
+            />
 
         <TextView
             android:id="@+id/welcome4"
@@ -45,6 +56,10 @@
             android:gravity="center"
             android:text="@string/social_helper"
             android:textAppearance="@style/TextAppearance.MaterialComponents.Headline3"
-            android:textColor="@color/background" />
+            android:layout_below="@id/welcome2"
+            android:layout_alignParentStart="true"
+            android:layout_alignParentEnd="true"
+            android:textColor="@color/colorPrimary"
+            android:alpha="0.0"/>
     </RelativeLayout>
 </layout>

@@ -5,7 +5,6 @@ import android.util.Log
 import androidx.lifecycle.AndroidViewModel
 import androidx.lifecycle.LiveData
 import androidx.lifecycle.MutableLiveData
-import androidx.lifecycle.ViewModel
 import com.example.socialhelper.database.Info
 import com.example.socialhelper.database.InfoDatabase
 import com.example.socialhelper.network.AndroidClient
@@ -26,7 +25,6 @@ class RegistrationViewModel(application: Application): AndroidViewModel(applicat
         allInfo = repository.allInfo
     }
 
-    var onServerRequest: Boolean = false
     val readWrite = AndroidClient()
 //Live Data
     private val _navigateToWait = MutableLiveData<Boolean>()
@@ -55,7 +53,7 @@ class RegistrationViewModel(application: Application): AndroidViewModel(applicat
     }
 
     private suspend fun insertInfo(info: Info){
-        withContext(Dispatchers.IO){
+          withContext(Dispatchers.IO){
             repository.insert(info)
         }
     }
@@ -106,23 +104,22 @@ class RegistrationViewModel(application: Application): AndroidViewModel(applicat
     }
 
     private suspend fun requestServer(){
-
         withContext(Dispatchers.IO) {
+                delay(150)
+            readWrite.connectSocket("192.168.0.100", 9000)
             allInfo.value?.let {
-                try {
-                    readWrite.connectSockect("192.168.0.110", 9000)
-                    readWrite.writeLine("userRegData")
                     var s = ""
                     when (allInfo.value?.group) {
                         "Инвалид" -> s = "wheelchair"
                         "Беременная" -> s = "pregnant"
                         "Соц.работник" -> s = "socialworker"
                     }
+                    if (readWrite.isAlive){
+                    readWrite.writeLine("userRegData")
                     readWrite.writeUserData(s, it.name, it.password.toInt())
                     keyId = readWrite.read()
                     Log.e("key", keyId.toString())
-                } catch (e: IOException){
-                }
+                    }
             }
         }
     }

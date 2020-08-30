@@ -39,7 +39,7 @@ class ResponseViewModel (application: Application): AndroidViewModel(application
     private suspend fun getServerKey(){
         userInfo.value?.let {
             withContext(Dispatchers.IO){
-              readWrite.connectSockect("192.168.0.110", 9000)
+              readWrite.connectSocket("192.168.0.13", 9000)
                 readWrite.writeLine("userId")
                 readWrite.write(it.key)
                 serverKey = readWrite.read()

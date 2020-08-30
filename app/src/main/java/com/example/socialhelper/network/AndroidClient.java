@@ -2,6 +2,9 @@ package com.example.socialhelper.network;
 
 import android.util.Log;
 
+import com.example.socialhelper.R;
+import com.google.android.material.snackbar.Snackbar;
+
 import java.io.BufferedReader;
 import java.io.BufferedWriter;
 import java.io.Closeable;
@@ -41,7 +44,7 @@ public class AndroidClient implements Closeable {
     /**
      * Check if connection is available, if not, get logs without throwing IOException
      */
-    public void connectSockect(String ip, int port){
+    public void connectSocket(String ip, int port){
         int timeout = 2000;
         SocketAddress socketAddress = new InetSocketAddress(ip, port);
         try{
@@ -88,7 +91,7 @@ public class AndroidClient implements Closeable {
             writer.newLine();
             writer.flush();
         } catch (IOException e) {
-            throw new RuntimeException(e);
+            Log.e("Error", "Unable to connect to the server");
         }
     }
 
@@ -99,7 +102,8 @@ public class AndroidClient implements Closeable {
         try {
             return reader.read();
         } catch (IOException e) {
-            throw new RuntimeException(e);
+            Log.e("Error", "Server is not respond");
+            return -1;
         }
     }
     public void write(int value) {
@@ -107,7 +111,7 @@ public class AndroidClient implements Closeable {
             writer.write(value);
             writer.flush();
         } catch (IOException e) {
-            throw new RuntimeException(e);
+            Log.e("Error", "Unable to connect to the server");
         }
     }
 
@@ -124,7 +128,7 @@ public class AndroidClient implements Closeable {
             writer.newLine();
             writer.flush();
         } catch (IOException e) {
-            throw new RuntimeException(e);
+            Log.e("Error", "Unable to connect to the server");
         }
     }
     //Reading userRegData as a String[]

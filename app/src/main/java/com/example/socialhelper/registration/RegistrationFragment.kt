@@ -10,6 +10,7 @@ import android.widget.ArrayAdapter
 import android.widget.Toast
 import androidx.databinding.DataBindingUtil
 import androidx.lifecycle.ViewModelProvider
+import androidx.lifecycle.lifecycleScope
 import androidx.navigation.fragment.DialogFragmentNavigatorDestinationBuilder
 import androidx.navigation.fragment.findNavController
 import com.example.socialhelper.R
@@ -22,9 +23,6 @@ import java.io.IOException
 
 class RegistrationFragment : Fragment(){
 
-    private val viewModelJob = Job()
-    private val uiScope = CoroutineScope(Dispatchers.Main + viewModelJob)
-
     override fun onCreateView(
         inflater: LayoutInflater, container: ViewGroup?,
         savedInstanceState: Bundle?
@@ -36,6 +34,7 @@ class RegistrationFragment : Fragment(){
         val viewModel =
             ViewModelProvider(this).get(RegistrationViewModel::class.java)
         binding.viewModel = viewModel
+
 
 
         /**
@@ -58,51 +57,37 @@ class RegistrationFragment : Fragment(){
                     Info(id = 1, name = userName, password = password, group = category, key = 0)
                 viewModel.onInsert(info)
 
-                try {
-
                     viewModel.onRequestServer()
+
+
+
                     MaterialAlertDialogBuilder(requireContext())
                         .setMessage("Данные введены верно?")
                         .setNegativeButton("Нет"){ _, _ ->
                         }
                         .setPositiveButton("Да"){ _, _ ->
-                            info = Info(id = 1,
-                                name = userName,
-                                password = password,
-                                group = category,
-                                viewModel.keyId)
-                            viewModel.onUpdate(info)
-//                            viewModel.onServerKey()
-                            Log.e("regKey", viewModel.keyId.toString())
-                            if (viewModel.readWrite.isAlive) {
+
+                            if (!viewModel.readWrite.isAlive && viewModel.keyId == 0){
+                                Snackbar.make(binding.materialButton, getString(R.string.retry_later),
+                                    Snackbar.LENGTH_SHORT).show()
+                            } else {
+                                info = Info(id = 1,
+                                    name = userName,
+                                    password = password,
+                                    group = category,
+                                    viewModel.keyId)
+                                viewModel.onUpdate(info)
+                                Log.e("regKey", viewModel.keyId.toString())
                                 this.findNavController()
                                     .navigate(
                                         RegistrationFragmentDirections.
                                         actionRegistrationFragmentToResponseFragment()
                                     )
                                 viewModel.onDoneNavigating()
-                            } else{
-                                Snackbar.make(binding.materialButton, getString(R.string.retry_later),
-                                    Snackbar.LENGTH_SHORT).setAction("Обновить"){
-                                    this.findNavController()
-                                        .navigate(RegistrationFragmentDirections.
-                                        actionRegistrationFragmentSelf())
-                                }.show()
                             }
                         }.show()
-                }
-                catch (e: IOException){
-                    Snackbar.make(binding.materialButton, getString(R.string.retry_later),
-                        Snackbar.LENGTH_SHORT).setAction("Обновить"){
-                        this.findNavController()
-                            .navigate(RegistrationFragmentDirections.
-                            actionRegistrationFragmentSelf())
-                    }.show()
-                }
-            }
-        })
-
-
+                    }
+                 })
 
         /**
          * DropDownMenu
