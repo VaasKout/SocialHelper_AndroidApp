@@ -105,8 +105,8 @@ class RegistrationViewModel(application: Application): AndroidViewModel(applicat
 
     private suspend fun requestServer(){
         withContext(Dispatchers.IO) {
-                delay(150)
-            readWrite.connectSocket("192.168.0.100", 9000)
+
+            readWrite.connectSocket("192.168.0.13", 9000)
             allInfo.value?.let {
                     var s = ""
                     when (allInfo.value?.group) {

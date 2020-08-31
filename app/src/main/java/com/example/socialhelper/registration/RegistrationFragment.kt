@@ -57,8 +57,6 @@ class RegistrationFragment : Fragment(){
                     Info(id = 1, name = userName, password = password, group = category, key = 0)
                 viewModel.onInsert(info)
 
-                    viewModel.onRequestServer()
-
 
 
                     MaterialAlertDialogBuilder(requireContext())
@@ -66,25 +64,29 @@ class RegistrationFragment : Fragment(){
                         .setNegativeButton("Нет"){ _, _ ->
                         }
                         .setPositiveButton("Да"){ _, _ ->
-
-                            if (!viewModel.readWrite.isAlive && viewModel.keyId == 0){
-                                Snackbar.make(binding.materialButton, getString(R.string.retry_later),
-                                    Snackbar.LENGTH_SHORT).show()
-                            } else {
-                                info = Info(id = 1,
-                                    name = userName,
-                                    password = password,
-                                    group = category,
-                                    viewModel.keyId)
-                                viewModel.onUpdate(info)
-                                Log.e("regKey", viewModel.keyId.toString())
-                                this.findNavController()
-                                    .navigate(
-                                        RegistrationFragmentDirections.
-                                        actionRegistrationFragmentToResponseFragment()
-                                    )
-                                viewModel.onDoneNavigating()
+                            viewModel.onRequestServer()
+                            lifecycleScope.launch {
+                                delay(1000)
+                                if (!viewModel.readWrite.isAlive && viewModel.keyId == 0){
+                                    Snackbar.make(binding.materialButton, getString(R.string.retry_later),
+                                        Snackbar.LENGTH_SHORT).show()
+                                } else {
+                                    info = Info(id = 1,
+                                        name = userName,
+                                        password = password,
+                                        group = category,
+                                        viewModel.keyId)
+                                    viewModel.onUpdate(info)
+                                    Log.e("regKey", viewModel.keyId.toString())
+                                    this@RegistrationFragment.findNavController()
+                                        .navigate(
+                                            RegistrationFragmentDirections.
+                                            actionRegistrationFragmentToResponseFragment()
+                                        )
+                                    viewModel.onDoneNavigating()
+                                }
                             }
+
                         }.show()
                     }
                  })
