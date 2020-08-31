@@ -23,7 +23,6 @@
             app:popUpTo="@id/loginFragment"
             app:popEnterAnim="@anim/slide_in_left"
             app:popExitAnim="@anim/slide_in_left_next"
-            app:enterAnim="@anim/slide_down"
             />
         <action
             android:id="@+id/action_registrationFragment_self2"

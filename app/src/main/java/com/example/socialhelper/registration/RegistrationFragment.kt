@@ -35,8 +35,6 @@ class RegistrationFragment : Fragment(){
             ViewModelProvider(this).get(RegistrationViewModel::class.java)
         binding.viewModel = viewModel
 
-
-
         /**
          * Handle Server Request
          */
@@ -57,18 +55,19 @@ class RegistrationFragment : Fragment(){
                     Info(id = 1, name = userName, password = password, group = category, key = 0)
                 viewModel.onInsert(info)
 
-
-
                     MaterialAlertDialogBuilder(requireContext())
                         .setMessage("Данные введены верно?")
                         .setNegativeButton("Нет"){ _, _ ->
                         }
                         .setPositiveButton("Да"){ _, _ ->
-                            viewModel.onRequestServer()
-                            lifecycleScope.launch {
-                                delay(1000)
+                         viewModel.onRequestServer()
+
                                 if (!viewModel.readWrite.isAlive && viewModel.keyId == 0){
-                                    Snackbar.make(binding.materialButton, getString(R.string.retry_later),
+                                    this.findNavController().
+                                    navigate(RegistrationFragmentDirections.
+                                    actionRegistrationFragmentSelf())
+                                    Snackbar.make(binding.materialButton,
+                                        getString(R.string.retry_later),
                                         Snackbar.LENGTH_SHORT).show()
                                 } else {
                                     info = Info(id = 1,
@@ -78,15 +77,13 @@ class RegistrationFragment : Fragment(){
                                         viewModel.keyId)
                                     viewModel.onUpdate(info)
                                     Log.e("regKey", viewModel.keyId.toString())
-                                    this@RegistrationFragment.findNavController()
+                                    this.findNavController()
                                         .navigate(
                                             RegistrationFragmentDirections.
                                             actionRegistrationFragmentToResponseFragment()
                                         )
                                     viewModel.onDoneNavigating()
                                 }
-                            }
-
                         }.show()
                     }
                  })

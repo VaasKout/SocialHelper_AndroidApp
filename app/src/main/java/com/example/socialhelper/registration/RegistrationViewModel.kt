@@ -10,12 +10,10 @@ import com.example.socialhelper.database.InfoDatabase
 import com.example.socialhelper.network.AndroidClient
 import com.example.socialhelper.repository.InfoRepository
 import kotlinx.coroutines.*
-import java.io.IOException
 
 class RegistrationViewModel(application: Application): AndroidViewModel(application) {
 
     var keyId = 0
-    var serverKey = 0
     private val repository: InfoRepository
     val allInfo: LiveData<Info>
 
@@ -29,9 +27,6 @@ class RegistrationViewModel(application: Application): AndroidViewModel(applicat
 //Live Data
     private val _navigateToWait = MutableLiveData<Boolean>()
     val navigateToWait: LiveData<Boolean> = _navigateToWait
-
-    private val _key = MutableLiveData<Int>()
-    val key: LiveData<Int> = _key
 
 
     fun onDoneNavigating(){
@@ -81,31 +76,15 @@ class RegistrationViewModel(application: Application): AndroidViewModel(applicat
         }
     }
 
-//    fun onServerKey(){
-//        uiScope.launch {
-//            getServerKey()
-//        }
-//    }
-//
-//    private suspend fun getServerKey(){
-//        allInfo.value?.let {
-//            withContext(Dispatchers.IO){
-//                    readWrite.connectSockect("192.168.0.110", 9000)
-//                    readWrite.writeLine("userId")
-//                    readWrite.write(it.key)
-//                    serverKey = readWrite.read()
-//                    Log.e("serverKey", serverKey.toString())
-//            }
-//        }
-//    }
     //Server methods
-    fun onRequestServer() = uiScope.launch {
-         requestServer()
-    }
+    fun onRequestServer(){
+        runBlocking {
+            requestServer()
+        }
+}
 
     private suspend fun requestServer(){
-        withContext(Dispatchers.IO) {
-
+         withContext(Dispatchers.IO) {
             readWrite.connectSocket("192.168.0.13", 9000)
             allInfo.value?.let {
                     var s = ""
@@ -121,6 +100,7 @@ class RegistrationViewModel(application: Application): AndroidViewModel(applicat
                     Log.e("key", keyId.toString())
                     }
             }
+
         }
     }
 

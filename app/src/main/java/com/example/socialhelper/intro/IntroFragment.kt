@@ -41,7 +41,7 @@ class IntroFragment : Fragment() {
                 delay(600)
             }
         }
-       GlobalScope.launch {
+       lifecycleScope.launch {
             delay(3000)
             this@IntroFragment.findNavController()
                 .navigate(IntroFragmentDirections.actionIntroFragmentToLoginFragment())
