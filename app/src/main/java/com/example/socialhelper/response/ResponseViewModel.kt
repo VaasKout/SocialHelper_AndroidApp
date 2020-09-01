@@ -14,7 +14,7 @@ import kotlinx.coroutines.*
 
 class ResponseViewModel (application: Application): AndroidViewModel(application){
 
-    val readWrite = AndroidClient()
+    private val readWrite = AndroidClient()
     private val viewModelJob = Job()
     private val uiScope = CoroutineScope(Dispatchers.Main + viewModelJob)
 
@@ -29,9 +29,25 @@ class ResponseViewModel (application: Application): AndroidViewModel(application
         userInfo = repository.allInfo
     }
 
+    fun onUpdate(info: Info){
+        uiScope.launch {
+            updateInfo(info)
+        }
+    }
+
+    private suspend fun updateInfo(info: Info){
+        withContext(Dispatchers.IO){
+            repository.updateInfo(info)
+        }
+    }
+
     fun onServerKey(){
             uiScope.launch{
                 getServerKey()
+                while (serverKey <= 0){
+                    readKey()
+                    delay(3000)
+                }
             }
     }
 
@@ -39,21 +55,13 @@ class ResponseViewModel (application: Application): AndroidViewModel(application
     private suspend fun getServerKey(){
             withContext(Dispatchers.IO){
                 readWrite.connectSocket("192.168.0.13", 9000)
+                delay(100)
                 userInfo.value?.let {
-                if (readWrite.socket.isConnected){
+                    if (readWrite.socket.isConnected){
                 readWrite.writeLine("userId")
-                readWrite.write(it.key)
+                readWrite.write(it.serverID)
+                 }
                 }
-            }
-        }
-    }
-
-    fun onRead(){
-        uiScope.launch {
-            while (serverKey >= 0){
-                readKey()
-                delay(1000)
-            }
         }
     }
 

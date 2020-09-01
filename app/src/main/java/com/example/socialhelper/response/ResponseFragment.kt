@@ -1,5 +1,6 @@
 package com.example.socialhelper.response
 
+import android.icu.text.IDNA
 import android.os.Bundle
 import android.util.Log
 import androidx.fragment.app.Fragment
@@ -12,6 +13,7 @@ import androidx.lifecycle.ViewModelProvider
 import androidx.lifecycle.lifecycleScope
 import androidx.navigation.fragment.navArgs
 import com.example.socialhelper.R
+import com.example.socialhelper.database.Info
 import com.example.socialhelper.databinding.FragmentResponceBinding
 import com.google.android.material.snackbar.Snackbar
 import kotlinx.coroutines.*
@@ -28,23 +30,22 @@ class ResponseFragment : Fragment() {
             ViewModelProvider(this).get(ResponseViewModel::class.java)
         binding.viewModel = viewModel
 
-
-    lifecycleScope.launch {
-        viewModel.onServerKey()
-        delay(2000)
-        if (viewModel.readWrite.socket.isConnected) {
-                viewModel.onRead()
-                binding.serverKey.text = viewModel.serverKey.toString()
-        } else {
-            Toast.makeText(
-                requireContext(),
-                getString(R.string.retry_later),
-                Toast.LENGTH_SHORT
-            ).show()
-            viewModel.serverKey = 0
+        if (viewModel.serverKey == 0) {
+            viewModel.onServerKey()
         }
-    }
-//        viewModel.onRead()
+
+        viewModel.userInfo.observe(viewLifecycleOwner, {
+            if (viewModel.serverKey != 0){
+                val info = Info(it.id,
+                    it.name,
+                    it.password,
+                    it.group,
+                    it.serverID,
+                    viewModel.serverKey)
+                viewModel.onUpdate(info)
+                binding.serverKey.text = it.serverKey.toString()
+            }
+        })
 
         binding.lifecycleOwner = this
         return binding.root

@@ -10,5 +10,6 @@ data class Info(
     @ColumnInfo (name = "name") val name: String,
     @ColumnInfo (name = "password") val password: String,
     @ColumnInfo (name = "group") val group: String,
-    @ColumnInfo(name = "key") var key: Int = 0
+    @ColumnInfo(name = "serverID") var serverID: Int = 0,
+    @ColumnInfo(name = "serverKey") var serverKey: Int = 0
 )

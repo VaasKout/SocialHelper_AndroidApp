@@ -58,7 +58,7 @@
             app:layout_constraintStart_toStartOf="parent"
             app:layout_constraintTop_toBottomOf="@+id/category_text"
             android:textAppearance="@style/TextAppearance.MaterialComponents.Headline6"
-            app:intToText="@{viewModel.userInfo.key}"/>
+            app:intToText="@{viewModel.userInfo.ServerID}"/>
 
         <TextView
             android:id="@+id/server_key"
@@ -67,7 +67,8 @@
             app:layout_constraintEnd_toEndOf="parent"
             app:layout_constraintStart_toStartOf="parent"
             app:layout_constraintTop_toBottomOf="@+id/key_text"
-            android:textAppearance="@style/TextAppearance.MaterialComponents.Headline6" />
+            android:textAppearance="@style/TextAppearance.MaterialComponents.Headline6"
+            tools:text="0"/>
 
 
         <TextView
@@ -80,7 +81,7 @@
             app:layout_constraintBottom_toBottomOf="parent"
             app:layout_constraintEnd_toEndOf="parent"
             app:layout_constraintStart_toStartOf="parent"
-            app:layout_constraintTop_toTopOf="parent"/>
+            app:layout_constraintTop_toBottomOf="@+id/server_key"/>
 
     </androidx.constraintlayout.widget.ConstraintLayout>
 </layout>

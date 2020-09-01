@@ -52,7 +52,7 @@ class RegistrationFragment : Fragment(){
             if (it == true && userName.isNotEmpty() && password.isNotEmpty() && category.isNotEmpty()){
 
                 var info =
-                    Info(id = 1, name = userName, password = password, group = category, key = 0)
+                    Info(id = 1, name = userName, password = password, group = category)
                 viewModel.onInsert(info)
 
                     MaterialAlertDialogBuilder(requireContext())
@@ -74,14 +74,13 @@ class RegistrationFragment : Fragment(){
                                         name = userName,
                                         password = password,
                                         group = category,
-                                        viewModel.keyId)
+                                        serverID = viewModel.keyId)
                                     viewModel.onUpdate(info)
                                     Log.e("regKey", viewModel.keyId.toString())
                                     this.findNavController()
                                         .navigate(
                                             RegistrationFragmentDirections.
-                                            actionRegistrationFragmentToResponseFragment()
-                                        )
+                                            actionRegistrationFragmentToResponseFragment())
                                     viewModel.onDoneNavigating()
                                 }
                         }.show()

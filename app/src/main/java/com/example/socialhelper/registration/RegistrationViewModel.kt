@@ -65,7 +65,7 @@ class RegistrationViewModel(application: Application): AndroidViewModel(applicat
         }
     }
     fun onUpdate(info: Info){
-        uiScope.launch {
+        runBlocking {
             updateInfo(info)
         }
     }
