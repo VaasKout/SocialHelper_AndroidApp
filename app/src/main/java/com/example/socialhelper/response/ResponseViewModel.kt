@@ -30,9 +30,9 @@ class ResponseViewModel (application: Application): AndroidViewModel(application
     }
 
     fun onServerKey(){
-        uiScope.launch{
-            getServerKey()
-        }
+            uiScope.launch{
+                getServerKey()
+            }
     }
 
     //get ServerKey
@@ -40,13 +40,32 @@ class ResponseViewModel (application: Application): AndroidViewModel(application
             withContext(Dispatchers.IO){
                 readWrite.connectSocket("192.168.0.13", 9000)
                 userInfo.value?.let {
-                if (readWrite.isAlive){
+                if (readWrite.socket.isConnected){
                 readWrite.writeLine("userId")
                 readWrite.write(it.key)
-                serverKey = readWrite.read()
-                Log.e("serverKey", serverKey.toString())
                 }
             }
         }
+    }
+
+    fun onRead(){
+        uiScope.launch {
+            while (serverKey >= 0){
+                readKey()
+                delay(1000)
+            }
+        }
+    }
+
+    private suspend fun readKey(){
+        withContext(Dispatchers.IO){
+            serverKey = readWrite.read()
+            Log.e("serverKey", serverKey.toString())
+        }
+    }
+
+    override fun onCleared() {
+        super.onCleared()
+        viewModelJob.cancel()
     }
 }

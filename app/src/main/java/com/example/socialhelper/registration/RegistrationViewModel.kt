@@ -93,7 +93,7 @@ class RegistrationViewModel(application: Application): AndroidViewModel(applicat
                         "Беременная" -> s = "pregnant"
                         "Соц.работник" -> s = "socialworker"
                     }
-                    if (readWrite.isAlive){
+                    if ( readWrite.socket != null && readWrite.socket.isConnected){
                     readWrite.writeLine("userRegData")
                     readWrite.writeUserData(s, it.name, it.password.toInt())
                     keyId = readWrite.read()

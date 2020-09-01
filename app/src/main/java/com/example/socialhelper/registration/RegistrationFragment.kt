@@ -62,10 +62,10 @@ class RegistrationFragment : Fragment(){
                         .setPositiveButton("Да"){ _, _ ->
                          viewModel.onRequestServer()
 
-                                if (!viewModel.readWrite.isAlive && viewModel.keyId == 0){
-                                    this.findNavController().
-                                    navigate(RegistrationFragmentDirections.
-                                    actionRegistrationFragmentSelf())
+                                if (!viewModel.readWrite.socket.isConnected && viewModel.keyId == 0){
+//                                    this.findNavController().
+//                                    navigate(RegistrationFragmentDirections.
+//                                    actionRegistrationFragmentSelf())
                                     Snackbar.make(binding.materialButton,
                                         getString(R.string.retry_later),
                                         Snackbar.LENGTH_SHORT).show()

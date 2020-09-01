@@ -27,21 +27,24 @@ class ResponseFragment : Fragment() {
         val viewModel =
             ViewModelProvider(this).get(ResponseViewModel::class.java)
         binding.viewModel = viewModel
-        viewModel.onServerKey()
+
 
     lifecycleScope.launch {
+        viewModel.onServerKey()
         delay(2000)
-        if (viewModel.readWrite.isAlive) {
-            binding.serverKey.text = viewModel.serverKey.toString()
-            Log.e("serverKey", viewModel.serverKey.toString())
+        if (viewModel.readWrite.socket.isConnected) {
+                viewModel.onRead()
+                binding.serverKey.text = viewModel.serverKey.toString()
         } else {
             Toast.makeText(
                 requireContext(),
                 getString(R.string.retry_later),
                 Toast.LENGTH_SHORT
             ).show()
+            viewModel.serverKey = 0
         }
     }
+//        viewModel.onRead()
 
         binding.lifecycleOwner = this
         return binding.root
