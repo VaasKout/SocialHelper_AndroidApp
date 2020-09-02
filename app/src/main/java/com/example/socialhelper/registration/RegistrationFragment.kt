@@ -7,19 +7,16 @@ import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
 import android.widget.ArrayAdapter
-import android.widget.Toast
 import androidx.databinding.DataBindingUtil
 import androidx.lifecycle.ViewModelProvider
 import androidx.lifecycle.lifecycleScope
-import androidx.navigation.fragment.DialogFragmentNavigatorDestinationBuilder
 import androidx.navigation.fragment.findNavController
 import com.example.socialhelper.R
 import com.example.socialhelper.database.Info
 import com.example.socialhelper.databinding.FragmentRegistrationBinding
 import com.google.android.material.dialog.MaterialAlertDialogBuilder
 import com.google.android.material.snackbar.Snackbar
-import kotlinx.coroutines.*
-import java.io.IOException
+import kotlinx.coroutines.launch
 
 class RegistrationFragment : Fragment(){
 
@@ -60,29 +57,30 @@ class RegistrationFragment : Fragment(){
                         .setNegativeButton("Нет"){ _, _ ->
                         }
                         .setPositiveButton("Да"){ _, _ ->
-                         viewModel.onRequestServer()
 
+                            lifecycleScope.launch {
+                              viewModel.connectToServer()
+                              viewModel.requestServer()
                                 if (!viewModel.readWrite.socket.isConnected && viewModel.keyId == 0){
-//                                    this.findNavController().
-//                                    navigate(RegistrationFragmentDirections.
-//                                    actionRegistrationFragmentSelf())
                                     Snackbar.make(binding.materialButton,
                                         getString(R.string.retry_later),
                                         Snackbar.LENGTH_SHORT).show()
                                 } else {
-                                    info = Info(id = 1,
+                                    info = Info(
+                                        id = 1,
                                         name = userName,
                                         password = password,
                                         group = category,
                                         serverID = viewModel.keyId)
                                     viewModel.onUpdate(info)
                                     Log.e("regKey", viewModel.keyId.toString())
-                                    this.findNavController()
+                                    this@RegistrationFragment.findNavController()
                                         .navigate(
                                             RegistrationFragmentDirections.
                                             actionRegistrationFragmentToResponseFragment())
                                     viewModel.onDoneNavigating()
                                 }
+                            }
                         }.show()
                     }
                  })

@@ -22,6 +22,7 @@
     <string name="retry_later">Нет подключения, повторите попытку позже</string>
     <string name="you_have_registered">Вы зарегестрировались как:</string>
     <string name="delete">Очистить БД</string>
+    <string name="connection_interrupted">Соединение разорвано, попробуйте позже</string>
     <string-array name="category">
         <item>Инвалид</item>
         <item>Беременная</item>

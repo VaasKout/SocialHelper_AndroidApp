@@ -4,8 +4,6 @@ import android.app.Application
 import android.util.Log
 import androidx.lifecycle.AndroidViewModel
 import androidx.lifecycle.LiveData
-import androidx.lifecycle.MutableLiveData
-import androidx.lifecycle.viewModelScope
 import com.example.socialhelper.database.Info
 import com.example.socialhelper.database.InfoDatabase
 import com.example.socialhelper.network.AndroidClient
@@ -14,7 +12,7 @@ import kotlinx.coroutines.*
 
 class ResponseViewModel (application: Application): AndroidViewModel(application){
 
-    private val readWrite = AndroidClient()
+    val readWrite = AndroidClient()
     private val viewModelJob = Job()
     private val uiScope = CoroutineScope(Dispatchers.Main + viewModelJob)
 
@@ -40,22 +38,14 @@ class ResponseViewModel (application: Application): AndroidViewModel(application
             repository.updateInfo(info)
         }
     }
-
-    fun onServerKey(){
-            uiScope.launch{
-                getServerKey()
-                while (serverKey <= 0){
-                    readKey()
-                    delay(3000)
-                }
-            }
+    suspend fun connectToServer(){
+        withContext(Dispatchers.IO){
+        readWrite.connectSocket("192.168.0.105", 9000)
+        }
     }
 
-    //get ServerKey
-    private suspend fun getServerKey(){
+     suspend fun getServerKey(){
             withContext(Dispatchers.IO){
-                readWrite.connectSocket("192.168.0.13", 9000)
-                delay(100)
                 userInfo.value?.let {
                     if (readWrite.socket.isConnected){
                 readWrite.writeLine("userId")
@@ -65,7 +55,7 @@ class ResponseViewModel (application: Application): AndroidViewModel(application
         }
     }
 
-    private suspend fun readKey(){
+     suspend fun readKey(){
         withContext(Dispatchers.IO){
             serverKey = readWrite.read()
             Log.e("serverKey", serverKey.toString())

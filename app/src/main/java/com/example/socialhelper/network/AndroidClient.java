@@ -27,7 +27,7 @@ public class AndroidClient implements Closeable {
      */
 
         public void connectSocket(String ip, int port){
-            int timeout = 2000;
+            int timeout = 1000;
             SocketAddress socketAddress = new InetSocketAddress(ip, port);
             try{
                 closeConnection();

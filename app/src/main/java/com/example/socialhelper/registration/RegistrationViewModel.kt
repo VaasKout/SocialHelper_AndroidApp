@@ -65,7 +65,7 @@ class RegistrationViewModel(application: Application): AndroidViewModel(applicat
         }
     }
     fun onUpdate(info: Info){
-        runBlocking {
+        uiScope.launch {
             updateInfo(info)
         }
     }
@@ -76,19 +76,17 @@ class RegistrationViewModel(application: Application): AndroidViewModel(applicat
         }
     }
 
-    //Server methods
-    fun onRequestServer(){
-        runBlocking {
-            requestServer()
+    suspend fun connectToServer(){
+        withContext(Dispatchers.IO) {
+            readWrite.connectSocket("192.168.0.105", 9000)
         }
-}
+    }
 
-    private suspend fun requestServer(){
+    suspend fun requestServer(){
          withContext(Dispatchers.IO) {
-            readWrite.connectSocket("192.168.0.13", 9000)
             allInfo.value?.let {
                     var s = ""
-                    when (allInfo.value?.group) {
+                    when (it.group) {
                         "Инвалид" -> s = "wheelchair"
                         "Беременная" -> s = "pregnant"
                         "Соц.работник" -> s = "socialworker"
