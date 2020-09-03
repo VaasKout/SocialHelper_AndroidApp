@@ -30,25 +30,22 @@ class ResponseFragment : Fragment() {
         binding.viewModel = viewModel
 
         lifecycleScope.launch {
-
-            whenStarted {
-                if (viewModel.serverKey == 0) {
-                    viewModel.connectToServer()
-                    viewModel.getServerKey()
-                }
-            }
-
             whenResumed {
-                if (!viewModel.readWrite.socket.isConnected){
-                    Toast.makeText(requireContext(),
-                        getString(R.string.connection_interrupted),
-                        Toast.LENGTH_SHORT).show()
-                } else{
                     while (viewModel.serverKey <= 0){
+                        viewModel.connectToServer()
+                        if (!viewModel.readWrite.socket.isConnected){
+                            Toast.makeText(requireContext(),
+                                getString(R.string.connection_interrupted),
+                                Toast.LENGTH_SHORT).show()
+                            break
+                        } else {
+                        viewModel.getServerKey()
                         viewModel.readKey()
                         binding.serverKey.text = viewModel.serverKey.toString()
                         delay(3000)
+                        }
                     }
+                        if (viewModel.serverKey >= 0){
                     binding.serverKey.text = viewModel.serverKey.toString()
                     viewModel.userInfo.observe(viewLifecycleOwner, {
                         if (viewModel.serverKey != 0){
@@ -62,7 +59,7 @@ class ResponseFragment : Fragment() {
                             viewModel.onUpdate(info)
                         }
                     })
-                }
+                 }
             }
         }
 

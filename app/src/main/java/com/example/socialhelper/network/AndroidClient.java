@@ -82,7 +82,7 @@ public class AndroidClient implements Closeable {
             writer.newLine();
             writer.flush();
         } catch (IOException e) {
-            Log.e("Error", "Unable to connect to the server");
+            Log.e("Error", "Unable to write message to the server");
         }
     }
 
@@ -102,7 +102,7 @@ public class AndroidClient implements Closeable {
             writer.write(value);
             writer.flush();
         } catch (IOException e) {
-            Log.e("Error", "Unable to connect to the server");
+            Log.e("Error", "Unable to write id");
         }
     }
 

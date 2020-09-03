@@ -78,7 +78,7 @@ class RegistrationViewModel(application: Application): AndroidViewModel(applicat
 
     suspend fun connectToServer(){
         withContext(Dispatchers.IO) {
-            readWrite.connectSocket("192.168.0.105", 9000)
+            readWrite.connectSocket("192.168.0.110", 9000)
         }
     }
 
