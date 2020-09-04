@@ -122,24 +122,7 @@ public class AndroidClient implements Closeable {
             Log.e("Error", "Unable to connect to the server");
         }
     }
-    //Reading userRegData as a String[]
-    public String[] readUserData()  {
-        try {
-            String[] userData = new String[]{reader.readLine(), reader.readLine(), reader.readLine()};
-            return userData;
-        } catch (IOException e) {
-            throw new RuntimeException(e);
-        }
-    }
-    //Reading Login, MetroStation and wheelChair invalid's commentary as a String[].
-    public String[] readHelp() {
-        try {
-            String[] userData = new String[]{reader.readLine(), reader.readLine(), reader.readLine()};
-            return userData;
-        } catch (IOException e) {
-            throw new RuntimeException(e);
-        }
-    }
+
     @Override //close all streams
     public void close() throws IOException {
         writer.close();

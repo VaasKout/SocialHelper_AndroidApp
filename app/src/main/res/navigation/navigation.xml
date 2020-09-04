@@ -90,5 +90,8 @@
             app:popExitAnim="@anim/slide_in_left_next"
             app:popUpTo="@id/introFragment"
             app:popUpToInclusive="true" />
+        <action
+            android:id="@+id/action_introFragment_to_pregnantFragment"
+            app:destination="@id/pregnantFragment" />
     </fragment>
 </navigation>

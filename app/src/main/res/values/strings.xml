@@ -9,7 +9,7 @@
     <string name="user_input_error">Имя пользователя не должно быть пустым</string>
     <string name="password_input_error">Пароль не должен быть пустым</string>
     <string name="get_spot">Убрать пидора из автобуса</string>
-    <string name="spot_is_free">Пидор убран, место свободно</string>
+    <string name="spot_is_free">Место свободно, присаживайтесь</string>
     <string name="sign_in">Регистрация</string>
     <string name="choose_category">Выберите категорию</string>
     <string name="categories">Категории</string>
@@ -20,6 +20,7 @@
     <string name="bruh">Fuck</string>
     <string name="connection_error">Connection Error</string>
     <string name="retry_later">Нет подключения, повторите попытку позже</string>
+    <string name="bluetooth_unavailable">Блютуз недоступен на данном устройстве</string>
     <string name="you_have_registered">Вы зарегестрировались как:</string>
     <string name="delete">Очистить БД</string>
     <string name="connection_interrupted">Соединение разорвано, попробуйте позже</string>

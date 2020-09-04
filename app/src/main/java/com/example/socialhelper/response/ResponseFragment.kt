@@ -39,8 +39,8 @@ class ResponseFragment : Fragment() {
                                 Toast.LENGTH_SHORT).show()
                             break
                         } else {
-                        viewModel.getServerKey()
-                        viewModel.readKey()
+                        viewModel.sendID()
+                        viewModel.readServerKey()
                         binding.serverKey.text = viewModel.serverKey.toString()
                         delay(3000)
                         }

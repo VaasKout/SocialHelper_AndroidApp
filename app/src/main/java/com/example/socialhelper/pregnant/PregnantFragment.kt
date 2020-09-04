@@ -1,5 +1,6 @@
 package com.example.socialhelper.pregnant
 
+
 import android.os.Bundle
 import android.view.LayoutInflater
 import android.view.View
@@ -7,8 +8,13 @@ import android.view.ViewGroup
 import androidx.databinding.DataBindingUtil
 import androidx.fragment.app.Fragment
 import androidx.lifecycle.ViewModelProvider
+import androidx.lifecycle.lifecycleScope
+import androidx.lifecycle.whenStarted
 import com.example.socialhelper.R
 import com.example.socialhelper.databinding.FragmentPregnantBinding
+import com.google.android.material.snackbar.Snackbar
+import kotlinx.coroutines.launch
+
 
 class PregnantFragment : Fragment() {
 
@@ -22,14 +28,41 @@ class PregnantFragment : Fragment() {
         val viewModel = ViewModelProvider(this).get(PregnantViewModel::class.java)
         binding.viewModel = viewModel
 
-        viewModel.spotIsFree.observe(viewLifecycleOwner, {
+        lifecycleScope.launch {
+            whenStarted {
+            viewModel.turnOnBluetooth(requireActivity())
+            }
+        }
+
+    viewModel.spotIsFree.observe(viewLifecycleOwner, {
+        val adapter = viewModel.bluetoothReadWrite.btAdapter
+        val socket = viewModel.bluetoothReadWrite.btSocket
             if (it == true) {
-                binding.result.text = getString(R.string.bruh)
+                lifecycleScope.launch {
+                    if (adapter != null && adapter.isEnabled){
+                        viewModel.createConnection()
+                        if (socket != null){
+                            viewModel.startBluetoothTransaction(1)
+                            binding.result.text = viewModel.bluetoothAnswer.toString()
+                        }
+                    }
+                    if (adapter != null && !adapter.isEnabled){
+                        viewModel.turnOnBluetooth(requireActivity())
+
+                    } else{
+                        Snackbar.make(binding.getSpotButton,
+                            getString(R.string.bluetooth_unavailable),
+                            Snackbar.LENGTH_SHORT).show()
+                    }
+                }
+
                 viewModel.onDoneSetSpotFree()
             }
         })
 
+
         binding.lifecycleOwner = this
         return binding.root
     }
+
 }

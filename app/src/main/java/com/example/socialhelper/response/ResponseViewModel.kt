@@ -44,7 +44,7 @@ class ResponseViewModel (application: Application): AndroidViewModel(application
         }
     }
 
-     suspend fun getServerKey(){
+     suspend fun sendID(){
             withContext(Dispatchers.IO){
                 userInfo.value?.let {
                     if (readWrite.socket.isConnected){
@@ -55,7 +55,7 @@ class ResponseViewModel (application: Application): AndroidViewModel(application
         }
     }
 
-     suspend fun readKey(){
+     suspend fun readServerKey(){
         withContext(Dispatchers.IO){
             serverKey = readWrite.read()
             Log.e("serverKey", serverKey.toString())

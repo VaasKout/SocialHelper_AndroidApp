@@ -64,6 +64,7 @@ class RegistrationViewModel(application: Application): AndroidViewModel(applicat
             repository.deleteInfo()
         }
     }
+
     fun onUpdate(info: Info){
         uiScope.launch {
             updateInfo(info)
@@ -91,14 +92,13 @@ class RegistrationViewModel(application: Application): AndroidViewModel(applicat
                         "Беременная" -> s = "pregnant"
                         "Соц.работник" -> s = "socialworker"
                     }
-                    if ( readWrite.socket != null && readWrite.socket.isConnected){
+                    if (readWrite.socket != null && readWrite.socket.isConnected){
                     readWrite.writeLine("userRegData")
                     readWrite.writeUserData(s, it.name, it.password.toInt())
                     keyId = readWrite.read()
                     Log.e("key", keyId.toString())
                     }
             }
-
         }
     }
 
