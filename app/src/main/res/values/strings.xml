@@ -14,16 +14,21 @@
     <string name="choose_category">Выберите категорию</string>
     <string name="categories">Категории</string>
     <string name="social_helper">SocialHelper!</string>
-    <string name="wait_for_response">Ожидайте ответа в течение 24х часов</string>
+    <string name="positive_response">Регистрация завершена успешно</string>
     <string name="welcome2">пожаловать&#160;</string>
     <string name="welcome3">в</string>
     <string name="bruh">Fuck</string>
     <string name="connection_error">Connection Error</string>
     <string name="retry_later">Нет подключения, повторите попытку позже</string>
     <string name="bluetooth_unavailable">Блютуз недоступен на данном устройстве</string>
-    <string name="you_have_registered">Вы зарегестрировались как:</string>
+    <string name="you_send_request">Вы подали заявку как:</string>
     <string name="delete">Очистить БД</string>
     <string name="connection_interrupted">Соединение разорвано, попробуйте позже</string>
+    <string name="number_reference">Номер справки</string>
+    <string name="enter_reference_number">Введите номер справки</string>
+    <string name="surname">Фамилия</string>
+    <string name="surname_input_error">Введите фамилию</string>
+    <string name="registration_denied">Вам отказано в регистрации</string>
     <string-array name="category">
         <item>Инвалид</item>
         <item>Беременная</item>

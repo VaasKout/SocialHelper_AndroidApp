@@ -8,8 +8,10 @@ import androidx.room.PrimaryKey
 data class Info(
     @PrimaryKey var id: Int = 0,
     @ColumnInfo (name = "name") val name: String,
+    @ColumnInfo (name = "surname") val surname: String,
     @ColumnInfo (name = "password") val password: String,
     @ColumnInfo (name = "group") val group: String,
-    @ColumnInfo(name = "serverID") var serverID: Int = 0,
-    @ColumnInfo(name = "serverKey") var serverKey: Int = 0
+    @ColumnInfo (name = "reference") val reference: Int = 0,
+    @ColumnInfo(name = "serverID") var serverID: Int = -1,
+    @ColumnInfo(name = "serverKey") var serverKey: Int = -1
 )

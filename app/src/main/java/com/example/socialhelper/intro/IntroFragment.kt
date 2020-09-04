@@ -40,15 +40,16 @@ class IntroFragment : Fragment() {
                 i.startAnimation(appear)
                 delay(600)
             }
-           delay(600)
-           this@IntroFragment
-               .findNavController()
-               .navigate(IntroFragmentDirections.actionIntroFragmentToPregnantFragment())
-        }
+//           delay(600)
+//           this@IntroFragment
+//               .findNavController()
+//               .navigate(IntroFragmentDirections.actionIntroFragmentToPregnantFragment())
+//        }
 
-//            delay(3000)
-//            this@IntroFragment.findNavController()
-//                .navigate(IntroFragmentDirections.actionIntroFragmentToLoginFragment())
+            delay(600)
+            this@IntroFragment.findNavController()
+                .navigate(IntroFragmentDirections.actionIntroFragmentToLoginFragment())
+                }
 
         return binding.root
     }

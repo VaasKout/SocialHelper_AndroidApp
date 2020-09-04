@@ -57,7 +57,6 @@ public class AndroidClient implements Closeable {
     }
 
 
-
     //Here i create BReader(InputStream)
     private BufferedReader createReader() throws IOException {
         return new BufferedReader(new InputStreamReader(socket.getInputStream()));
@@ -67,15 +66,41 @@ public class AndroidClient implements Closeable {
         return new BufferedWriter(new OutputStreamWriter(socket.getOutputStream()));
     }
 
-    //Reading/writing a String line
-    public String readLine() {
+//    //Reading/writing a String line
+//    public String readLine() {
+//        try {
+//            return reader.readLine();
+//        } catch (IOException e) {
+//            throw new RuntimeException(e);
+//        }
+//    }
+
+    //get int
+    public int read() {
         try {
-            return reader.readLine();
+            return reader.read();
         } catch (IOException e) {
-            throw new RuntimeException(e);
+            Log.e("Error", "Unable to read from server");
+            return -1;
         }
     }
-    //Write message to server to recognise, how has connected
+
+
+    //Writing userRegData as a consequence of three Strings
+    public void writeUserData(String userType, String name, String surname, int password) {
+        writeLine(userType);
+        writeLine(name);
+        writeLine(surname);
+        write(password);
+    }
+
+    public void writePregnantData(int number, String name, String surname, int password){
+        write(number);
+        writeLine(name);
+        writeLine(surname);
+        write(password);
+    }
+
     public void writeLine(String message) {
         try {
             writer.write(message);
@@ -86,40 +111,12 @@ public class AndroidClient implements Closeable {
         }
     }
 
-    //Reading/Writing an int value
-
-    //get int
-    public int read() {
-        try {
-            return reader.read();
-        } catch (IOException e) {
-            Log.e("Error", "Server is not respond");
-            return -1;
-        }
-    }
     public void write(int value) {
         try {
             writer.write(value);
             writer.flush();
         } catch (IOException e) {
             Log.e("Error", "Unable to write id");
-        }
-    }
-
-    //Writing userRegData as a consequence of three Strings
-    public void writeUserData(String userType, String FIO, int password) {
-        try {
-            writer.write(userType);
-            writer.newLine();
-            writer.flush();
-            writer.write(FIO);
-            writer.newLine();
-            writer.flush();
-            writer.write(password);
-            writer.newLine();
-            writer.flush();
-        } catch (IOException e) {
-            Log.e("Error", "Unable to connect to the server");
         }
     }
 

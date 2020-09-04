@@ -13,7 +13,8 @@ import kotlinx.coroutines.*
 
 class RegistrationViewModel(application: Application): AndroidViewModel(application) {
 
-    var keyId = 0
+    var serverId: Int = 0
+    var serverKey: Int = 0
     private val repository: InfoRepository
     val allInfo: LiveData<Info>
 
@@ -93,10 +94,19 @@ class RegistrationViewModel(application: Application): AndroidViewModel(applicat
                         "Соц.работник" -> s = "socialworker"
                     }
                     if (readWrite.socket != null && readWrite.socket.isConnected){
-                    readWrite.writeLine("userRegData")
-                    readWrite.writeUserData(s, it.name, it.password.toInt())
-                    keyId = readWrite.read()
-                    Log.e("key", keyId.toString())
+                        if (s == "wheelchair" || s == "socialworker"){
+                            readWrite.writeLine("userRegData")
+                            readWrite.writeUserData(s, it.name, it.surname, it.password.toInt())
+                        } else if (s == "pregnant"){
+                            readWrite.writeLine("loginPregnant")
+                            readWrite.writePregnantData(
+                                it.reference,
+                                it.name,
+                                it.surname,
+                                it.password.toInt())
+                        }
+                        serverId = readWrite.read()
+                        serverKey = readWrite.read()
                     }
             }
         }

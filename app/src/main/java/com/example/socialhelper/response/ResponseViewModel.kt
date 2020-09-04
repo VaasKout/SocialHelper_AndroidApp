@@ -12,11 +12,12 @@ import kotlinx.coroutines.*
 
 class ResponseViewModel (application: Application): AndroidViewModel(application){
 
-    val readWrite = AndroidClient()
+
     private val viewModelJob = Job()
     private val uiScope = CoroutineScope(Dispatchers.Main + viewModelJob)
-
-     var serverKey = 0
+//
+        var serverKey = 0
+//    val readWrite = AndroidClient()
 
     private val repository: InfoRepository
     val userInfo: LiveData<Info>
@@ -25,45 +26,61 @@ class ResponseViewModel (application: Application): AndroidViewModel(application
         val infoDao = InfoDatabase.getDatabase(application).infoDao()
         repository = InfoRepository(infoDao)
         userInfo = repository.allInfo
+        userInfo.value?.let {
+            serverKey = it.serverKey
+        }
     }
 
-    fun onUpdate(info: Info){
+    fun onClear(){
         uiScope.launch {
-            updateInfo(info)
+            deleteInfo()
         }
     }
 
-    private suspend fun updateInfo(info: Info){
+    private suspend fun deleteInfo(){
         withContext(Dispatchers.IO){
-            repository.updateInfo(info)
-        }
-    }
-    suspend fun connectToServer(){
-        withContext(Dispatchers.IO){
-        readWrite.connectSocket("192.168.0.110", 9000)
+            repository.deleteInfo()
         }
     }
 
-     suspend fun sendID(){
-            withContext(Dispatchers.IO){
-                userInfo.value?.let {
-                    if (readWrite.socket.isConnected){
-                readWrite.writeLine("userId")
-                readWrite.write(it.serverID)
-                 }
-                }
-        }
-    }
-
-     suspend fun readServerKey(){
-        withContext(Dispatchers.IO){
-            serverKey = readWrite.read()
-            Log.e("serverKey", serverKey.toString())
-        }
-    }
-
-    override fun onCleared() {
-        super.onCleared()
-        viewModelJob.cancel()
-    }
+//
+//    fun onUpdate(info: Info){
+//        uiScope.launch {
+//            updateInfo(info)
+//        }
+//    }
+//
+//    private suspend fun updateInfo(info: Info){
+//        withContext(Dispatchers.IO){
+//            repository.updateInfo(info)
+//        }
+//    }
+//    suspend fun connectToServer(){
+//        withContext(Dispatchers.IO){
+//        readWrite.connectSocket("192.168.0.110", 9000)
+//        }
+//    }
+//
+//     suspend fun sendID(){
+//            withContext(Dispatchers.IO){
+//                userInfo.value?.let {
+//                    if (readWrite.socket.isConnected){
+//                readWrite.writeLine("userId")
+//                readWrite.write(it.serverID)
+//                 }
+//                }
+//        }
+//    }
+//
+//     suspend fun readServerKey(){
+//        withContext(Dispatchers.IO){
+//            serverKey = readWrite.read()
+//            Log.e("serverKey", serverKey.toString())
+//        }
+//    }
+//
+//    override fun onCleared() {
+//        super.onCleared()
+//        viewModelJob.cancel()
+//    }
 }
