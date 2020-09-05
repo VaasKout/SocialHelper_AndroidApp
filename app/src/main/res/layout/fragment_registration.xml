@@ -52,7 +52,8 @@
                 app:boxCornerRadiusBottomEnd="6dp"
                 app:layout_constraintEnd_toEndOf="parent"
                 app:layout_constraintStart_toStartOf="parent"
-                app:layout_constraintTop_toBottomOf="@id/enter_name_surname">
+                app:layout_constraintTop_toBottomOf="@id/enter_name_surname"
+                app:endIconMode="clear_text">
 
                 <com.google.android.material.textfield.TextInputEditText
                     android:id="@+id/text_input_user_edit_reg"
@@ -127,8 +128,7 @@
                     android:id="@+id/loginEdit"
                     android:layout_width="match_parent"
                     android:layout_height="wrap_content"
-                    android:inputType="textPersonName"
-                    android:text="" />
+                    android:inputType="textPersonName" />
 
             </com.google.android.material.textfield.TextInputLayout>
 
@@ -247,8 +247,8 @@
                 app:boxCornerRadiusTopStart="6dp"
                 app:boxCornerRadiusBottomStart="6dp"
                 app:boxCornerRadiusBottomEnd="6dp"
-                android:hint="@string/categories"
                 app:errorEnabled="true"
+                android:hint="@string/categories"
                 app:layout_constraintBottom_toTopOf="@+id/materialButton"
                 app:layout_constraintEnd_toEndOf="parent"
                 app:layout_constraintStart_toStartOf="parent"
@@ -259,8 +259,7 @@
                     android:layout_width="match_parent"
                     android:layout_height="wrap_content"
                     android:inputType="none"
-                    android:text="@{viewModel.allInfo.group}"
-                    tools:ignore="LabelFor" />
+                    android:text="@{viewModel.allInfo.group}" />
             </com.google.android.material.textfield.TextInputLayout>
 
             <com.google.android.material.button.MaterialButton

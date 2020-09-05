@@ -8,8 +8,6 @@ import com.example.socialhelper.database.Info
 import com.example.socialhelper.database.InfoDatabase
 import com.example.socialhelper.network.AndroidClient
 import com.example.socialhelper.repository.InfoRepository
-import com.google.android.material.textfield.TextInputEditText
-import com.google.android.material.textfield.TextInputLayout
 import kotlinx.coroutines.*
 
 class RegistrationViewModel(application: Application): AndroidViewModel(application) {
@@ -36,9 +34,6 @@ class RegistrationViewModel(application: Application): AndroidViewModel(applicat
     }
     fun onStartNavigating(){
         _navigateToWait.value = true
-    }
-    fun TextInputLayout.removeError(){
-        this.error = null
     }
 
     //Coroutines

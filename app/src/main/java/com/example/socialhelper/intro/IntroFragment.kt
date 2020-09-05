@@ -27,28 +27,38 @@ class IntroFragment : Fragment() {
          * make fade anim from 1 to 0 in 1 sec and back
          */
 
-        val appear = AnimationUtils.loadAnimation(requireContext(), R.anim.fade_in)
+        val appear =
+            AnimationUtils.loadAnimation(requireContext(), R.anim.fade_in)
+
 
 
         val wordList =
             listOf(binding.welcome1, binding.welcome2, binding.welcome3, binding.welcome4)
 
-       lifecycleScope.launch {
+
+        lifecycleScope.launch {
+
             for (i in wordList) {
-                i.alpha = 1.0F
-                i.startAnimation(appear)
-                delay(800)
+                    i.alpha = 1.0F
+                    i.startAnimation(appear)
+                    delay(appear.duration)
+                    i.clearAnimation()
             }
+
+        }
+
+
+
 //           delay(600)
 //           this@IntroFragment
 //               .findNavController()
 //               .navigate(IntroFragmentDirections.actionIntroFragmentToPregnantFragment())
 //        }
 
-            delay(600)
-            this@IntroFragment.findNavController()
-                .navigate(IntroFragmentDirections.actionIntroFragmentToLoginFragment())
-                }
+//            delay(600)
+//            this@IntroFragment.findNavController()
+//                .navigate(IntroFragmentDirections.actionIntroFragmentToLoginFragment())
+//                }
 
         return binding.root
     }

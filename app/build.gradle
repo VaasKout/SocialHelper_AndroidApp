@@ -38,6 +38,8 @@ android {
 }
 
 dependencies {
+    implementation 'hanks.xyz:htextview-library:0.1.5'
+
     //   //lifecycle extentions
     def lifecycle_version = "2.2.0"
     // ViewModel
