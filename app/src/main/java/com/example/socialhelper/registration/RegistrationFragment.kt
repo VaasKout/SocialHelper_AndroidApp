@@ -1,22 +1,14 @@
 package com.example.socialhelper.registration
 
-import android.app.ActionBar
+
 import android.os.Bundle
 import android.util.Log
 import androidx.fragment.app.Fragment
 import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
-import android.widget.AdapterView
 import android.widget.ArrayAdapter
-import android.widget.TextView
-import androidx.constraintlayout.widget.ConstraintLayout
-import androidx.constraintlayout.widget.ConstraintSet
-import androidx.core.graphics.component1
-import androidx.core.graphics.component2
 import androidx.core.view.isGone
-import androidx.core.view.isInvisible
-import androidx.core.view.isNotEmpty
 import androidx.core.view.isVisible
 import androidx.databinding.DataBindingUtil
 import androidx.lifecycle.ViewModelProvider
@@ -49,17 +41,22 @@ class RegistrationFragment : Fragment(){
          */
 
         viewModel.navigateToWait.observe(viewLifecycleOwner, {
+
             val userName = binding.textInputUserEditReg.text.toString()
             val password = binding.textInputPassEditReg.text.toString()
+            val passwordConfirm = binding.confirmPasswordEdit.text.toString()
             val category = binding.exposeDownMenu.text.toString()
-            val number = binding.numberReference
             val numberEdit = binding.numberReferenceInputEdit.text.toString()
             val surname = binding.surnameEditInput.text.toString()
+            val login = binding.loginEdit.text.toString()
+            val number = binding.numberReference
 
             binding.userInputReg.error = null
             binding.passwordInputReg.error = null
             binding.exposeDownMenu.error = null
             binding.surnameInputReg.error = null
+            binding.login.error = null
+            binding.confirmPassword.error = null
             number.error = null
 
 
@@ -67,10 +64,16 @@ class RegistrationFragment : Fragment(){
                 binding.userInputReg.error = getString(R.string.user_input_error)
             if(password.isEmpty())
                 binding.passwordInputReg.error = getString(R.string.password_input_error)
-            if (numberEdit.isEmpty())
-                number.error = getString(R.string.choose_category)
+            if (category.isEmpty())
+                binding.exposeDownMenu.error = getString(R.string.choose_category)
+            if (login.isEmpty())
+                binding.login.error = getString(R.string.enter_login)
             if (surname.isEmpty())
                 binding.surnameInputReg.error = getString(R.string.surname_input_error)
+            if (passwordConfirm.isEmpty())
+                binding.confirmPassword.error = getString(R.string.confirm_password)
+            if (passwordConfirm != password)
+                binding.confirmPassword.error = getString(R.string.password_mismatch)
             if (numberEdit.isEmpty() && number.isVisible){
                 number.error = getString(R.string.enter_reference_number)
             } else if (number.isGone){
@@ -80,17 +83,22 @@ class RegistrationFragment : Fragment(){
             if (it == true &&
                 userName.isNotEmpty() &&
                 password.isNotEmpty() &&
+                passwordConfirm.isNotEmpty() &&
+                login.isNotEmpty() &&
                 category.isNotEmpty() &&
                 surname.isNotEmpty()  &&
-                number.error.isNullOrEmpty()){
+                number.error.isNullOrEmpty() &&
+                password == passwordConfirm){
 
+                var referenceNumber = 0
                 var info = Info(id = 1, name = userName, surname = surname,
-                                password = password, group = category)
+                                password = password, group = category, login = login)
 
                 if (number.isVisible){
                      info = Info(id = 1, name = userName, surname = surname,
                                 password = password, group = category,
-                                reference = numberEdit.toInt())
+                                reference = numberEdit.toInt(), login = login)
+                    referenceNumber = numberEdit.toInt()
                 }
 
                 viewModel.onInsert(info)
@@ -108,6 +116,7 @@ class RegistrationFragment : Fragment(){
                                     Snackbar.make(binding.materialButton,
                                         getString(R.string.retry_later),
                                         Snackbar.LENGTH_SHORT).show()
+                                    viewModel.onDoneNavigating()
                                 } else {
                                     info = Info(
                                         id = 1,
@@ -116,7 +125,9 @@ class RegistrationFragment : Fragment(){
                                         password = password,
                                         group = category,
                                         serverID = viewModel.serverId,
-                                        serverKey = viewModel.serverKey)
+                                        serverKey = viewModel.serverKey,
+                                        login = login,
+                                        reference = referenceNumber)
                                     viewModel.onUpdate(info)
                                     Log.e("serverID", viewModel.serverId.toString())
                                     Log.e("serverKey", viewModel.serverKey.toString())
@@ -131,8 +142,6 @@ class RegistrationFragment : Fragment(){
                         }.show()
                     }
                  })
-
-
 
         /**
          * DropDownMenu
@@ -152,10 +161,12 @@ class RegistrationFragment : Fragment(){
                 categoryList[0], categoryList[2] -> {
                     binding.numberReference.visibility = View.GONE
                     binding.numberReferenceInputEdit.visibility = View.GONE
+                    binding.exposeDownMenu.error = null
                 }
                 else -> {
                     binding.numberReference.visibility = View.VISIBLE
                     binding.numberReferenceInputEdit.visibility = View.VISIBLE
+                    binding.exposeDownMenu.error = null
                 }
             }
         }

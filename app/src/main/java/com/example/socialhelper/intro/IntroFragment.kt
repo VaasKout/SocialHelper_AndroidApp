@@ -27,7 +27,6 @@ class IntroFragment : Fragment() {
          * make fade anim from 1 to 0 in 1 sec and back
          */
 
-
         val appear = AnimationUtils.loadAnimation(requireContext(), R.anim.fade_in)
 
 
@@ -38,7 +37,7 @@ class IntroFragment : Fragment() {
             for (i in wordList) {
                 i.alpha = 1.0F
                 i.startAnimation(appear)
-                delay(600)
+                delay(800)
             }
 //           delay(600)
 //           this@IntroFragment

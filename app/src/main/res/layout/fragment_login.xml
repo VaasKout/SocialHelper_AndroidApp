@@ -38,9 +38,13 @@
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
                 android:layout_marginStart="4dp"
-                android:layout_marginTop="48dp"
                 android:layout_marginEnd="4dp"
-                android:hint="@string/user_input_hint"
+                android:layout_marginTop="48dp"
+                app:boxCornerRadiusTopEnd="6dp"
+                app:boxCornerRadiusTopStart="6dp"
+                app:boxCornerRadiusBottomStart="6dp"
+                app:boxCornerRadiusBottomEnd="6dp"
+                android:hint="@string/login"
                 app:errorEnabled="true"
                 app:layout_constraintEnd_toEndOf="parent"
                 app:layout_constraintStart_toStartOf="parent"
@@ -50,7 +54,8 @@
                     android:id="@+id/user_input_edit_text"
                     android:layout_width="match_parent"
                     android:layout_height="wrap_content"
-                    android:inputType="textPersonName" />
+                    android:inputType="textPersonName"
+                    />
             </com.google.android.material.textfield.TextInputLayout>
 
 
@@ -58,6 +63,10 @@
                 android:id="@+id/passwordTextInput"
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
+                app:boxCornerRadiusTopEnd="6dp"
+                app:boxCornerRadiusTopStart="6dp"
+                app:boxCornerRadiusBottomStart="6dp"
+                app:boxCornerRadiusBottomEnd="6dp"
                 android:layout_marginStart="4dp"
                 android:layout_marginEnd="4dp"
                 android:hint="@string/password_input_hint"
@@ -89,7 +98,7 @@
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
                 android:layout_marginTop="24dp"
-                android:text="@string/next"
+                android:text="@string/enter"
                 app:layout_constraintEnd_toEndOf="@+id/passwordTextInput"
                 app:layout_constraintTop_toBottomOf="@+id/passwordTextInput"
                 android:onClick="@{() -> loginViewModel.onStartNavigationToMain()}"/>

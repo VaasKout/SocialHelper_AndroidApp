@@ -13,11 +13,8 @@ import kotlinx.coroutines.*
 class ResponseViewModel (application: Application): AndroidViewModel(application){
 
 
-    private val viewModelJob = Job()
-    private val uiScope = CoroutineScope(Dispatchers.Main + viewModelJob)
-//
-        var serverKey = 0
-//    val readWrite = AndroidClient()
+//    private val viewModelJob = Job()
+//    private val uiScope = CoroutineScope(Dispatchers.Main + viewModelJob)
 
     private val repository: InfoRepository
     val userInfo: LiveData<Info>
@@ -26,21 +23,6 @@ class ResponseViewModel (application: Application): AndroidViewModel(application
         val infoDao = InfoDatabase.getDatabase(application).infoDao()
         repository = InfoRepository(infoDao)
         userInfo = repository.allInfo
-        userInfo.value?.let {
-            serverKey = it.serverKey
-        }
-    }
-
-    fun onClear(){
-        uiScope.launch {
-            deleteInfo()
-        }
-    }
-
-    private suspend fun deleteInfo(){
-        withContext(Dispatchers.IO){
-            repository.deleteInfo()
-        }
     }
 
 //

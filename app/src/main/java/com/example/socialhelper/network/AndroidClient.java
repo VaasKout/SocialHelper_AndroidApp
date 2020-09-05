@@ -67,13 +67,13 @@ public class AndroidClient implements Closeable {
     }
 
 //    //Reading/writing a String line
-//    public String readLine() {
-//        try {
-//            return reader.readLine();
-//        } catch (IOException e) {
-//            throw new RuntimeException(e);
-//        }
-//    }
+    public String readLine() {
+        try {
+            return reader.readLine();
+        } catch (IOException e) {
+            throw new RuntimeException(e);
+        }
+    }
 
     //get int
     public int read() {
@@ -99,6 +99,11 @@ public class AndroidClient implements Closeable {
         writeLine(name);
         writeLine(surname);
         write(password);
+    }
+
+    public void writeLoginPassword(String login, int password){
+           writeLine(login);
+           write(password);
     }
 
     public void writeLine(String message) {

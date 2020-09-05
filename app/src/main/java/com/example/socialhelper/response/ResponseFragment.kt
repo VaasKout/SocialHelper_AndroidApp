@@ -35,11 +35,6 @@ class ResponseFragment : Fragment() {
                 })
 
 
-
-
-
-
-
 //        lifecycleScope.launch {
 //            whenResumed {
 //                    while (viewModel.serverKey <= 0){
