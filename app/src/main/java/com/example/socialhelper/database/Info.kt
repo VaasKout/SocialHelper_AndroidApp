@@ -13,6 +13,7 @@ data class Info(
     @ColumnInfo (name = "password") val password: String,
     @ColumnInfo (name = "group") val group: String,
     @ColumnInfo (name = "reference") val reference: Int = 0,
-    @ColumnInfo(name = "serverID") var serverID: Int = -1,
-    @ColumnInfo(name = "serverKey") var serverKey: Int = -1
+    @ColumnInfo (name = "serverID") var serverID: Int = -1,
+    @ColumnInfo (name = "serverKey") var serverKey: Int = -1,
+    @ColumnInfo (name = "wasLoggedIn") var wasLoggedIn: Boolean = false
 )

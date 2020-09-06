@@ -22,7 +22,11 @@
         android:id="@+id/pregnantFragment"
         android:name="com.example.socialhelper.pregnant.PregnantFragment"
         android:label="fragment_pregnant"
-        tools:layout="@layout/fragment_pregnant"/>
+        tools:layout="@layout/fragment_pregnant">
+        <action
+            android:id="@+id/action_pregnantFragment_to_loginFragment"
+            app:destination="@id/loginFragment" />
+    </fragment>
     <fragment
         android:id="@+id/loginFragment"
         android:name="com.example.socialhelper.login.LoginFragment"
@@ -31,11 +35,12 @@
         <action
             android:id="@+id/action_loginFragment_to_pregnantFragment"
             app:destination="@id/pregnantFragment"
-            app:popUpTo="@id/loginFragment"
             app:enterAnim="@anim/slide_in_right"
             app:exitAnim="@anim/slide_in_right_next"
             app:popEnterAnim="@anim/slide_in_left"
-            app:popExitAnim="@anim/slide_in_left_next"/>
+            app:popExitAnim="@anim/slide_in_left_next"
+            app:popUpTo="@id/loginFragment"
+            app:popUpToInclusive="true" />
         <action
             android:id="@+id/action_loginFragment_to_registrationFragment"
             app:destination="@id/registrationFragment"
@@ -47,30 +52,40 @@
         <action
             android:id="@+id/action_loginFragment_to_disabledFragment"
             app:destination="@id/disabledFragment"
-            app:popUpTo="@id/loginFragment"
             app:enterAnim="@anim/slide_in_right"
             app:exitAnim="@anim/slide_in_right_next"
             app:popEnterAnim="@anim/slide_in_left"
-            app:popExitAnim="@anim/slide_in_left_next"/>
+            app:popExitAnim="@anim/slide_in_left_next"
+            app:popUpTo="@id/loginFragment"
+            app:popUpToInclusive="true" />
         <action
             android:id="@+id/action_loginFragment_to_socialFragment"
             app:destination="@id/socialFragment"
-            app:popUpTo="@id/loginFragment"
             app:enterAnim="@anim/slide_in_right"
             app:exitAnim="@anim/slide_in_right_next"
             app:popEnterAnim="@anim/slide_in_left"
-            app:popExitAnim="@anim/slide_in_left_next"/>
+            app:popExitAnim="@anim/slide_in_left_next"
+            app:popUpTo="@id/loginFragment"
+            app:popUpToInclusive="true" />
     </fragment>
     <fragment
         android:id="@+id/disabledFragment"
         android:name="com.example.socialhelper.disabled.DisabledFragment"
         android:label="DisabledFragment"
-        tools:layout="@layout/fragment_disabled"/>
+        tools:layout="@layout/fragment_disabled">
+        <action
+            android:id="@+id/action_disabledFragment_to_loginFragment"
+            app:destination="@id/loginFragment" />
+    </fragment>
     <fragment
         android:id="@+id/socialFragment"
         android:name="com.example.socialhelper.socialworker.SocialFragment"
         android:label="SocialFragment"
-        tools:layout="@layout/fragment_social"/>
+        tools:layout="@layout/fragment_social">
+        <action
+            android:id="@+id/action_socialFragment_to_loginFragment"
+            app:destination="@id/loginFragment" />
+    </fragment>
     <fragment
         android:id="@+id/responseFragment"
         android:name="com.example.socialhelper.response.ResponseFragment"
@@ -92,6 +107,30 @@
             app:popUpToInclusive="true" />
         <action
             android:id="@+id/action_introFragment_to_pregnantFragment"
-            app:destination="@id/pregnantFragment" />
+            app:destination="@id/pregnantFragment"
+            app:enterAnim="@anim/slide_in_right"
+            app:exitAnim="@anim/slide_in_right_next"
+            app:popEnterAnim="@anim/slide_in_left"
+            app:popExitAnim="@anim/slide_in_left_next"
+            app:popUpTo="@id/loginFragment"
+            app:popUpToInclusive="true" />
+        <action
+            android:id="@+id/action_introFragment_to_disabledFragment"
+            app:destination="@id/disabledFragment"
+            app:enterAnim="@anim/slide_in_right"
+            app:exitAnim="@anim/slide_in_right_next"
+            app:popEnterAnim="@anim/slide_in_left"
+            app:popExitAnim="@anim/slide_in_left_next"
+            app:popUpTo="@id/introFragment"
+            app:popUpToInclusive="true" />
+        <action
+            android:id="@+id/action_introFragment_to_socialFragment"
+            app:destination="@id/socialFragment"
+            app:enterAnim="@anim/slide_in_right"
+            app:exitAnim="@anim/slide_in_right_next"
+            app:popEnterAnim="@anim/slide_in_left"
+            app:popExitAnim="@anim/slide_in_left_next"
+            app:popUpTo="@id/introFragment"
+            app:popUpToInclusive="true" />
     </fragment>
 </navigation>

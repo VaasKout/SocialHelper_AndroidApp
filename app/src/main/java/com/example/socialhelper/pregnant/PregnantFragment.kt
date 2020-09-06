@@ -55,7 +55,6 @@ class PregnantFragment : Fragment() {
                             Snackbar.LENGTH_SHORT).show()
                     }
                 }
-
                 viewModel.onDoneSetSpotFree()
             }
         })

@@ -63,6 +63,7 @@ class LoginViewModel(application: Application): AndroidViewModel(application) {
                             group = group,
                             serverID = serverID,
                             serverKey = serverKey)
+
                         insertInfo(info)
                     }
                 }
@@ -73,6 +74,12 @@ class LoginViewModel(application: Application): AndroidViewModel(application) {
     fun onClear(){
         uiScope.launch {
             deleteInfo()
+        }
+    }
+
+    fun onUpdate(info: Info){
+        uiScope.launch {
+            updateInfo(info)
         }
     }
 
@@ -88,9 +95,11 @@ class LoginViewModel(application: Application): AndroidViewModel(application) {
         }
     }
 
-
-
-
+    private suspend fun updateInfo(info: Info){
+        withContext(Dispatchers.IO){
+            repository.updateInfo(info)
+        }
+    }
 
     private val _navigateToMainFrag = MutableLiveData<Boolean>()
     val navigateToMainFrag: LiveData<Boolean> = _navigateToMainFrag

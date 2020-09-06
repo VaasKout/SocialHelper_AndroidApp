@@ -125,14 +125,16 @@ class RegistrationFragment : Fragment(){
                 var referenceNumber = 0
                 var info = Info(
                     id = 1, name = userName, surname = surname,
-                    password = password, group = category, login = login
+                    password = password, group = category,
+                    login = login, wasLoggedIn = false
                 )
 
                 if (number.isVisible) {
                     info = Info(
                         id = 1, name = userName, surname = surname,
                         password = password, group = category,
-                        reference = numberEdit.toInt(), login = login
+                        reference = numberEdit.toInt(),
+                        login = login, wasLoggedIn = false
                     )
                     referenceNumber = numberEdit.toInt()
                 }

@@ -59,8 +59,7 @@
                     android:id="@+id/text_input_user_edit_reg"
                     android:layout_width="match_parent"
                     android:layout_height="wrap_content"
-                    android:inputType="textPersonName"
-                    android:text="@{viewModel.allInfo.name}"/>
+                    android:inputType="textPersonName" />
 
             </com.google.android.material.textfield.TextInputLayout>
 
@@ -86,7 +85,6 @@
                     android:layout_height="wrap_content"
                     android:hint="@string/surname"
                     android:inputType="textPersonName"
-                    android:text="@{viewModel.allInfo.surname}"
                     />
             </com.google.android.material.textfield.TextInputLayout>
 
@@ -156,8 +154,7 @@
                     android:layout_width="match_parent"
                     android:layout_height="wrap_content"
                     android:hint="@string/password_input_hint"
-                    android:inputType="numberPassword"
-                    android:text="@{viewModel.allInfo.password}" />
+                    android:inputType="numberPassword"/>
 
             </com.google.android.material.textfield.TextInputLayout>
 
@@ -258,8 +255,7 @@
                     android:id="@+id/expose_down_menu"
                     android:layout_width="match_parent"
                     android:layout_height="wrap_content"
-                    android:inputType="none"
-                    android:text="@{viewModel.allInfo.group}" />
+                    android:inputType="none"/>
             </com.google.android.material.textfield.TextInputLayout>
 
             <com.google.android.material.button.MaterialButton

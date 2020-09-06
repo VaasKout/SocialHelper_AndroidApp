@@ -8,6 +8,7 @@ import android.view.animation.AnimationUtils
 import androidx.core.content.ContextCompat
 import androidx.databinding.DataBindingUtil
 import androidx.fragment.app.Fragment
+import androidx.lifecycle.ViewModelProvider
 import androidx.lifecycle.lifecycleScope
 import androidx.navigation.fragment.findNavController
 import com.example.socialhelper.R
@@ -23,17 +24,16 @@ class IntroFragment : Fragment() {
         val binding: FragmentIntroBinding =
             DataBindingUtil.inflate(inflater, R.layout.fragment_intro, container, false)
 
-        /**
-         * make fade anim from 1 to 0 in 1 sec and back
-         */
+        val viewModel = ViewModelProvider(this)
+            .get(IntroViewModel::class.java)
 
         val appear =
             AnimationUtils.loadAnimation(requireContext(), R.anim.fade_in)
 
-
-
         val wordList =
             listOf(binding.welcome1, binding.welcome2, binding.welcome3, binding.welcome4)
+        val categoryList
+                = resources.getStringArray(R.array.category)
 
 
         lifecycleScope.launch {
@@ -44,6 +44,33 @@ class IntroFragment : Fragment() {
                     delay(appear.duration)
                     i.clearAnimation()
             }
+            delay(appear.duration)
+            viewModel.allInfo.observe(viewLifecycleOwner, {
+                if (it == null || !it.wasLoggedIn){
+                    this@IntroFragment.findNavController()
+                        .navigate(IntroFragmentDirections.
+                    actionIntroFragmentToLoginFragment())
+                }
+                if (it != null && it.wasLoggedIn){
+                    when(it.group){
+                        categoryList[0] -> {
+                           this@IntroFragment.findNavController()
+                               .navigate(IntroFragmentDirections
+                                   .actionIntroFragmentToDisabledFragment())
+                        }
+                        categoryList[1] -> {
+                            this@IntroFragment.findNavController()
+                                .navigate(IntroFragmentDirections
+                                    .actionIntroFragmentToPregnantFragment())
+                        }
+                        categoryList[2] -> {
+                            this@IntroFragment.findNavController()
+                                .navigate(IntroFragmentDirections
+                                    .actionIntroFragmentToSocialFragment())
+                        }
+                    }
+                }
+            })
 
         }
 
