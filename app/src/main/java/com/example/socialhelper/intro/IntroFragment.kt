@@ -45,47 +45,39 @@ class IntroFragment : Fragment() {
                     i.clearAnimation()
             }
             delay(appear.duration)
-            viewModel.allInfo.observe(viewLifecycleOwner, {
-                if (it == null || !it.wasLoggedIn){
-                    this@IntroFragment.findNavController()
-                        .navigate(IntroFragmentDirections.
-                    actionIntroFragmentToLoginFragment())
-                }
-                if (it != null && it.wasLoggedIn){
-                    when(it.group){
-                        categoryList[0] -> {
-                           this@IntroFragment.findNavController()
-                               .navigate(IntroFragmentDirections
-                                   .actionIntroFragmentToDisabledFragment())
-                        }
-                        categoryList[1] -> {
-                            this@IntroFragment.findNavController()
-                                .navigate(IntroFragmentDirections
-                                    .actionIntroFragmentToPregnantFragment())
-                        }
-                        categoryList[2] -> {
-                            this@IntroFragment.findNavController()
-                                .navigate(IntroFragmentDirections
-                                    .actionIntroFragmentToSocialFragment())
-                        }
-                    }
-                }
-            })
-
+            this@IntroFragment.findNavController()
+                .navigate(IntroFragmentDirections.actionIntroFragmentToDisabledMaps())
         }
 
 
 
-//           delay(600)
-//           this@IntroFragment
-//               .findNavController()
-//               .navigate(IntroFragmentDirections.actionIntroFragmentToPregnantFragment())
-//        }
 
-//            delay(600)
-//            this@IntroFragment.findNavController()
-//                .navigate(IntroFragmentDirections.actionIntroFragmentToLoginFragment())
+//        viewModel.allInfo.observe(viewLifecycleOwner, {
+//                if (it == null || !it.wasLoggedIn){
+//                    this@IntroFragment.findNavController()
+//                        .navigate(IntroFragmentDirections.
+//                    actionIntroFragmentToLoginFragment())
 //                }
+//                if (it != null && it.wasLoggedIn){
+//                    when(it.group){
+//                        categoryList[0] -> {
+//                           this@IntroFragment.findNavController()
+//                               .navigate(IntroFragmentDirections
+//                                   .actionIntroFragmentToDisabledFragment())
+//                        }
+//                        categoryList[1] -> {
+//                            this@IntroFragment.findNavController()
+//                                .navigate(IntroFragmentDirections
+//                                    .actionIntroFragmentToPregnantFragment())
+//                        }
+//                        categoryList[2] -> {
+//                            this@IntroFragment.findNavController()
+//                                .navigate(IntroFragmentDirections
+//                                    .actionIntroFragmentToSocialFragment())
+//                        }
+//                    }
+//                }
+//            })
 
         return binding.root
     }

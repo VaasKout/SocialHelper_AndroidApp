@@ -142,5 +142,13 @@
             app:popExitAnim="@anim/slide_in_left_next"
             app:popUpTo="@id/introFragment"
             app:popUpToInclusive="true" />
+        <action
+            android:id="@+id/action_introFragment_to_disabledMaps"
+            app:destination="@id/disabledMaps" />
     </fragment>
+    <fragment
+        android:id="@+id/disabledMaps"
+        android:name="com.example.socialhelper.disabled.DisabledMaps"
+        android:label="fragment_disabled_maps"
+        tools:layout="@layout/fragment_disabled_maps" />
 </navigation>
