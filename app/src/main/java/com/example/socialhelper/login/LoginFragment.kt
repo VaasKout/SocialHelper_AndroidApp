@@ -1,6 +1,7 @@
 package com.example.socialhelper.login
 
 import android.os.Bundle
+import android.util.Log
 import androidx.fragment.app.Fragment
 import android.view.LayoutInflater
 import android.view.View
@@ -12,6 +13,7 @@ import com.example.socialhelper.R
 import com.example.socialhelper.database.Info
 import com.example.socialhelper.databinding.FragmentLoginBinding
 import com.google.android.material.snackbar.Snackbar
+import kotlinx.coroutines.delay
 import kotlinx.coroutines.launch
 
 class LoginFragment : Fragment() {
@@ -25,55 +27,81 @@ class LoginFragment : Fragment() {
             ViewModelProvider(this).get(LoginViewModel::class.java)
         binding.loginViewModel = loginViewModel
         val categoryList = resources.getStringArray(R.array.category)
+        loginViewModel.onDoneNavigationToMain()
 
-            loginViewModel.navigateToMainFrag.observe(viewLifecycleOwner, {
-            val userInput = binding.userInputEditText.text.toString()
-            val passwordInput = binding.passwordInputEditText.text.toString()
 
-            binding.userTextInput.error = null
-            binding.passwordTextInput.error = null
+        loginViewModel.navigateToMainFrag.observe(viewLifecycleOwner, {
+            if (it == true) {
+                val userInput = binding.userInputEditText.text.toString()
+                val passwordInput = binding.passwordInputEditText.text.toString()
 
-            if (userInput.isEmpty()){
-                binding.userTextInput.error = getString(R.string.user_input_error)}
-            if (passwordInput.isEmpty()){
-                binding.passwordTextInput.error = getString(R.string.password_input_error)}
+                binding.userTextInput.error = null
+                binding.passwordTextInput.error = null
 
-            if (it == true &&
-                userInput.isNotEmpty() &&
-                passwordInput.isNotEmpty()) {
+                if (userInput.isEmpty()) {
+                    lifecycleScope.launch {
+                        binding.userTextInput.error = getString(R.string.user_input_error)
+                        delay(3000)
+                        binding.userTextInput.error = null
+                    }
 
-                loginViewModel.login = userInput
-                loginViewModel.password = passwordInput.toInt()
+                }
+                if (passwordInput.isEmpty()) {
+                    lifecycleScope.launch {
+                        binding.passwordTextInput.error = getString(R.string.password_input_error)
+                        delay(3000)
+                        binding.passwordTextInput.error = null
+                    }
+                }
 
-                loginViewModel.allInfo.observe(viewLifecycleOwner, {info ->
+                if (userInput.isNotEmpty() &&
+                    passwordInput.isNotEmpty()
+                ) {
+
+                    loginViewModel.login = userInput
+                    loginViewModel.password = passwordInput.toInt()
+                    Log.e("password", loginViewModel.password.toString())
+                    loginViewModel.allInfo.observe(viewLifecycleOwner, { info ->
 
                         lifecycleScope.launch {
-                            if (info == null){
-                            loginViewModel.connectToServer()
-                            loginViewModel.requestServer()
-                            if (!loginViewModel.readWrite.socket.isConnected){
-                                Snackbar.make(binding.loginNextButton,
-                                    getString(R.string.retry_later),
-                                    Snackbar.LENGTH_SHORT).show()
-                            } else if (loginViewModel.check == 0){
-                                binding.userTextInput.error = getString(R.string.wrong_login_or_password)
-                                binding.passwordTextInput.error = getString(R.string.wrong_login_or_password)
+                            if (info == null) {
+                                loginViewModel.connectToServer()
+                                loginViewModel.requestServer()
+                                if (!loginViewModel.readWrite.socket.isConnected) {
+                                    Snackbar.make(
+                                        binding.loginNextButton,
+                                        getString(R.string.retry_later),
+                                        Snackbar.LENGTH_SHORT
+                                    ).show()
+                                    loginViewModel.onDoneNavigationToMain()
+                                } else if (loginViewModel.serverID <= 0 &&
+                                    loginViewModel.serverKey <= 0
+                                ) {
+                                    binding.userTextInput.error =
+                                        getString(R.string.wrong_login_or_password)
+                                    binding.passwordTextInput.error =
+                                        getString(R.string.wrong_login_or_password)
+                                    loginViewModel.onDoneNavigationToMain()
+                                }
                             }
-                        }
-                            if (info != null){
+                            if (info != null) {
                                 when {
                                     info.login != userInput -> {
-                                        binding.userTextInput.error = getString(R.string.wrong_login)
+                                        binding.userTextInput.error =
+                                            getString(R.string.wrong_login)
                                     }
                                     info.password != passwordInput -> {
-                                        binding.passwordTextInput.error = getString(R.string.wrong_password)
+                                        binding.passwordTextInput.error =
+                                            getString(R.string.wrong_password)
                                     }
                                     else -> {
-                                        when(info.group){
+                                        when (info.group) {
                                             categoryList[0] -> {
                                                 this@LoginFragment.findNavController()
-                                                    .navigate(LoginFragmentDirections.
-                                                    actionLoginFragmentToDisabledFragment())
+                                                    .navigate(
+                                                        LoginFragmentDirections
+                                                            .actionLoginFragmentToDisabledFragment()
+                                                    )
 
                                                 val infoInstance = Info(
                                                     id = 1,
@@ -84,14 +112,17 @@ class LoginFragment : Fragment() {
                                                     group = info.group,
                                                     serverID = info.serverID,
                                                     serverKey = info.serverKey,
-                                                    wasLoggedIn = true)
+                                                    wasLoggedIn = true
+                                                )
                                                 loginViewModel.onUpdate(infoInstance)
                                                 loginViewModel.onDoneNavigationToMain()
                                             }
                                             categoryList[1] -> {
                                                 this@LoginFragment.findNavController()
-                                                    .navigate(LoginFragmentDirections
-                                                        .actionLoginFragmentToPregnantFragment())
+                                                    .navigate(
+                                                        LoginFragmentDirections
+                                                            .actionLoginFragmentToPregnantFragment()
+                                                    )
 
                                                 val infoInstance = Info(
                                                     id = 1,
@@ -102,15 +133,18 @@ class LoginFragment : Fragment() {
                                                     group = info.group,
                                                     serverID = info.serverID,
                                                     serverKey = info.serverKey,
-                                                    wasLoggedIn = true)
+                                                    wasLoggedIn = true
+                                                )
 
                                                 loginViewModel.onUpdate(infoInstance)
                                                 loginViewModel.onDoneNavigationToMain()
                                             }
                                             categoryList[2] -> {
                                                 this@LoginFragment.findNavController()
-                                                    .navigate(LoginFragmentDirections
-                                                        .actionLoginFragmentToSocialFragment())
+                                                    .navigate(
+                                                        LoginFragmentDirections
+                                                            .actionLoginFragmentToSocialFragment()
+                                                    )
 
                                                 val infoInstance = Info(
                                                     id = 1,
@@ -121,7 +155,8 @@ class LoginFragment : Fragment() {
                                                     group = info.group,
                                                     serverID = info.serverID,
                                                     serverKey = info.serverKey,
-                                                    wasLoggedIn = true)
+                                                    wasLoggedIn = true
+                                                )
                                                 loginViewModel.onUpdate(infoInstance)
                                                 loginViewModel.onDoneNavigationToMain()
                                             }
@@ -132,10 +167,11 @@ class LoginFragment : Fragment() {
                         }
                     })
                 }
-            })
+            }
+        })
 
         loginViewModel.navigateToSignInFrag.observe(viewLifecycleOwner, {
-            if (it == true){
+            if (it == true) {
                 loginViewModel.onClear()
                 this.findNavController()
                     .navigate(LoginFragmentDirections.actionLoginFragmentToRegistrationFragment())

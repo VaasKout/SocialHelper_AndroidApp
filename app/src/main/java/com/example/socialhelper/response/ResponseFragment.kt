@@ -15,7 +15,6 @@ import com.example.socialhelper.databinding.FragmentResponceBinding
 class ResponseFragment : Fragment() {
 
 
-
     override fun onCreateView(
         inflater: LayoutInflater, container: ViewGroup?,
         savedInstanceState: Bundle?
@@ -26,13 +25,13 @@ class ResponseFragment : Fragment() {
             ViewModelProvider(this).get(ResponseViewModel::class.java)
         binding.viewModel = viewModel
 
-                viewModel.userInfo.observe(viewLifecycleOwner, {
-                    if (it.serverID == 0 || it.serverID == -1) {
-                        binding.respondText.text = getString(R.string.registration_denied)
-                    } else {
-                        binding.respondText.text = getString(R.string.positive_response)
-                    }
-                })
+        viewModel.userInfo.observe(viewLifecycleOwner, {
+            if (it.serverID <= 0) {
+                binding.respondText.text = getString(R.string.registration_denied)
+            } else {
+                binding.respondText.text = getString(R.string.positive_response)
+            }
+        })
 
 
 //        lifecycleScope.launch {

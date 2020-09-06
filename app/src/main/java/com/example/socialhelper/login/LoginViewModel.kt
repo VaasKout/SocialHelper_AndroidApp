@@ -11,15 +11,17 @@ import com.example.socialhelper.network.AndroidClient
 import com.example.socialhelper.repository.InfoRepository
 import kotlinx.coroutines.*
 
-class LoginViewModel(application: Application): AndroidViewModel(application) {
+class LoginViewModel(application: Application) : AndroidViewModel(application) {
 
-    val repository: InfoRepository
+    private val repository: InfoRepository
     var allInfo: LiveData<Info>
     val readWrite = AndroidClient()
 
     var login = ""
     var password = 0
-    var check = 0
+
+    var serverID = 0
+    var serverKey = 0
 
     private val viewModelJob = Job()
     private val uiScope = CoroutineScope(Dispatchers.Main + viewModelJob)
@@ -33,27 +35,26 @@ class LoginViewModel(application: Application): AndroidViewModel(application) {
         }
     }
 
-    suspend fun connectToServer(){
+    suspend fun connectToServer() {
         withContext(Dispatchers.IO) {
             readWrite.connectSocket("192.168.0.110", 9000)
         }
     }
 
-    suspend fun requestServer(){
+    suspend fun requestServer() {
         withContext(Dispatchers.IO) {
-            if (readWrite.socket != null && readWrite.socket.isConnected){
+            if (readWrite.socket != null && readWrite.socket.isConnected) {
                 readWrite.writeLine("loginPassword")
-                if (login.isNotEmpty() && password != 0){
+                if (login.isNotEmpty() && password > 0) {
                     readWrite.writeLoginPassword(login, password)
-                    check = readWrite.read()
 
-                    if (check != 0){
-                        val name = readWrite.readLine()
-                        val surname = readWrite.readLine()
-                        val group = readWrite.readLine()
-                        val serverID = readWrite.read()
-                        val serverKey = readWrite.read()
+                    val name = readWrite.readLine()
+                    val surname = readWrite.readLine()
+                    val group = readWrite.readLine()
+                    serverID = readWrite.read()
+                    serverKey = readWrite.read()
 
+                    if (serverID > 0 && serverKey > 0) {
                         val info = Info(
                             id = 1,
                             name = name,
@@ -62,7 +63,8 @@ class LoginViewModel(application: Application): AndroidViewModel(application) {
                             password = password.toString(),
                             group = group,
                             serverID = serverID,
-                            serverKey = serverKey)
+                            serverKey = serverKey
+                        )
 
                         insertInfo(info)
                     }
@@ -71,32 +73,32 @@ class LoginViewModel(application: Application): AndroidViewModel(application) {
         }
     }
 
-    fun onClear(){
+    fun onClear() {
         uiScope.launch {
             deleteInfo()
         }
     }
 
-    fun onUpdate(info: Info){
+    fun onUpdate(info: Info) {
         uiScope.launch {
             updateInfo(info)
         }
     }
 
-    private suspend fun deleteInfo(){
-        withContext(Dispatchers.IO){
+    private suspend fun deleteInfo() {
+        withContext(Dispatchers.IO) {
             repository.deleteInfo()
         }
     }
 
-    private suspend fun insertInfo(info: Info){
-        withContext(Dispatchers.IO){
+    private suspend fun insertInfo(info: Info) {
+        withContext(Dispatchers.IO) {
             repository.insert(info)
         }
     }
 
-    private suspend fun updateInfo(info: Info){
-        withContext(Dispatchers.IO){
+    private suspend fun updateInfo(info: Info) {
+        withContext(Dispatchers.IO) {
             repository.updateInfo(info)
         }
     }
@@ -107,16 +109,19 @@ class LoginViewModel(application: Application): AndroidViewModel(application) {
     private val _navigateToSignInFrag = MutableLiveData<Boolean>()
     val navigateToSignInFrag: LiveData<Boolean> = _navigateToSignInFrag
 
-    fun onStartNavigationToMain(){
+    fun onStartNavigationToMain() {
         _navigateToMainFrag.value = true
     }
-    fun onDoneNavigationToMain(){
+
+    fun onDoneNavigationToMain() {
         _navigateToMainFrag.value = false
     }
-    fun onStartNavigationToSign(){
+
+    fun onStartNavigationToSign() {
         _navigateToSignInFrag.value = true
     }
-    fun onDoneNavigationToSign(){
+
+    fun onDoneNavigationToSign() {
         _navigateToSignInFrag.value = false
     }
 

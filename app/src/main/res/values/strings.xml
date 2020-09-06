@@ -32,7 +32,7 @@
     <string name="confirm_password">Подтвердите пароль</string>
     <string name="enter_name_surname">Введите имя и фамилию:</string>
     <string name="enter_login_password">Введите логин и пароль:</string>
-    <string name="enter_category">Введите категорию:</string>
+    <string name="enter_category">Выберите категорию:</string>
     <string name="wrong_login">Неверный логин</string>
     <string name="wrong_password">Неверный пароль</string>
     <string name="wrong_login_or_password">Неверный логин или пароль</string>
