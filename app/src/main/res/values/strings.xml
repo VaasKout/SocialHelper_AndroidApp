@@ -42,6 +42,7 @@
     <string name="registration">Регистрация</string>
     <string name="clear_fields">Удалить поля</string>
     <string name="exit">Выйти</string>
+    <string name="register">Зарегистрироваться</string>
     <string-array name="category">
         <item>Инвалид</item>
         <item>Беременная</item>

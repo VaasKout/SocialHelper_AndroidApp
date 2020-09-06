@@ -53,18 +53,6 @@ class RegistrationViewModel(application: Application): AndroidViewModel(applicat
         }
     }
 
-    fun onClear(){
-        uiScope.launch {
-            deleteInfo()
-        }
-    }
-
-    private suspend fun deleteInfo(){
-        withContext(Dispatchers.IO){
-            repository.deleteInfo()
-        }
-    }
-
     fun onUpdate(info: Info){
         uiScope.launch {
             updateInfo(info)

@@ -131,7 +131,7 @@ class RegistrationFragment : Fragment(){
                 }
 
             if (userName.isNotEmpty() &&
-                password.isNotEmpty() &&
+                (password.isNotEmpty() && password.length <= 8) &&
                 passwordConfirm.isNotEmpty() &&
                 login.isNotEmpty() &&
                 category.isNotEmpty() &&
@@ -139,21 +139,19 @@ class RegistrationFragment : Fragment(){
                 number.error.isNullOrEmpty() &&
                 password == passwordConfirm
             ) {
-
                 var referenceNumber = 0
                 var info = Info(
                     id = 1, name = userName, surname = surname,
                     password = password, group = category,
-                    login = login, wasLoggedIn = false
-                )
+                    login = login, wasLoggedIn = false)
 
                 if (number.isVisible) {
                     info = Info(
                         id = 1, name = userName, surname = surname,
                         password = password, group = category,
                         reference = numberEdit.toInt(),
-                        login = login, wasLoggedIn = false
-                    )
+                        login = login, wasLoggedIn = false)
+
                     referenceNumber = numberEdit.toInt()
                 }
 
@@ -186,8 +184,8 @@ class RegistrationFragment : Fragment(){
                                     serverID = viewModel.serverId,
                                     serverKey = viewModel.serverKey,
                                     login = login,
-                                    reference = referenceNumber
-                                )
+                                    reference = referenceNumber)
+
                                 viewModel.onUpdate(info)
                                 Log.e("serverID", viewModel.serverId.toString())
                                 Log.e("serverKey", viewModel.serverKey.toString())
