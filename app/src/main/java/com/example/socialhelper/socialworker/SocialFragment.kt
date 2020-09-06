@@ -5,7 +5,14 @@ import androidx.fragment.app.Fragment
 import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
+import androidx.databinding.DataBindingUtil
+import androidx.lifecycle.ViewModelProvider
+import androidx.navigation.fragment.findNavController
 import com.example.socialhelper.R
+import com.example.socialhelper.databinding.FragmentSocialBinding
+import com.example.socialhelper.disabled.DisabledViewModel
+import com.example.socialhelper.pregnant.PregnantFragmentDirections
+import com.google.android.material.dialog.MaterialAlertDialogBuilder
 
 class SocialFragment : Fragment() {
 
@@ -13,7 +20,31 @@ class SocialFragment : Fragment() {
         inflater: LayoutInflater, container: ViewGroup?,
         savedInstanceState: Bundle?
     ): View? {
+        val binding: FragmentSocialBinding = DataBindingUtil
+            .inflate(inflater, R.layout.fragment_social, container, false)
+        val viewModel =
+            ViewModelProvider(this).get(SocialViewModel::class.java)
+        binding.viewModel = viewModel
         // Inflate the layout for this fragment
-        return inflater.inflate(R.layout.fragment_social, container, false)
+
+        viewModel.exit.observe(viewLifecycleOwner, {
+            if (it == true){
+                MaterialAlertDialogBuilder(requireContext())
+                    .setMessage("Выйти из аккаунта")
+                    .setNegativeButton("Нет") { _, _ ->
+                        viewModel.onDoneExit()
+                    }
+                    .setPositiveButton("Да") { _, _ ->
+                        this.findNavController()
+                            .navigate(
+                                PregnantFragmentDirections
+                                    .actionPregnantFragmentToLoginFragment())
+                        viewModel.onDoneExit()
+                    }.show()
+            }
+        })
+
+        binding.lifecycleOwner = this
+        return binding.root
     }
 }

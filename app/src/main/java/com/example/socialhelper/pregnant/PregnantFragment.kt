@@ -10,8 +10,10 @@ import androidx.fragment.app.Fragment
 import androidx.lifecycle.ViewModelProvider
 import androidx.lifecycle.lifecycleScope
 import androidx.lifecycle.whenStarted
+import androidx.navigation.fragment.findNavController
 import com.example.socialhelper.R
 import com.example.socialhelper.databinding.FragmentPregnantBinding
+import com.google.android.material.dialog.MaterialAlertDialogBuilder
 import com.google.android.material.snackbar.Snackbar
 import kotlinx.coroutines.launch
 
@@ -56,6 +58,23 @@ class PregnantFragment : Fragment() {
                     }
                 }
                 viewModel.onDoneSetSpotFree()
+            }
+        })
+
+
+        viewModel.exit.observe(viewLifecycleOwner, {
+            if (it == true){
+                MaterialAlertDialogBuilder(requireContext())
+                    .setMessage("Выйти из приложения?")
+                    .setNegativeButton("Нет") { _, _ ->
+                        viewModel.onDoneExit()
+                    }
+                    .setPositiveButton("Да") { _, _ ->
+                        this.findNavController()
+                            .navigate(PregnantFragmentDirections
+                                .actionPregnantFragmentToLoginFragment())
+                        viewModel.onDoneExit()
+                    }.show()
             }
         })
 

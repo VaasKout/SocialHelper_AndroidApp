@@ -38,14 +38,32 @@ class RegistrationFragment : Fragment(){
         val categoryList = resources.getStringArray(R.array.category)
         viewModel.onDoneNavigating()
 
-        /**
-         * Handle Server Request
-         */
+        binding.toolbarReg.setNavigationOnClickListener {
+            this.findNavController().popBackStack()
+        }
+        binding.toolbarReg.setOnMenuItemClickListener{menuItem ->
+            if (menuItem.itemId == R.id.clear){
+                MaterialAlertDialogBuilder(requireContext())
+                    .setMessage("Очистить поля ввода?")
+                    .setNegativeButton("Нет") { _, _ ->
+                    }
+                    .setPositiveButton("Да") { _, _ ->
+                        binding.textInputUserEditReg.setText("")
+                        binding.textInputPassEditReg.setText("")
+                        binding.confirmPasswordEdit.setText("")
+                        binding.exposeDownMenu.setText("")
+                        binding.numberReferenceInputEdit.setText("")
+                        binding.surnameEditInput.setText("")
+                        binding.loginEdit.setText("")
+                        binding.numberReference.visibility = View.GONE
+                    }.show()
+                true
+            } else false
+        }
 
         viewModel.navigateToWait.observe(viewLifecycleOwner, {
 
             if (it == true) {
-
             val userName = binding.textInputUserEditReg.text.toString()
             val password = binding.textInputPassEditReg.text.toString()
             val passwordConfirm = binding.confirmPasswordEdit.text.toString()
@@ -144,6 +162,7 @@ class RegistrationFragment : Fragment(){
                 MaterialAlertDialogBuilder(requireContext())
                     .setMessage("Данные введены верно?")
                     .setNegativeButton("Нет") { _, _ ->
+                        viewModel.onDoneNavigating()
                     }
                     .setPositiveButton("Да") { _, _ ->
 
@@ -181,9 +200,9 @@ class RegistrationFragment : Fragment(){
                             }
                         }
                     }.show()
+                }
             }
-        }
-                 })
+        })
 
         /**
          * DropDownMenu
@@ -212,7 +231,6 @@ class RegistrationFragment : Fragment(){
                 }
             }
         }
-
 
         binding.lifecycleOwner = this
         return binding.root

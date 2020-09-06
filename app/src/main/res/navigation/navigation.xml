@@ -14,9 +14,7 @@
             app:destination="@id/responseFragment"
             app:popUpTo="@id/loginFragment"
             app:enterAnim="@anim/slide_in_right"
-            app:exitAnim="@anim/slide_in_right_next"
-            app:popEnterAnim="@anim/slide_in_left"
-            app:popExitAnim="@anim/slide_in_left_next"/>
+            app:exitAnim="@anim/slide_in_right_next"/>
     </fragment>
     <fragment
         android:id="@+id/pregnantFragment"
@@ -25,7 +23,11 @@
         tools:layout="@layout/fragment_pregnant">
         <action
             android:id="@+id/action_pregnantFragment_to_loginFragment"
-            app:destination="@id/loginFragment" />
+            app:destination="@id/loginFragment"
+            app:popUpTo="@id/pregnantFragment"
+            app:popUpToInclusive="true"
+            app:enterAnim="@anim/slide_in_right"
+            app:exitAnim="@anim/slide_in_right_next" />
     </fragment>
     <fragment
         android:id="@+id/loginFragment"
@@ -75,7 +77,11 @@
         tools:layout="@layout/fragment_disabled">
         <action
             android:id="@+id/action_disabledFragment_to_loginFragment"
-            app:destination="@id/loginFragment" />
+            app:destination="@id/loginFragment"
+            app:popUpTo="@id/disabledFragment"
+            app:popUpToInclusive="true"
+            app:enterAnim="@anim/slide_in_right"
+            app:exitAnim="@anim/slide_in_right_next"/>
     </fragment>
     <fragment
         android:id="@+id/socialFragment"
@@ -84,7 +90,11 @@
         tools:layout="@layout/fragment_social">
         <action
             android:id="@+id/action_socialFragment_to_loginFragment"
-            app:destination="@id/loginFragment" />
+            app:destination="@id/loginFragment"
+            app:popUpTo="@id/socialFragment"
+            app:popUpToInclusive="true"
+            app:enterAnim="@anim/slide_in_right"
+            app:exitAnim="@anim/slide_in_right_next"/>
     </fragment>
     <fragment
         android:id="@+id/responseFragment"
