@@ -29,7 +29,6 @@ class LoginFragment : Fragment() {
         val categoryList = resources.getStringArray(R.array.category)
         loginViewModel.onDoneNavigationToMain()
 
-
         loginViewModel.navigateToMainFrag.observe(viewLifecycleOwner, {
             if (it == true) {
                 val userInput = binding.userInputEditText.text.toString()
@@ -55,12 +54,10 @@ class LoginFragment : Fragment() {
                 }
 
                 if (userInput.isNotEmpty() &&
-                    passwordInput.isNotEmpty()
-                ) {
+                    passwordInput.isNotEmpty()) {
 
                     loginViewModel.login = userInput
                     loginViewModel.password = passwordInput.toInt()
-                    Log.e("password", loginViewModel.password.toString())
                     loginViewModel.allInfo.observe(viewLifecycleOwner, { info ->
 
                         lifecycleScope.launch {
@@ -71,12 +68,11 @@ class LoginFragment : Fragment() {
                                     Snackbar.make(
                                         binding.loginNextButton,
                                         getString(R.string.retry_later),
-                                        Snackbar.LENGTH_SHORT
-                                    ).show()
+                                        Snackbar.LENGTH_SHORT).show()
+
                                     loginViewModel.onDoneNavigationToMain()
                                 } else if (loginViewModel.serverID <= 0 &&
-                                    loginViewModel.serverKey <= 0
-                                ) {
+                                            loginViewModel.serverKey <= 0) {
                                     binding.userTextInput.error =
                                         getString(R.string.wrong_login_or_password)
                                     binding.passwordTextInput.error =
@@ -97,12 +93,6 @@ class LoginFragment : Fragment() {
                                     else -> {
                                         when (info.group) {
                                             categoryList[0] -> {
-                                                this@LoginFragment.findNavController()
-                                                    .navigate(
-                                                        LoginFragmentDirections
-                                                            .actionLoginFragmentToDisabledFragment()
-                                                    )
-
                                                 val infoInstance = Info(
                                                     id = 1,
                                                     name = info.name,
@@ -112,17 +102,16 @@ class LoginFragment : Fragment() {
                                                     group = info.group,
                                                     serverID = info.serverID,
                                                     serverKey = info.serverKey,
-                                                    wasLoggedIn = true
-                                                )
+                                                    wasLoggedIn = true)
                                                 loginViewModel.onUpdate(infoInstance)
+
+                                                this@LoginFragment.findNavController()
+                                                    .navigate(
+                                                        LoginFragmentDirections
+                                                            .actionLoginFragmentToDisabledFragment())
                                                 loginViewModel.onDoneNavigationToMain()
                                             }
                                             categoryList[1] -> {
-                                                this@LoginFragment.findNavController()
-                                                    .navigate(
-                                                        LoginFragmentDirections
-                                                            .actionLoginFragmentToPregnantFragment()
-                                                    )
 
                                                 val infoInstance = Info(
                                                     id = 1,
@@ -133,18 +122,16 @@ class LoginFragment : Fragment() {
                                                     group = info.group,
                                                     serverID = info.serverID,
                                                     serverKey = info.serverKey,
-                                                    wasLoggedIn = true
-                                                )
-
+                                                    wasLoggedIn = true)
                                                 loginViewModel.onUpdate(infoInstance)
+
+                                                this@LoginFragment.findNavController()
+                                                    .navigate(
+                                                        LoginFragmentDirections
+                                                            .actionLoginFragmentToPregnantFragment())
                                                 loginViewModel.onDoneNavigationToMain()
                                             }
                                             categoryList[2] -> {
-                                                this@LoginFragment.findNavController()
-                                                    .navigate(
-                                                        LoginFragmentDirections
-                                                            .actionLoginFragmentToSocialFragment()
-                                                    )
 
                                                 val infoInstance = Info(
                                                     id = 1,
@@ -155,9 +142,13 @@ class LoginFragment : Fragment() {
                                                     group = info.group,
                                                     serverID = info.serverID,
                                                     serverKey = info.serverKey,
-                                                    wasLoggedIn = true
-                                                )
+                                                    wasLoggedIn = true)
                                                 loginViewModel.onUpdate(infoInstance)
+
+                                                this@LoginFragment.findNavController()
+                                                    .navigate(
+                                                        LoginFragmentDirections
+                                                            .actionLoginFragmentToSocialFragment())
                                                 loginViewModel.onDoneNavigationToMain()
                                             }
                                         }

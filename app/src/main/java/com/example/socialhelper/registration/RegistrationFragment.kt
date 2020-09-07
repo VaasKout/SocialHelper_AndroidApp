@@ -36,6 +36,7 @@ class RegistrationFragment : Fragment(){
             ViewModelProvider(this).get(RegistrationViewModel::class.java)
         binding.viewModel = viewModel
         val categoryList = resources.getStringArray(R.array.category)
+
         viewModel.onDoneNavigating()
 
         binding.toolbarReg.setNavigationOnClickListener {
@@ -137,9 +138,10 @@ class RegistrationFragment : Fragment(){
                 category.isNotEmpty() &&
                 surname.isNotEmpty() &&
                 number.error.isNullOrEmpty() &&
-                password == passwordConfirm
-            ) {
+                password == passwordConfirm) {
+
                 var referenceNumber = 0
+
                 var info = Info(
                     id = 1, name = userName, surname = surname,
                     password = password, group = category,
@@ -167,7 +169,7 @@ class RegistrationFragment : Fragment(){
                         lifecycleScope.launch {
                             viewModel.connectToServer()
                             viewModel.requestServer()
-                            if (!viewModel.readWrite.socket.isConnected && viewModel.serverId == 0) {
+                            if (!viewModel.readWrite.socket.isConnected) {
                                 Snackbar.make(
                                     binding.materialButton,
                                     getString(R.string.retry_later),
@@ -219,12 +221,10 @@ class RegistrationFragment : Fragment(){
             when(adapterView.getItemAtPosition(position).toString()){
                 categoryList[0], categoryList[2] -> {
                     binding.numberReference.visibility = View.GONE
-                    binding.numberReferenceInputEdit.visibility = View.GONE
                     binding.exposeDownMenu.error = null
                 }
                 else -> {
                     binding.numberReference.visibility = View.VISIBLE
-                    binding.numberReferenceInputEdit.visibility = View.VISIBLE
                     binding.exposeDownMenu.error = null
                 }
             }

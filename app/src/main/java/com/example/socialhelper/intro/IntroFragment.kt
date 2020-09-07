@@ -44,40 +44,40 @@ class IntroFragment : Fragment() {
                     delay(appear.duration)
                     i.clearAnimation()
             }
+
             delay(appear.duration)
-            this@IntroFragment.findNavController()
-                .navigate(IntroFragmentDirections.actionIntroFragmentToDisabledMaps())
+            viewModel.allInfo.observe(viewLifecycleOwner, {
+                if (it == null || !it.wasLoggedIn){
+                    this@IntroFragment.findNavController()
+                        .navigate(IntroFragmentDirections.
+                        actionIntroFragmentToLoginFragment())
+                }
+                if (it != null && it.wasLoggedIn){
+                    when(it.group){
+                        categoryList[0] -> {
+                            this@IntroFragment.findNavController()
+                                .navigate(IntroFragmentDirections
+                                    .actionIntroFragmentToDisabledFragment())
+                        }
+                        categoryList[1] -> {
+                            this@IntroFragment.findNavController()
+                                .navigate(IntroFragmentDirections
+                                    .actionIntroFragmentToPregnantFragment())
+                        }
+                        categoryList[2] -> {
+                            this@IntroFragment.findNavController()
+                                .navigate(IntroFragmentDirections
+                                    .actionIntroFragmentToSocialFragment())
+                        }
+                    }
+                }
+            })
+
         }
 
-
-
-
-//        viewModel.allInfo.observe(viewLifecycleOwner, {
-//                if (it == null || !it.wasLoggedIn){
-//                    this@IntroFragment.findNavController()
-//                        .navigate(IntroFragmentDirections.
-//                    actionIntroFragmentToLoginFragment())
-//                }
-//                if (it != null && it.wasLoggedIn){
-//                    when(it.group){
-//                        categoryList[0] -> {
-//                           this@IntroFragment.findNavController()
-//                               .navigate(IntroFragmentDirections
-//                                   .actionIntroFragmentToDisabledFragment())
-//                        }
-//                        categoryList[1] -> {
-//                            this@IntroFragment.findNavController()
-//                                .navigate(IntroFragmentDirections
-//                                    .actionIntroFragmentToPregnantFragment())
-//                        }
-//                        categoryList[2] -> {
-//                            this@IntroFragment.findNavController()
-//                                .navigate(IntroFragmentDirections
-//                                    .actionIntroFragmentToSocialFragment())
-//                        }
-//                    }
-//                }
-//            })
+        //            delay(appear.duration)
+//            this@IntroFragment.findNavController()
+//                .navigate(IntroFragmentDirections.actionIntroFragmentToDisabledMaps())
 
         return binding.root
     }

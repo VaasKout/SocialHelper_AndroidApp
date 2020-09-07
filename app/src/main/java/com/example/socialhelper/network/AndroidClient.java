@@ -87,17 +87,21 @@ public class AndroidClient implements Closeable {
 
 
     //Writing userRegData as a consequence of three Strings
-    public void writeUserData(String userType, String name, String surname, int password) {
+    public void writeUserData(String userType, String name,
+                              String surname, String login, int password) {
         writeLine(userType);
         writeLine(name);
         writeLine(surname);
+        writeLine(login);
         write(password);
     }
 
-    public void writePregnantData(int number, String name, String surname, int password){
+    public void writePregnantData(int number, String name,
+                                  String surname, String login, int password){
         write(number);
         writeLine(name);
         writeLine(surname);
+        writeLine(login);
         write(password);
     }
 

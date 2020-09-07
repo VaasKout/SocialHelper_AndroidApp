@@ -1,6 +1,7 @@
 package com.example.socialhelper.login
 
 import android.app.Application
+import android.util.Log
 import androidx.lifecycle.AndroidViewModel
 import androidx.lifecycle.LiveData
 import androidx.lifecycle.MutableLiveData
@@ -31,8 +32,6 @@ class LoginViewModel(application: Application) : AndroidViewModel(application) {
         val infoDao = InfoDatabase.getDatabase(application).infoDao()
         repository = InfoRepository(infoDao)
         allInfo = repository.allInfo
-        allInfo.value?.let {
-        }
     }
 
     suspend fun connectToServer() {
@@ -54,6 +53,9 @@ class LoginViewModel(application: Application) : AndroidViewModel(application) {
                     serverID = readWrite.read()
                     serverKey = readWrite.read()
 
+                    Log.e("serverID", serverID.toString())
+                    Log.e("serverKey", serverKey.toString())
+
                     if (serverID > 0 && serverKey > 0) {
                         val info = Info(
                             id = 1,
@@ -65,7 +67,6 @@ class LoginViewModel(application: Application) : AndroidViewModel(application) {
                             serverID = serverID,
                             serverKey = serverKey
                         )
-
                         insertInfo(info)
                     }
                 }

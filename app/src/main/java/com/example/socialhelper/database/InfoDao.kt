@@ -5,7 +5,7 @@ import androidx.room.*
 
 @Dao
 interface InfoDao{
-    @Insert(onConflict = OnConflictStrategy.REPLACE)
+    @Insert(onConflict = OnConflictStrategy.IGNORE)
     suspend fun insert(info: Info)
     @Query("DELETE FROM user_info")
     suspend fun deleteInfo()
