@@ -33,7 +33,7 @@ class IntroFragment : Fragment() {
         val wordList =
             listOf(binding.welcome1, binding.welcome2, binding.welcome3, binding.welcome4)
         val categoryList
-                = resources.getStringArray(R.array.category)
+                = resources.getStringArray(R.array.categoryEng)
 
 
         lifecycleScope.launch {
@@ -54,17 +54,17 @@ class IntroFragment : Fragment() {
                 }
                 if (it != null && it.wasLoggedIn){
                     when(it.group){
-                        "wheelchair" -> {
+                        categoryList[0] -> {
                             this@IntroFragment.findNavController()
                                 .navigate(IntroFragmentDirections
                                     .actionIntroFragmentToDisabledFragment())
                         }
-                        "pregnant" -> {
+                        categoryList[1] -> {
                             this@IntroFragment.findNavController()
                                 .navigate(IntroFragmentDirections
                                     .actionIntroFragmentToPregnantFragment())
                         }
-                        "socialworker" -> {
+                        categoryList[2] -> {
                             this@IntroFragment.findNavController()
                                 .navigate(IntroFragmentDirections
                                     .actionIntroFragmentToSocialFragment())

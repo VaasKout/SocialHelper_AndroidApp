@@ -86,17 +86,12 @@ class RegistrationViewModel(application: Application): AndroidViewModel(applicat
     suspend fun requestServer(){
          withContext(Dispatchers.IO) {
             allInfo.value?.let {
-                    var s = ""
-                    when (it.group) {
-                        "Инвалид" -> s = "wheelchair"
-                        "Беременная" -> s = "pregnant"
-                        "Соц.работник" -> s = "socialworker"
-                    }
                     if (readWrite.socket != null && readWrite.socket.isConnected){
-                        if (s == "wheelchair" || s == "socialworker"){
+                        if (it.group == "wheelchair" || it.group == "socialworker"){
                             readWrite.writeLine("userRegData")
-                            readWrite.writeUserData(s, it.name, it.surname, it.login, it.password.toInt())
-                        } else if (s == "pregnant"){
+                            readWrite.writeUserData(it.group, it.name, it.surname,
+                                                    it.login, it.password.toInt())
+                        } else if (it.group == "pregnant"){
                             readWrite.writeLine("loginPregnant")
                             readWrite.writePregnantData(
                                 it.reference,

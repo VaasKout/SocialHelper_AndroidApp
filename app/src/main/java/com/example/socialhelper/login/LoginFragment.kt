@@ -20,15 +20,15 @@ class LoginFragment : Fragment() {
 
     override fun onCreateView(
         inflater: LayoutInflater, container: ViewGroup?,
-        savedInstanceState: Bundle?
-    ): View? {
+        savedInstanceState: Bundle?): View? {
+
         val binding = FragmentLoginBinding.inflate(inflater)
         val loginViewModel =
             ViewModelProvider(this).get(LoginViewModel::class.java)
         binding.loginViewModel = loginViewModel
-        loginViewModel.onDoneNavigationToMain()
 
-
+        val categoryList =
+            resources.getStringArray(R.array.categoryEng)
 
         loginViewModel.navigateToMainFrag.observe(viewLifecycleOwner, {
             if (it == true) {
@@ -41,6 +41,7 @@ class LoginFragment : Fragment() {
                 if (userInput.isEmpty()) {
                     lifecycleScope.launch {
                         binding.userTextInput.error = getString(R.string.user_input_error)
+                        loginViewModel.onDoneNavigationToMain()
                         delay(3000)
                         binding.userTextInput.error = null
                     }
@@ -49,6 +50,7 @@ class LoginFragment : Fragment() {
                 if (passwordInput.isEmpty()) {
                     lifecycleScope.launch {
                         binding.passwordTextInput.error = getString(R.string.password_input_error)
+                        loginViewModel.onDoneNavigationToMain()
                         delay(3000)
                         binding.passwordTextInput.error = null
                     }
@@ -70,20 +72,24 @@ class LoginFragment : Fragment() {
                                         binding.loginNextButton,
                                         getString(R.string.retry_later),
                                         Snackbar.LENGTH_SHORT).show()
-
                                     loginViewModel.onDoneNavigationToMain()
+
                                 } else if (loginViewModel.serverID <= 0 ||
                                             loginViewModel.serverKey <= 0) {
-                                    binding.userTextInput.error =
-                                        getString(R.string.wrong_login_or_password)
-                                    binding.passwordTextInput.error =
-                                        getString(R.string.wrong_login_or_password)
-                                    loginViewModel.onDoneNavigationToMain()
+                                    lifecycleScope.launch {
+                                        binding.userTextInput.error =
+                                            getString(R.string.wrong_login_or_password)
+                                        binding.passwordTextInput.error =
+                                            getString(R.string.wrong_login_or_password)
+                                        loginViewModel.onDoneNavigationToMain()
+
+                                        delay(3000)
+                                        binding.userTextInput.error = null
+                                        binding.passwordTextInput.error = null
+                                    }
                                 }
                             }
                             if (info != null) {
-
-
                                 when {
                                     info.login != userInput -> {
                                         binding.userTextInput.error =
@@ -96,7 +102,7 @@ class LoginFragment : Fragment() {
                                     else -> {
                                         Log.e("info", "info is not null")
                                         when (info.group) {
-                                            "wheelchair" -> {
+                                            categoryList[0] -> {
                                                 val infoInstance = Info(
                                                     id = 1,
                                                     name = info.name,
@@ -115,7 +121,7 @@ class LoginFragment : Fragment() {
                                                             .actionLoginFragmentToDisabledFragment())
                                                 loginViewModel.onDoneNavigationToMain()
                                             }
-                                            "pregnant" -> {
+                                            categoryList[1] -> {
                                                 Log.e("pregnant", "eee")
                                                 val infoInstance = Info(
                                                     id = 1,
@@ -135,7 +141,7 @@ class LoginFragment : Fragment() {
                                                             .actionLoginFragmentToPregnantFragment())
                                                 loginViewModel.onDoneNavigationToMain()
                                             }
-                                            "socialworker" -> {
+                                            categoryList[2] -> {
                                                 val infoInstance = Info(
                                                     id = 1,
                                                     name = info.name,

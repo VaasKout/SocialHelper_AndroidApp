@@ -48,4 +48,9 @@
         <item>Беременная</item>
         <item>Соц.работник</item>
     </string-array>
+    <string-array name="categoryEng">
+        <item>wheelchair</item>
+        <item>pregnant</item>
+        <item>socialworker</item>
+    </string-array>
 </resources>
