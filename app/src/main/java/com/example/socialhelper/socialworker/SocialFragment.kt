@@ -37,8 +37,8 @@ class SocialFragment : Fragment() {
                     .setPositiveButton("Да") { _, _ ->
                         this.findNavController()
                             .navigate(
-                                PregnantFragmentDirections
-                                    .actionPregnantFragmentToLoginFragment())
+                                SocialFragmentDirections
+                                    .actionSocialFragmentToLoginFragment())
                         viewModel.onDoneExit()
                     }.show()
             }

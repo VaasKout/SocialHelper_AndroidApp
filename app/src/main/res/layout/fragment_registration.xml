@@ -24,7 +24,7 @@
                 app:title="@string/registration"
                 app:menu="@menu/top_bar_reg"
                 app:navigationIcon="@drawable/ic_back_arrow"
-                style="@style/Widget.MaterialComponents.Toolbar.Primary"/>
+                style="@style/Widget.MaterialComponents.Toolbar.Primary" />
 
         </com.google.android.material.appbar.AppBarLayout>
 
@@ -74,13 +74,15 @@
                     app:errorEnabled="true"
                     app:layout_constraintEnd_toEndOf="parent"
                     app:layout_constraintStart_toStartOf="parent"
-                    app:layout_constraintTop_toBottomOf="@id/enter_name_surname">
+                    app:layout_constraintTop_toBottomOf="@id/enter_name_surname"
+                    >
 
                     <com.google.android.material.textfield.TextInputEditText
                         android:id="@+id/text_input_user_edit_reg"
                         android:layout_width="match_parent"
                         android:layout_height="wrap_content"
-                        android:inputType="textPersonName" />
+                        android:inputType="textPersonName"
+                        android:text="@{viewModel.allInfo.name}"/>
 
                 </com.google.android.material.textfield.TextInputLayout>
 
@@ -105,7 +107,8 @@
                         android:layout_width="match_parent"
                         android:layout_height="wrap_content"
                         android:hint="@string/surname"
-                        android:inputType="textPersonName" />
+                        android:inputType="textPersonName"
+                        android:text="@{viewModel.allInfo.surname}"/>
                 </com.google.android.material.textfield.TextInputLayout>
 
                 <TextView
@@ -146,7 +149,8 @@
                         android:id="@+id/loginEdit"
                         android:layout_width="match_parent"
                         android:layout_height="wrap_content"
-                        android:inputType="textPersonName" />
+                        android:inputType="textPersonName"
+                        android:text="@{viewModel.allInfo.login}"/>
 
                 </com.google.android.material.textfield.TextInputLayout>
 
@@ -174,7 +178,8 @@
                         android:layout_width="match_parent"
                         android:layout_height="wrap_content"
                         android:hint="@string/password_input_hint"
-                        android:inputType="numberPassword" />
+                        android:inputType="numberPassword"
+                        android:text="@{viewModel.allInfo.password}"/>
 
                 </com.google.android.material.textfield.TextInputLayout>
 

@@ -54,17 +54,17 @@ class IntroFragment : Fragment() {
                 }
                 if (it != null && it.wasLoggedIn){
                     when(it.group){
-                        categoryList[0] -> {
+                        "wheelchair" -> {
                             this@IntroFragment.findNavController()
                                 .navigate(IntroFragmentDirections
                                     .actionIntroFragmentToDisabledFragment())
                         }
-                        categoryList[1] -> {
+                        "pregnant" -> {
                             this@IntroFragment.findNavController()
                                 .navigate(IntroFragmentDirections
                                     .actionIntroFragmentToPregnantFragment())
                         }
-                        categoryList[2] -> {
+                        "socialworker" -> {
                             this@IntroFragment.findNavController()
                                 .navigate(IntroFragmentDirections
                                     .actionIntroFragmentToSocialFragment())

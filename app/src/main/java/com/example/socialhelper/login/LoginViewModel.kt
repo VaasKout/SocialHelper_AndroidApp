@@ -43,20 +43,28 @@ class LoginViewModel(application: Application) : AndroidViewModel(application) {
     suspend fun requestServer() {
         withContext(Dispatchers.IO) {
             if (readWrite.socket != null && readWrite.socket.isConnected) {
-                readWrite.writeLine("loginPassword")
+                readWrite.writeLine("login")
                 if (login.isNotEmpty() && password > 0) {
                     readWrite.writeLoginPassword(login, password)
 
-                    val name = readWrite.readLine()
-                    val surname = readWrite.readLine()
-                    val group = readWrite.readLine()
                     serverID = readWrite.read()
+                    val group = readWrite.readLine()
+                    Log.e("group", group)
+                    val name = readWrite.readLine()
+                    Log.e("name", name)
+                    val surname = readWrite.readLine()
+                    Log.e("surname", surname)
+                    login = readWrite.readLine()
+                    Log.e("login", login)
+                    password = readWrite.read()
+                    Log.e("password", password.toString())
                     serverKey = readWrite.read()
 
                     Log.e("serverID", serverID.toString())
                     Log.e("serverKey", serverKey.toString())
 
                     if (serverID > 0 && serverKey > 0) {
+                        Log.e("info", "Info inserted")
                         val info = Info(
                             id = 1,
                             name = name,

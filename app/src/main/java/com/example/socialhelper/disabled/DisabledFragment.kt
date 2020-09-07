@@ -35,9 +35,8 @@ class DisabledFragment : Fragment() {
                     }
                     .setPositiveButton("Да") { _, _ ->
                         this.findNavController()
-                            .navigate(
-                                PregnantFragmentDirections
-                                .actionPregnantFragmentToLoginFragment())
+                            .navigate(DisabledFragmentDirections
+                                    .actionDisabledFragmentToLoginFragment())
                         viewModel.onDoneExit()
                     }.show()
             }

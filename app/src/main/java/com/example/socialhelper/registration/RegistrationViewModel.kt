@@ -15,7 +15,7 @@ class RegistrationViewModel(application: Application): AndroidViewModel(applicat
     var serverId: Int = 0
     var serverKey: Int = 0
     private val repository: InfoRepository
-    private var allInfo: LiveData<Info>
+    var allInfo: LiveData<Info>
 
     init {
         val infoDao = InfoDatabase.getDatabase(application).infoDao()
@@ -62,6 +62,18 @@ class RegistrationViewModel(application: Application): AndroidViewModel(applicat
     private suspend fun updateInfo(info: Info){
         withContext(Dispatchers.IO){
             repository.updateInfo(info)
+        }
+    }
+
+    fun onClear() {
+        uiScope.launch {
+            deleteInfo()
+        }
+    }
+
+    private suspend fun deleteInfo() {
+        withContext(Dispatchers.IO) {
+            repository.deleteInfo()
         }
     }
 

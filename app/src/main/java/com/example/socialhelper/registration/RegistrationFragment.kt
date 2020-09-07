@@ -37,7 +37,10 @@ class RegistrationFragment : Fragment(){
         binding.viewModel = viewModel
         val categoryList = resources.getStringArray(R.array.category)
 
-        viewModel.onDoneNavigating()
+//        val info = Info(name = binding.textInputUserEditReg.text.toString(),
+//                        surname = )
+
+
 
         binding.toolbarReg.setNavigationOnClickListener {
             this.findNavController().popBackStack()
@@ -57,6 +60,7 @@ class RegistrationFragment : Fragment(){
                         binding.surnameEditInput.setText("")
                         binding.loginEdit.setText("")
                         binding.numberReference.visibility = View.GONE
+                        viewModel.onClear()
                     }.show()
                 true
             } else false
@@ -74,59 +78,77 @@ class RegistrationFragment : Fragment(){
             val login = binding.loginEdit.text.toString()
             val number = binding.numberReference
 
-            lifecycleScope.launch {
+
                 if (userName.isEmpty()) {
+                    lifecycleScope.launch {
                     binding.userInputReg.error = getString(R.string.user_input_error)
+                        viewModel.onDoneNavigating()
                     delay(3000)
                     binding.userInputReg.error = null
+
                 }
             }
-            lifecycleScope.launch {
+
                 if (password.isEmpty()) {
+                    lifecycleScope.launch {
                     binding.passwordInputReg.error = getString(R.string.password_input_error)
+                        viewModel.onDoneNavigating()
                     delay(3000)
                     binding.passwordInputReg.error = null
                 }
             }
-            lifecycleScope.launch {
+
                 if (category.isEmpty()) {
+                    lifecycleScope.launch {
                     binding.spinner.error = getString(R.string.choose_category)
+                        viewModel.onDoneNavigating()
                     delay(3000)
                     binding.spinner.error = null
 
                 }
             }
-            lifecycleScope.launch {
+
                 if (login.isEmpty()) {
+                    lifecycleScope.launch {
                     binding.login.error = getString(R.string.enter_login)
+                        viewModel.onDoneNavigating()
                     delay(3000)
                     binding.login.error = null
                 }
             }
-            lifecycleScope.launch {
+
                 if (surname.isEmpty()) {
+                    lifecycleScope.launch {
                     binding.surnameInputReg.error = getString(R.string.surname_input_error)
+                        viewModel.onDoneNavigating()
                     delay(3000)
                     binding.surnameInputReg.error = null
                 }
             }
-            lifecycleScope.launch {
+
                 if (passwordConfirm.isEmpty()) {
+                    lifecycleScope.launch {
                     binding.confirmPassword.error = getString(R.string.confirm_password)
+                        viewModel.onDoneNavigating()
                     delay(3000)
                     binding.confirmPassword.error = null
                 }
             }
 
-            lifecycleScope.launch {
+
                 if (numberEdit.isEmpty() && number.isVisible) {
-                    number.error = getString(R.string.enter_reference_number)
-                    delay(3000)
-                    number.error = null
-                } else if (number.isGone) {
-                    number.error = null
+                    lifecycleScope.launch {
+                        number.error = getString(R.string.enter_reference_number)
+                        viewModel.onDoneNavigating()
+                        delay(3000)
+                        number.error = null
+                    }
                 }
-            }
+                        else if (number.isGone) {
+                        number.error = null
+                        }
+
+
                 if (passwordConfirm != password) {
                     binding.confirmPassword.error = getString(R.string.password_mismatch)
                 }
