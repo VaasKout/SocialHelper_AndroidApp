@@ -31,7 +31,7 @@
     <string name="login">Логин</string>
     <string name="confirm_password">Подтвердите пароль</string>
     <string name="enter_name_surname">Введите имя и фамилию:</string>
-    <string name="enter_login_password">Введите логин и пароль:</string>
+    <string name="enter_login_email_password">Введите логин, почту и пароль:</string>
     <string name="enter_category">Выберите категорию:</string>
     <string name="wrong_login">Неверный логин</string>
     <string name="wrong_password">Неверный пароль</string>
@@ -44,11 +44,12 @@
     <string name="exit">Выйти</string>
     <string name="register">Зарегистрироваться</string>
     <string name="forgot_password">Забыли пароль?</string>
-    <string name="enter_login_post">Введите логин и почту для восстановления пароля:</string>
-    <string name="post">Почта</string>
+    <string name="enter_login_email">Введите логин и почту для восстановления пароля:</string>
+    <string name="email">Почта</string>
     <string name="restore">Восстановить</string>
     <string name="back">Back</string>
     <string name="empty_field_error">Поле должно быть заполнено</string>
+    <string name="wrong_email_input">Неправильный формат почты</string>
     <string-array name="category">
         <item>Инвалид</item>
         <item>Беременная</item>

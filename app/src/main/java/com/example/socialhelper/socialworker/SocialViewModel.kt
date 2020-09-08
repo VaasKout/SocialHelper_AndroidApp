@@ -17,7 +17,7 @@ class SocialViewModel(application: Application): AndroidViewModel(application){
     val allInfo: LiveData<Info>
 
     init {
-        val infoDao = InfoDatabase.getDatabase(application).infoDao()
+        val infoDao = InfoDatabase.getInfoDatabase(application).infoDao()
         repository = InfoRepository(infoDao)
         allInfo = repository.allInfo
     }

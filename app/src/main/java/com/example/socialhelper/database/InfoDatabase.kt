@@ -13,7 +13,7 @@ abstract class InfoDatabase: RoomDatabase(){
         @Volatile
         private var INSTANCE: InfoDatabase? = null
 
-        fun getDatabase(context: Context): InfoDatabase{
+        fun getInfoDatabase(context: Context): InfoDatabase{
             synchronized(this){
                 var instance = INSTANCE
                 if (instance == null){

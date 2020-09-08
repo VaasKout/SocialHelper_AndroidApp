@@ -2,9 +2,6 @@ package com.example.socialhelper.network;
 
 import android.util.Log;
 
-import com.example.socialhelper.R;
-import com.google.android.material.snackbar.Snackbar;
-
 import java.io.BufferedReader;
 import java.io.BufferedWriter;
 import java.io.Closeable;

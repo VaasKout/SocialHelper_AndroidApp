@@ -3,8 +3,6 @@ package com.example.socialhelper
 import android.widget.TextView
 import androidx.databinding.BindingAdapter
 import androidx.lifecycle.LiveData
-import com.google.android.material.textfield.TextInputLayout
-import org.w3c.dom.Text
 
 @BindingAdapter("intToText")
 fun TextView.setText(int: Int){

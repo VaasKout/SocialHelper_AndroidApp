@@ -17,7 +17,7 @@ class DisabledViewModel(application: Application): AndroidViewModel(application)
     private val uiScope = CoroutineScope(Dispatchers.Main + viewModelJob)
 
     init {
-        val infoDao = InfoDatabase.getDatabase(application).infoDao()
+        val infoDao = InfoDatabase.getInfoDatabase(application).infoDao()
         repository = InfoRepository(infoDao)
         allInfo = repository.allInfo
     }

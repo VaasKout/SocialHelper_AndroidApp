@@ -71,6 +71,7 @@ class RegistrationFragment : Fragment(){
             val numberEdit = binding.numberReferenceInputEdit.text.toString()
             val surname = binding.surnameEditInput.text.toString()
             val login = binding.loginEdit.text.toString()
+            val email = binding.emailEdit.text.toString()
             val number = binding.numberReference
 
 
@@ -130,6 +131,22 @@ class RegistrationFragment : Fragment(){
                 }
             }
 
+                if (email.isEmpty()){
+                    lifecycleScope.launch {
+                        binding.email.error = "Введите почту"
+                        viewModel.onDoneNavigating()
+                        delay(3000)
+                        binding.email.error = null
+                    }
+                } else if (email.isNotEmpty() &&
+                    (!email.contains ("@") || !email.contains("."))){
+                    lifecycleScope.launch {
+                    binding.email.error = getString(R.string.wrong_email_input)
+                        delay(3000)
+                        binding.email.error = null
+                    }
+                }
+
 
                 if (numberEdit.isEmpty() && number.isVisible) {
                     lifecycleScope.launch {
@@ -146,6 +163,7 @@ class RegistrationFragment : Fragment(){
 
                 if (passwordConfirm != password) {
                     binding.confirmPassword.error = getString(R.string.password_mismatch)
+                    viewModel.onDoneNavigating()
                 }
 
             if (userName.isNotEmpty() &&
@@ -162,14 +180,14 @@ class RegistrationFragment : Fragment(){
                 var info = Info(
                     id = 1, name = userName, surname = surname,
                     password = password, group = category,
-                    login = login, wasLoggedIn = false)
+                    login = login, email = email, wasLoggedIn = false)
 
                 if (number.isVisible) {
                     info = Info(
                         id = 1, name = userName, surname = surname,
                         password = password, group = category,
                         reference = numberEdit.toInt(),
-                        login = login, wasLoggedIn = false)
+                        login = login, email = email, wasLoggedIn = false)
 
                     referenceNumber = numberEdit.toInt()
                 }
@@ -203,6 +221,7 @@ class RegistrationFragment : Fragment(){
                                     serverID = viewModel.serverId,
                                     serverKey = viewModel.serverKey,
                                     login = login,
+                                    email = email,
                                     reference = referenceNumber)
 
                                 viewModel.onUpdate(info)

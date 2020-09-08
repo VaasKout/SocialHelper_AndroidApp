@@ -12,6 +12,7 @@ data class Info(
     @ColumnInfo (name = "login") var login: String,
     @ColumnInfo (name = "password") var password: String,
     @ColumnInfo (name = "group") var group: String,
+    @ColumnInfo (name = "post") var email: String,
     @ColumnInfo (name = "reference") val reference: Int = 0,
     @ColumnInfo (name = "serverID") var serverID: Int = -1,
     @ColumnInfo (name = "serverKey") var serverKey: Int = -1,

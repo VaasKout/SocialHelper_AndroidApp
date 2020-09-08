@@ -28,7 +28,7 @@ class LoginViewModel(application: Application) : AndroidViewModel(application) {
 
 
     init {
-        val infoDao = InfoDatabase.getDatabase(application).infoDao()
+        val infoDao = InfoDatabase.getInfoDatabase(application).infoDao()
         repository = InfoRepository(infoDao)
         allInfo = repository.allInfo
     }
@@ -59,6 +59,8 @@ class LoginViewModel(application: Application) : AndroidViewModel(application) {
                     Log.e("password", password.toString())
                     serverKey = readWrite.read()
 
+                    val email = readWrite.readLine()
+
                     Log.e("serverID", serverID.toString())
                     Log.e("serverKey", serverKey.toString())
 
@@ -71,6 +73,7 @@ class LoginViewModel(application: Application) : AndroidViewModel(application) {
                             login = login,
                             password = password.toString(),
                             group = group,
+                            email = email,
                             serverID = serverID,
                             serverKey = serverKey
                         )

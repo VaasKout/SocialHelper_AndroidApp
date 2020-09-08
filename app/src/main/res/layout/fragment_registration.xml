@@ -119,12 +119,13 @@
                     android:layout_marginEnd="4dp"
                     android:gravity="end"
                     android:padding="4dp"
-                    android:text="@string/enter_login_password"
+                    android:text="@string/enter_login_email_password"
                     android:textAppearance="@style/TextAppearance.MaterialComponents.Headline6"
                     android:textStyle="italic"
                     app:layout_constraintEnd_toEndOf="parent"
                     app:layout_constraintStart_toStartOf="parent"
                     app:layout_constraintTop_toBottomOf="@+id/surnameInputReg" />
+
 
                 <com.google.android.material.textfield.TextInputLayout
                     android:id="@+id/login"
@@ -142,7 +143,7 @@
                     app:errorEnabled="true"
                     app:layout_constraintEnd_toEndOf="parent"
                     app:layout_constraintStart_toStartOf="parent"
-                    app:layout_constraintTop_toBottomOf="@+id/enter_login_password">
+                    app:layout_constraintTop_toBottomOf="@+id/email">
 
                     <com.google.android.material.textfield.TextInputEditText
                         android:id="@+id/loginEdit"
@@ -150,6 +151,29 @@
                         android:layout_height="wrap_content"
                         android:inputType="textPersonName" />
 
+                </com.google.android.material.textfield.TextInputLayout>
+
+                <com.google.android.material.textfield.TextInputLayout
+                    android:id="@+id/email"
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content"
+                    android:layout_marginStart="4dp"
+                    android:layout_marginEnd="4dp"
+                    app:layout_constraintEnd_toEndOf="parent"
+                    app:layout_constraintStart_toStartOf="parent"
+                    app:layout_constraintTop_toBottomOf="@id/enter_login_password"
+                    app:boxCornerRadiusBottomEnd="6dp"
+                    app:boxCornerRadiusBottomStart="6dp"
+                    app:boxCornerRadiusTopEnd="6dp"
+                    app:boxCornerRadiusTopStart="6dp"
+                    app:errorEnabled="true"
+                    android:hint="@string/email">
+
+                    <com.google.android.material.textfield.TextInputEditText
+                        android:id="@+id/email_edit"
+                        android:layout_width="match_parent"
+                        android:layout_height="wrap_content"
+                        android:inputType="textEmailAddress"/>
                 </com.google.android.material.textfield.TextInputLayout>
 
 

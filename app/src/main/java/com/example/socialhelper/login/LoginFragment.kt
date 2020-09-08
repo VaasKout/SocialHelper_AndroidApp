@@ -121,6 +121,7 @@ class LoginFragment : Fragment() {
                                                         login = info.login,
                                                         password = info.password,
                                                         group = info.group,
+                                                        email = info.email,
                                                         serverID = info.serverID,
                                                         serverKey = info.serverKey,
                                                         wasLoggedIn = true)
@@ -140,6 +141,7 @@ class LoginFragment : Fragment() {
                                                         login = info.login,
                                                         password = info.password,
                                                         group = info.group,
+                                                        email = info.email,
                                                         serverID = info.serverID,
                                                         serverKey = info.serverKey,
                                                         wasLoggedIn = true)
@@ -158,6 +160,7 @@ class LoginFragment : Fragment() {
                                                         login = info.login,
                                                         password = info.password,
                                                         group = info.group,
+                                                        email = info.email,
                                                         serverID = info.serverID,
                                                         serverKey = info.serverKey,
                                                         wasLoggedIn = true)

@@ -1,14 +1,11 @@
 package com.example.socialhelper.response
 
 import android.app.Application
-import android.util.Log
 import androidx.lifecycle.AndroidViewModel
 import androidx.lifecycle.LiveData
 import com.example.socialhelper.database.Info
 import com.example.socialhelper.database.InfoDatabase
-import com.example.socialhelper.network.AndroidClient
 import com.example.socialhelper.repository.InfoRepository
-import kotlinx.coroutines.*
 
 class ResponseViewModel (application: Application): AndroidViewModel(application){
 
@@ -20,7 +17,7 @@ class ResponseViewModel (application: Application): AndroidViewModel(application
     val userInfo: LiveData<Info>
 
     init {
-        val infoDao = InfoDatabase.getDatabase(application).infoDao()
+        val infoDao = InfoDatabase.getInfoDatabase(application).infoDao()
         repository = InfoRepository(infoDao)
         userInfo = repository.allInfo
     }

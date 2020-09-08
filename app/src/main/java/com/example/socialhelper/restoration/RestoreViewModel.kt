@@ -20,7 +20,7 @@ class RestoreViewModel(application: Application): AndroidViewModel(application){
     var postRestore = ""
 
     init {
-        val infoDao = InfoDatabase.getDatabase(application).infoDao()
+        val infoDao = InfoDatabase.getInfoDatabase(application).infoDao()
         repository = InfoRepository(infoDao)
         allInfo = repository.allInfo
     }

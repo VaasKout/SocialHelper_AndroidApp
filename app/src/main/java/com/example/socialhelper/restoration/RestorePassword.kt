@@ -38,7 +38,7 @@ class RestorePassword : Fragment() {
             if (it == true){
 
                 val login = binding.loginRestoreEdit.text.toString()
-                val post = binding.restorePostEdit.text.toString()
+                val post = binding.restoreEmailEdit.text.toString()
 
                 if (login.isEmpty()){
                     lifecycleScope.launch {
@@ -51,10 +51,10 @@ class RestorePassword : Fragment() {
 
                 if (post.isEmpty()){
                     lifecycleScope.launch{
-                        binding.postRestore.error = getString(R.string.empty_field_error)
+                        binding.emailRestore.error = getString(R.string.empty_field_error)
                         viewModel.onDoneRestore()
                         delay(3000)
-                        binding.postRestore.error = null
+                        binding.emailRestore.error = null
                     }
                 }
 
