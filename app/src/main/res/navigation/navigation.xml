@@ -14,7 +14,9 @@
             app:destination="@id/responseFragment"
             app:popUpTo="@id/loginFragment"
             app:enterAnim="@anim/slide_in_right"
-            app:exitAnim="@anim/slide_in_right_next"/>
+            app:exitAnim="@anim/slide_in_right_next"
+            app:popEnterAnim="@anim/slide_in_left"
+            app:popExitAnim="@anim/slide_in_left_next"/>
     </fragment>
     <fragment
         android:id="@+id/pregnantFragment"
@@ -69,6 +71,14 @@
             app:popExitAnim="@anim/slide_in_left_next"
             app:popUpTo="@id/loginFragment"
             app:popUpToInclusive="true" />
+        <action
+            android:id="@+id/action_loginFragment_to_restorePassword"
+            app:destination="@id/restorePassword"
+            app:popUpTo="@id/loginFragment"
+            app:enterAnim="@anim/slide_in_right"
+            app:exitAnim="@anim/slide_in_right_next"
+            app:popEnterAnim="@anim/slide_in_left"
+            app:popExitAnim="@anim/slide_in_left_next"/>
     </fragment>
     <fragment
         android:id="@+id/disabledFragment"
@@ -151,4 +161,9 @@
         android:name="com.example.socialhelper.disabled.DisabledMaps"
         android:label="fragment_disabled_maps"
         tools:layout="@layout/fragment_disabled_maps" />
+    <fragment
+        android:id="@+id/restorePassword"
+        android:name="com.example.socialhelper.restoration.RestorePassword"
+        android:label="RestorePassword"
+        tools:layout="@layout/fragment_restore_password"/>
 </navigation>

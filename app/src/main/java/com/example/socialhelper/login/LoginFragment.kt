@@ -81,6 +81,7 @@ class LoginFragment : Fragment() {
                                             getString(R.string.wrong_login_or_password)
                                         binding.passwordTextInput.error =
                                             getString(R.string.wrong_login_or_password)
+                                        binding.forgotPassword.visibility = View.VISIBLE
                                         loginViewModel.onDoneNavigationToMain()
                                         delay(3000)
                                         binding.userTextInput.error = null
@@ -107,6 +108,7 @@ class LoginFragment : Fragment() {
                                             binding.passwordTextInput.error =
                                                 getString(R.string.wrong_password)
                                             loginViewModel.onDoneNavigationToMain()
+                                            binding.forgotPassword.visibility = View.VISIBLE
                                         }
                                         else -> {
                                             Log.e("info", "info is not null")
@@ -185,6 +187,14 @@ class LoginFragment : Fragment() {
                 this.findNavController()
                     .navigate(LoginFragmentDirections.actionLoginFragmentToRegistrationFragment())
                 loginViewModel.onDoneNavigationToSign()
+            }
+        })
+
+        loginViewModel.navigateToRestoreFrag.observe(viewLifecycleOwner, {
+            if (it == true){
+                this.findNavController()
+                    .navigate(LoginFragmentDirections.actionLoginFragmentToRestorePassword())
+                loginViewModel.onDoneNavigationToRestore()
             }
         })
 

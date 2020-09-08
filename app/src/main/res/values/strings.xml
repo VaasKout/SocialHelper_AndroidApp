@@ -6,7 +6,7 @@
     <string name="user_input_hint">Имя</string>
     <string name="password_input_hint">Пароль</string>
     <string name="next">Далее</string>
-    <string name="user_input_error">Имя пользователя не должно быть пустым</string>
+    <string name="user_input_error">Логин не должен быть пустым</string>
     <string name="password_input_error">Пароль не должен быть пустым</string>
     <string name="get_spot">Уступить место</string>
     <string name="spot_is_free">Место свободно, присаживайтесь</string>
@@ -43,6 +43,12 @@
     <string name="clear_fields">Удалить поля</string>
     <string name="exit">Выйти</string>
     <string name="register">Зарегистрироваться</string>
+    <string name="forgot_password">Забыли пароль?</string>
+    <string name="enter_login_post">Введите логин и почту для восстановления пароля:</string>
+    <string name="post">Почта</string>
+    <string name="restore">Восстановить</string>
+    <string name="back">Back</string>
+    <string name="empty_field_error">Поле должно быть заполнено</string>
     <string-array name="category">
         <item>Инвалид</item>
         <item>Беременная</item>

@@ -86,8 +86,6 @@ class RegistrationViewModel(application: Application): AndroidViewModel(applicat
     suspend fun requestServer(){
          withContext(Dispatchers.IO) {
 
-
-
             allInfo.value?.let {
 
                 var g = ""

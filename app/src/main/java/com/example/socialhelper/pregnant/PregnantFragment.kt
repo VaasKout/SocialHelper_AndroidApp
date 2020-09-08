@@ -1,6 +1,5 @@
 package com.example.socialhelper.pregnant
 
-
 import android.os.Bundle
 import android.view.LayoutInflater
 import android.view.View
@@ -17,7 +16,6 @@ import com.google.android.material.dialog.MaterialAlertDialogBuilder
 import com.google.android.material.snackbar.Snackbar
 import kotlinx.coroutines.launch
 
-
 class PregnantFragment : Fragment() {
 
     override fun onCreateView(
@@ -25,36 +23,38 @@ class PregnantFragment : Fragment() {
         savedInstanceState: Bundle?
     ): View? {
 
-        val binding: FragmentPregnantBinding=
+        val binding: FragmentPregnantBinding =
             DataBindingUtil.inflate(inflater, R.layout.fragment_pregnant, container, false)
         val viewModel = ViewModelProvider(this).get(PregnantViewModel::class.java)
         binding.viewModel = viewModel
 
         lifecycleScope.launch {
             whenStarted {
-            viewModel.turnOnBluetooth(requireActivity())
+                viewModel.turnOnBluetooth(requireActivity())
             }
         }
 
-    viewModel.spotIsFree.observe(viewLifecycleOwner, {
-        val adapter = viewModel.bluetoothReadWrite.btAdapter
-        val socket = viewModel.bluetoothReadWrite.btSocket
+        viewModel.spotIsFree.observe(viewLifecycleOwner, {
+            val adapter = viewModel.bluetoothReadWrite.btAdapter
+            val socket = viewModel.bluetoothReadWrite.btSocket
             if (it == true) {
                 lifecycleScope.launch {
-                    if (adapter != null && adapter.isEnabled){
+                    if (adapter != null && adapter.isEnabled) {
                         viewModel.createConnection()
-                        if (socket != null){
+                        if (socket != null) {
                             viewModel.startBluetoothTransaction(1)
                             binding.result.text = viewModel.bluetoothAnswer.toString()
                         }
                     }
-                    if (adapter != null && !adapter.isEnabled){
+                    if (adapter != null && !adapter.isEnabled) {
                         viewModel.turnOnBluetooth(requireActivity())
 
-                    } else{
-                        Snackbar.make(binding.getSpotButton,
+                    } else {
+                        Snackbar.make(
+                            binding.getSpotButton,
                             getString(R.string.bluetooth_unavailable),
-                            Snackbar.LENGTH_SHORT).show()
+                            Snackbar.LENGTH_SHORT
+                        ).show()
                     }
                 }
                 viewModel.onDoneSetSpotFree()
@@ -63,24 +63,25 @@ class PregnantFragment : Fragment() {
 
 
         viewModel.exit.observe(viewLifecycleOwner, {
-            if (it == true){
+            if (it == true) {
                 MaterialAlertDialogBuilder(requireContext())
                     .setMessage("Выйти из приложения?")
                     .setNegativeButton("Нет") { _, _ ->
                         viewModel.onDoneExit()
                     }
                     .setPositiveButton("Да") { _, _ ->
+                        viewModel.onClear()
                         this.findNavController()
-                            .navigate(PregnantFragmentDirections
-                                .actionPregnantFragmentToLoginFragment())
+                            .navigate(
+                                PregnantFragmentDirections
+                                    .actionPregnantFragmentToLoginFragment()
+                            )
                         viewModel.onDoneExit()
                     }.show()
             }
         })
 
-
         binding.lifecycleOwner = this
         return binding.root
     }
-
 }

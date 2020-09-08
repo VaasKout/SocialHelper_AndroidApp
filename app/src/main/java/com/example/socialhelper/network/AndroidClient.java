@@ -110,6 +110,11 @@ public class AndroidClient implements Closeable {
            write(password);
     }
 
+    public void writeRestoreInfo(String login, String post){
+            writeLine(login);
+            writeLine(post);
+    }
+
     public void writeLine(String message) {
         try {
             writer.write(message);

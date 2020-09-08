@@ -4,17 +4,30 @@ import android.app.Activity
 import android.app.Application
 import android.bluetooth.BluetoothAdapter
 import android.content.Intent
-import android.media.AsyncPlayer
 import androidx.lifecycle.*
 import com.example.socialhelper.bluetooth.BluetoothClient
+import com.example.socialhelper.database.Info
+import com.example.socialhelper.database.InfoDatabase
+import com.example.socialhelper.repository.InfoRepository
 import kotlinx.coroutines.*
 
-class PregnantViewModel: ViewModel(){
+class PregnantViewModel(application: Application): AndroidViewModel(application){
 
     var bluetoothAnswer = 0
     val bluetoothReadWrite = BluetoothClient()
     private val viewModelJob = Job()
     private val uiScope = CoroutineScope(Dispatchers.Main + viewModelJob)
+
+    private val repository: InfoRepository
+    val allInfo: LiveData<Info>
+
+    init {
+        val infoDao = InfoDatabase.getDatabase(application).infoDao()
+        repository = InfoRepository(infoDao)
+        allInfo = repository.allInfo
+    }
+
+
 
     private val _spotIsFree = MutableLiveData<Boolean>()
     val spotIsFree: LiveData<Boolean> = _spotIsFree
@@ -69,6 +82,18 @@ class PregnantViewModel: ViewModel(){
     private suspend fun receiveMessage(){
         withContext(Dispatchers.IO){
             bluetoothAnswer = bluetoothReadWrite.receiveData()
+        }
+    }
+
+    fun onClear(){
+        uiScope.launch {
+            deleteInfo()
+        }
+    }
+
+    private suspend fun deleteInfo(){
+        withContext(Dispatchers.IO) {
+            repository.deleteInfo()
         }
     }
 }

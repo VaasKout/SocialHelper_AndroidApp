@@ -10,16 +10,14 @@ import androidx.lifecycle.ViewModelProvider
 import androidx.navigation.fragment.findNavController
 import com.example.socialhelper.R
 import com.example.socialhelper.databinding.FragmentSocialBinding
-import com.example.socialhelper.disabled.DisabledViewModel
-import com.example.socialhelper.pregnant.PregnantFragmentDirections
 import com.google.android.material.dialog.MaterialAlertDialogBuilder
 
 class SocialFragment : Fragment() {
 
     override fun onCreateView(
         inflater: LayoutInflater, container: ViewGroup?,
-        savedInstanceState: Bundle?
-    ): View? {
+        savedInstanceState: Bundle?): View? {
+
         val binding: FragmentSocialBinding = DataBindingUtil
             .inflate(inflater, R.layout.fragment_social, container, false)
         val viewModel =
@@ -35,6 +33,7 @@ class SocialFragment : Fragment() {
                         viewModel.onDoneExit()
                     }
                     .setPositiveButton("Да") { _, _ ->
+                        viewModel.onClear()
                         this.findNavController()
                             .navigate(
                                 SocialFragmentDirections

@@ -34,6 +34,7 @@ class DisabledFragment : Fragment() {
                         viewModel.onDoneExit()
                     }
                     .setPositiveButton("Да") { _, _ ->
+                        viewModel.onClear()
                         this.findNavController()
                             .navigate(DisabledFragmentDirections
                                     .actionDisabledFragmentToLoginFragment())

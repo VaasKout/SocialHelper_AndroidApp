@@ -5,7 +5,6 @@ import android.util.Log
 import androidx.lifecycle.AndroidViewModel
 import androidx.lifecycle.LiveData
 import androidx.lifecycle.MutableLiveData
-import androidx.lifecycle.ViewModel
 import com.example.socialhelper.database.Info
 import com.example.socialhelper.database.InfoDatabase
 import com.example.socialhelper.network.AndroidClient
@@ -118,6 +117,9 @@ class LoginViewModel(application: Application) : AndroidViewModel(application) {
     private val _navigateToSignInFrag = MutableLiveData<Boolean>()
     val navigateToSignInFrag: LiveData<Boolean> = _navigateToSignInFrag
 
+    private val _navigateToRestoreFrag = MutableLiveData<Boolean>()
+    val navigateToRestoreFrag: LiveData<Boolean> = _navigateToRestoreFrag
+
     fun onStartNavigationToMain() {
         _navigateToMainFrag.value = true
     }
@@ -132,6 +134,14 @@ class LoginViewModel(application: Application) : AndroidViewModel(application) {
 
     fun onDoneNavigationToSign() {
         _navigateToSignInFrag.value = false
+    }
+
+    fun onStartNavigationToRestore(){
+        _navigateToRestoreFrag.value = true
+    }
+
+    fun onDoneNavigationToRestore(){
+        _navigateToRestoreFrag.value = false
     }
 
     override fun onCleared() {
