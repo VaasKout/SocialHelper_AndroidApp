@@ -27,8 +27,8 @@ class LoginFragment : Fragment() {
             ViewModelProvider(this).get(LoginViewModel::class.java)
         binding.loginViewModel = loginViewModel
 
-        val categoryList =
-            resources.getStringArray(R.array.categoryEng)
+        val categoryList = resources.getStringArray(R.array.category)
+        val categoryEngList = resources.getStringArray(R.array.categoryEng)
 
         loginViewModel.navigateToMainFrag.observe(viewLifecycleOwner, {
             if (it == true) {
@@ -82,7 +82,6 @@ class LoginFragment : Fragment() {
                                         binding.passwordTextInput.error =
                                             getString(R.string.wrong_login_or_password)
                                         loginViewModel.onDoneNavigationToMain()
-
                                         delay(3000)
                                         binding.userTextInput.error = null
                                         binding.passwordTextInput.error = null
@@ -90,89 +89,99 @@ class LoginFragment : Fragment() {
                                 }
                             }
                             if (info != null) {
-                                when {
-                                    info.login != userInput -> {
-                                        binding.userTextInput.error =
-                                            getString(R.string.wrong_login)
-                                    }
-                                    info.password != passwordInput -> {
-                                        binding.passwordTextInput.error =
-                                            getString(R.string.wrong_password)
-                                    }
-                                    else -> {
-                                        Log.e("info", "info is not null")
-                                        when (info.group) {
-                                            categoryList[0] -> {
-                                                val infoInstance = Info(
-                                                    id = 1,
-                                                    name = info.name,
-                                                    surname = info.surname,
-                                                    login = info.login,
-                                                    password = info.password,
-                                                    group = info.group,
-                                                    serverID = info.serverID,
-                                                    serverKey = info.serverKey,
-                                                    wasLoggedIn = true)
-                                                loginViewModel.onUpdate(infoInstance)
+                                if (info.serverID <= 0 &&  info.serverKey <= 0){
+                                    binding.userTextInput.error =
+                                        getString(R.string.registration_denied)
+                                    binding.userTextInput.error =
+                                        getString(R.string.registration_denied)
+                                    loginViewModel.onDoneNavigationToMain()
 
-                                                this@LoginFragment.findNavController()
-                                                    .navigate(
-                                                        LoginFragmentDirections
+                                } else
+                                    when {
+                                        info.login != userInput -> {
+                                            binding.userTextInput.error =
+                                                getString(R.string.wrong_login)
+                                            loginViewModel.onDoneNavigationToMain()
+                                        }
+                                        info.password != passwordInput -> {
+                                            binding.passwordTextInput.error =
+                                                getString(R.string.wrong_password)
+                                            loginViewModel.onDoneNavigationToMain()
+                                        }
+                                        else -> {
+                                            Log.e("info", "info is not null")
+                                            when (info.group) {
+                                                categoryList[0], categoryEngList[0] -> {
+                                                    val infoInstance = Info(
+                                                        id = 1,
+                                                        name = info.name,
+                                                        surname = info.surname,
+                                                        login = info.login,
+                                                        password = info.password,
+                                                        group = info.group,
+                                                        serverID = info.serverID,
+                                                        serverKey = info.serverKey,
+                                                        wasLoggedIn = true)
+                                                    loginViewModel.onUpdate(infoInstance)
+
+                                                    this@LoginFragment.findNavController()
+                                                        .navigate(LoginFragmentDirections
                                                             .actionLoginFragmentToDisabledFragment())
-                                                loginViewModel.onDoneNavigationToMain()
-                                            }
-                                            categoryList[1] -> {
-                                                Log.e("pregnant", "eee")
-                                                val infoInstance = Info(
-                                                    id = 1,
-                                                    name = info.name,
-                                                    surname = info.surname,
-                                                    login = info.login,
-                                                    password = info.password,
-                                                    group = info.group,
-                                                    serverID = info.serverID,
-                                                    serverKey = info.serverKey,
-                                                    wasLoggedIn = true)
-                                                loginViewModel.onUpdate(infoInstance)
+                                                    loginViewModel.onDoneNavigationToMain()
+                                                }
+                                                categoryList[1], categoryEngList[1] -> {
+                                                    Log.e("pregnant", "eee")
+                                                    val infoInstance = Info(
+                                                        id = 1,
+                                                        name = info.name,
+                                                        surname = info.surname,
+                                                        login = info.login,
+                                                        password = info.password,
+                                                        group = info.group,
+                                                        serverID = info.serverID,
+                                                        serverKey = info.serverKey,
+                                                        wasLoggedIn = true)
+                                                    loginViewModel.onUpdate(infoInstance)
 
-                                                this@LoginFragment.findNavController()
-                                                    .navigate(
-                                                        LoginFragmentDirections
+                                                    this@LoginFragment.findNavController()
+                                                        .navigate(LoginFragmentDirections
                                                             .actionLoginFragmentToPregnantFragment())
-                                                loginViewModel.onDoneNavigationToMain()
-                                            }
-                                            categoryList[2] -> {
-                                                val infoInstance = Info(
-                                                    id = 1,
-                                                    name = info.name,
-                                                    surname = info.surname,
-                                                    login = info.login,
-                                                    password = info.password,
-                                                    group = info.group,
-                                                    serverID = info.serverID,
-                                                    serverKey = info.serverKey,
-                                                    wasLoggedIn = true)
-                                                loginViewModel.onUpdate(infoInstance)
+                                                    loginViewModel.onDoneNavigationToMain()
+                                                }
+                                                categoryList[2], categoryEngList[2] -> {
+                                                    val infoInstance = Info(
+                                                        id = 1,
+                                                        name = info.name,
+                                                        surname = info.surname,
+                                                        login = info.login,
+                                                        password = info.password,
+                                                        group = info.group,
+                                                        serverID = info.serverID,
+                                                        serverKey = info.serverKey,
+                                                        wasLoggedIn = true)
+                                                    loginViewModel.onUpdate(infoInstance)
 
-                                                this@LoginFragment.findNavController()
-                                                    .navigate(
-                                                        LoginFragmentDirections
+                                                    this@LoginFragment.findNavController()
+                                                        .navigate(LoginFragmentDirections
                                                             .actionLoginFragmentToSocialFragment())
-                                                loginViewModel.onDoneNavigationToMain()
+                                                    loginViewModel.onDoneNavigationToMain()
+                                                }
                                             }
                                         }
                                     }
                                 }
                             }
-                        }
-                    })
+                        })
+                    }
                 }
-            }
-        })
+            })
+
 
         loginViewModel.navigateToSignInFrag.observe(viewLifecycleOwner, {
             if (it == true) {
-                loginViewModel.onClear()
+                loginViewModel.allInfo.let {
+                    loginViewModel.onClear()
+                }
                 this.findNavController()
                     .navigate(LoginFragmentDirections.actionLoginFragmentToRegistrationFragment())
                 loginViewModel.onDoneNavigationToSign()

@@ -19,8 +19,8 @@ class IntroFragment : Fragment() {
     override fun onCreateView(
         inflater: LayoutInflater,
         container: ViewGroup?,
-        savedInstanceState: Bundle?
-    ): View? {
+        savedInstanceState: Bundle?): View? {
+
         val binding: FragmentIntroBinding =
             DataBindingUtil.inflate(inflater, R.layout.fragment_intro, container, false)
 
@@ -32,8 +32,9 @@ class IntroFragment : Fragment() {
 
         val wordList =
             listOf(binding.welcome1, binding.welcome2, binding.welcome3, binding.welcome4)
-        val categoryList
-                = resources.getStringArray(R.array.categoryEng)
+
+        val categoryList = resources.getStringArray(R.array.category)
+        val categoryEngList = resources.getStringArray(R.array.categoryEng)
 
 
         lifecycleScope.launch {
@@ -47,24 +48,26 @@ class IntroFragment : Fragment() {
 
             delay(appear.duration)
             viewModel.allInfo.observe(viewLifecycleOwner, {
+
                 if (it == null || !it.wasLoggedIn){
                     this@IntroFragment.findNavController()
                         .navigate(IntroFragmentDirections.
                         actionIntroFragmentToLoginFragment())
                 }
                 if (it != null && it.wasLoggedIn){
+
                     when(it.group){
-                        categoryList[0] -> {
+                        categoryList[0], categoryEngList[0] -> {
                             this@IntroFragment.findNavController()
                                 .navigate(IntroFragmentDirections
                                     .actionIntroFragmentToDisabledFragment())
                         }
-                        categoryList[1] -> {
+                        categoryList[1], categoryEngList[1] -> {
                             this@IntroFragment.findNavController()
                                 .navigate(IntroFragmentDirections
                                     .actionIntroFragmentToPregnantFragment())
                         }
-                        categoryList[2] -> {
+                        categoryList[2], categoryEngList[2] -> {
                             this@IntroFragment.findNavController()
                                 .navigate(IntroFragmentDirections
                                     .actionIntroFragmentToSocialFragment())

@@ -15,7 +15,7 @@ class RegistrationViewModel(application: Application): AndroidViewModel(applicat
     var serverId: Int = 0
     var serverKey: Int = 0
     private val repository: InfoRepository
-    var allInfo: LiveData<Info>
+    val allInfo: LiveData<Info>
 
     init {
         val infoDao = InfoDatabase.getDatabase(application).infoDao()
@@ -85,13 +85,24 @@ class RegistrationViewModel(application: Application): AndroidViewModel(applicat
 
     suspend fun requestServer(){
          withContext(Dispatchers.IO) {
+
+
+
             allInfo.value?.let {
+
+                var g = ""
+                when (it.group){
+                    "Инвалид" -> g = "wheelchair"
+                    "Беременная" -> g = "pregnant"
+                    "Соц.работник" -> g = "socialworker"
+                }
+
                     if (readWrite.socket != null && readWrite.socket.isConnected){
-                        if (it.group == "wheelchair" || it.group == "socialworker"){
+                        if (g == "wheelchair" || g == "socialworker"){
                             readWrite.writeLine("userRegData")
-                            readWrite.writeUserData(it.group, it.name, it.surname,
+                            readWrite.writeUserData(g, it.name, it.surname,
                                                     it.login, it.password.toInt())
-                        } else if (it.group == "pregnant"){
+                        } else if (g == "pregnant"){
                             readWrite.writeLine("loginPregnant")
                             readWrite.writePregnantData(
                                 it.reference,

@@ -36,13 +36,7 @@ class RegistrationFragment : Fragment(){
             ViewModelProvider(this).get(RegistrationViewModel::class.java)
         binding.viewModel = viewModel
         val categoryList = resources.getStringArray(R.array.category)
-        val categoryEngList = resources.getStringArray(R.array.categoryEng)
-
-//        val info = Info(name = binding.textInputUserEditReg.text.toString(),
-//                        surname = )
-
-
-
+      
         binding.toolbarReg.setNavigationOnClickListener {
             this.findNavController().popBackStack()
         }
@@ -163,24 +157,17 @@ class RegistrationFragment : Fragment(){
                 number.error.isNullOrEmpty() &&
                 password == passwordConfirm) {
 
-                var s = ""
-                when (category) {
-                    categoryList[0] -> s = categoryEngList[0]
-                    categoryList[1] -> s = categoryEngList[1]
-                    categoryList[2] -> s = categoryEngList[2]
-                }
-
                 var referenceNumber = 0
 
                 var info = Info(
                     id = 1, name = userName, surname = surname,
-                    password = password, group = s,
+                    password = password, group = category,
                     login = login, wasLoggedIn = false)
 
                 if (number.isVisible) {
                     info = Info(
                         id = 1, name = userName, surname = surname,
-                        password = password, group = s,
+                        password = password, group = category,
                         reference = numberEdit.toInt(),
                         login = login, wasLoggedIn = false)
 
@@ -212,7 +199,7 @@ class RegistrationFragment : Fragment(){
                                     name = userName,
                                     surname = surname,
                                     password = password,
-                                    group = s,
+                                    group = category,
                                     serverID = viewModel.serverId,
                                     serverKey = viewModel.serverKey,
                                     login = login,
