@@ -27,6 +27,7 @@ class LoginFragment : Fragment() {
             ViewModelProvider(this).get(LoginViewModel::class.java)
         binding.loginViewModel = loginViewModel
 
+
         val categoryList = resources.getStringArray(R.array.category)
         val categoryEngList = resources.getStringArray(R.array.categoryEng)
 
