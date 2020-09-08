@@ -10,13 +10,13 @@
         android:label="fragment_registration"
         tools:layout="@layout/fragment_registration" >
         <action
-            android:id="@+id/action_registrationFragment_to_responseFragment"
-            app:destination="@id/responseFragment"
-            app:popUpTo="@id/loginFragment"
+            android:id="@+id/action_registrationFragment_to_keyVerification"
+            app:destination="@id/keyVerification"
             app:enterAnim="@anim/slide_in_right"
             app:exitAnim="@anim/slide_in_right_next"
             app:popEnterAnim="@anim/slide_in_left"
-            app:popExitAnim="@anim/slide_in_left_next"/>
+            app:popExitAnim="@anim/slide_in_left_next"
+            app:popUpTo="@id/loginFragment" />
     </fragment>
     <fragment
         android:id="@+id/pregnantFragment"
@@ -155,6 +155,15 @@
         <action
             android:id="@+id/action_introFragment_to_disabledMaps"
             app:destination="@id/disabledMaps" />
+        <action
+            android:id="@+id/action_introFragment_to_keyVerification"
+            app:destination="@id/keyVerification"
+            app:popUpTo="@id/introFragment"
+            app:popUpToInclusive="true"
+            app:enterAnim="@anim/slide_in_right"
+            app:exitAnim="@anim/slide_in_right_next"
+            app:popEnterAnim="@anim/slide_in_left"
+            app:popExitAnim="@anim/slide_in_left_next"/>
     </fragment>
     <fragment
         android:id="@+id/disabledMaps"
@@ -166,4 +175,25 @@
         android:name="com.example.socialhelper.restoration.RestorePassword"
         android:label="RestorePassword"
         tools:layout="@layout/fragment_restore_password"/>
+    <fragment
+        android:id="@+id/keyVerification"
+        android:name="com.example.socialhelper.verification.KeyVerification"
+        android:label="KeyVerification"
+        tools:layout="@layout/fragment_key_verification">
+        <action
+            android:id="@+id/action_keyVerification_to_responseFragment"
+            app:destination="@id/responseFragment"
+            app:enterAnim="@anim/slide_in_right"
+            app:exitAnim="@anim/slide_in_right_next"
+            app:popEnterAnim="@anim/slide_in_left"
+            app:popExitAnim="@anim/slide_in_left_next"
+            app:popUpTo="@id/loginFragment" />
+        <action
+            android:id="@+id/action_keyVerification_to_loginFragment"
+            app:destination="@id/loginFragment"
+            app:enterAnim="@anim/slide_in_left"
+            app:exitAnim="@anim/slide_in_left_next"
+            app:popUpTo="@id/keyVerification"
+            app:popUpToInclusive="true" />
+    </fragment>
 </navigation>

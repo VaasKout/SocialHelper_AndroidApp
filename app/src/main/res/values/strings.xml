@@ -50,6 +50,10 @@
     <string name="back">Back</string>
     <string name="empty_field_error">Поле должно быть заполнено</string>
     <string name="wrong_email_input">Неправильный формат почты</string>
+    <string name="enter_key">Введите ключ:</string>
+    <string name="key">Ключ</string>
+    <string name="verify">Подтвердить</string>
+    <string name="info">Информация</string>
     <string-array name="category">
         <item>Инвалид</item>
         <item>Беременная</item>

@@ -90,11 +90,9 @@ class LoginViewModel(application: Application) : AndroidViewModel(application) {
         }
     }
 
-    fun onUpdate(info: Info) {
-        uiScope.launch {
-            updateInfo(info)
-        }
-    }
+    /**
+     * if problems with updatedata, insert
+     */
 
     private suspend fun deleteInfo() {
         withContext(Dispatchers.IO) {
@@ -108,7 +106,7 @@ class LoginViewModel(application: Application) : AndroidViewModel(application) {
         }
     }
 
-    private suspend fun updateInfo(info: Info) {
+     suspend fun updateInfo(info: Info) {
         withContext(Dispatchers.IO) {
             repository.updateInfo(info)
         }

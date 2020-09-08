@@ -53,13 +53,8 @@ class RegistrationViewModel(application: Application): AndroidViewModel(applicat
         }
     }
 
-    fun onUpdate(info: Info){
-        uiScope.launch {
-            updateInfo(info)
-        }
-    }
 
-    private suspend fun updateInfo(info: Info){
+    suspend fun updateInfo(info: Info){
         withContext(Dispatchers.IO){
             repository.updateInfo(info)
         }
@@ -85,7 +80,6 @@ class RegistrationViewModel(application: Application): AndroidViewModel(applicat
 
     suspend fun requestServer(){
          withContext(Dispatchers.IO) {
-
             allInfo.value?.let {
 
                 var g = ""
@@ -109,8 +103,6 @@ class RegistrationViewModel(application: Application): AndroidViewModel(applicat
                                 it.login,
                                 it.password.toInt())
                         }
-                        serverId = readWrite.read()
-                        serverKey = readWrite.read()
                     }
             }
         }

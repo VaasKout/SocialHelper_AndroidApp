@@ -75,7 +75,7 @@ class RestorePassword : Fragment() {
                             MaterialAlertDialogBuilder(requireContext())
                                 .setTitle("Пароль отправлен на почту")
                                 .setMessage("Если письма нет в папке \"Входящие\", " +
-                                        "проверьте папку \"Спам\"")
+                                            "проверьте папку \"Спам\"")
                                 .setPositiveButton("Ок"){ _, _ ->
                                     this@RestorePassword.findNavController().popBackStack()
                                     viewModel.onDoneRestore()

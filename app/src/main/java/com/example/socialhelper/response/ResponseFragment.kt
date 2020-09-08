@@ -8,6 +8,7 @@ import android.view.ViewGroup
 import androidx.databinding.DataBindingUtil
 import androidx.fragment.app.Fragment
 import androidx.lifecycle.ViewModelProvider
+import androidx.navigation.fragment.findNavController
 import com.example.socialhelper.R
 import com.example.socialhelper.databinding.FragmentResponceBinding
 
@@ -29,6 +30,13 @@ class ResponseFragment : Fragment() {
                 binding.respondText.text = getString(R.string.registration_denied)
             } else {
                 binding.respondText.text = getString(R.string.positive_response)
+            }
+        })
+
+        viewModel.navigateBack.observe(viewLifecycleOwner, {
+            if (it == true){
+                this.findNavController().popBackStack()
+                viewModel.onDoneBackNavigation()
             }
         })
 

@@ -27,7 +27,6 @@ class LoginFragment : Fragment() {
             ViewModelProvider(this).get(LoginViewModel::class.java)
         binding.loginViewModel = loginViewModel
 
-
         val categoryList = resources.getStringArray(R.array.category)
         val categoryEngList = resources.getStringArray(R.array.categoryEng)
 
@@ -126,7 +125,7 @@ class LoginFragment : Fragment() {
                                                         serverID = info.serverID,
                                                         serverKey = info.serverKey,
                                                         wasLoggedIn = true)
-                                                    loginViewModel.onUpdate(infoInstance)
+                                                    loginViewModel.updateInfo(infoInstance)
 
                                                     this@LoginFragment.findNavController()
                                                         .navigate(LoginFragmentDirections
@@ -146,7 +145,7 @@ class LoginFragment : Fragment() {
                                                         serverID = info.serverID,
                                                         serverKey = info.serverKey,
                                                         wasLoggedIn = true)
-                                                    loginViewModel.onUpdate(infoInstance)
+                                                    loginViewModel.updateInfo(infoInstance)
 
                                                     this@LoginFragment.findNavController()
                                                         .navigate(LoginFragmentDirections
@@ -165,8 +164,7 @@ class LoginFragment : Fragment() {
                                                         serverID = info.serverID,
                                                         serverKey = info.serverKey,
                                                         wasLoggedIn = true)
-                                                    loginViewModel.onUpdate(infoInstance)
-
+                                                    loginViewModel.updateInfo(infoInstance)
                                                     this@LoginFragment.findNavController()
                                                         .navigate(LoginFragmentDirections
                                                             .actionLoginFragmentToSocialFragment())

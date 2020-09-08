@@ -218,21 +218,20 @@ class RegistrationFragment : Fragment(){
                                     surname = surname,
                                     password = password,
                                     group = category,
-                                    serverID = viewModel.serverId,
-                                    serverKey = viewModel.serverKey,
                                     login = login,
                                     email = email,
-                                    reference = referenceNumber)
+                                    reference = referenceNumber,
+                                    needVerification = true)
+                                viewModel.updateInfo(info)
 
-                                viewModel.onUpdate(info)
                                 Log.e("serverID", viewModel.serverId.toString())
                                 Log.e("serverKey", viewModel.serverKey.toString())
 
                                 this@RegistrationFragment.findNavController()
                                     .navigate(
                                         RegistrationFragmentDirections
-                                            .actionRegistrationFragmentToResponseFragment()
-                                    )
+                                            .actionRegistrationFragmentToKeyVerification())
+
                                 viewModel.onDoneNavigating()
                             }
                         }
