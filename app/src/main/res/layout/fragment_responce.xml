@@ -91,7 +91,8 @@
             app:layout_constraintStart_toStartOf="parent"
             app:layout_constraintTop_toTopOf="parent"
             app:srcCompat="@drawable/ic_big_arrow"
-            android:onClick="@{() -> viewModel.onStartBackNavigation()}"/>
+            android:onClick="@{() -> viewModel.onStartBackNavigation()}"
+            android:contentDescription="@string/back" />
 
     </androidx.constraintlayout.widget.ConstraintLayout>
 </layout>

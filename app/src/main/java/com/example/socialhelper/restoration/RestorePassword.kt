@@ -61,9 +61,9 @@ class RestorePassword : Fragment() {
                 if (login.isNotEmpty() &&
                     email.isNotEmpty()
                 ) {
-                    viewModel.allInfo.observe(viewLifecycleOwner, {info ->
-                        if (info != null){
-                            if (info.login != login){
+                    viewModel.allInfo.observe(viewLifecycleOwner, { info ->
+                        if (info != null) {
+                            if (info.login != login) {
                                 lifecycleScope.launch {
                                     binding.loginRestore.error = getString(R.string.wrong_login)
                                     viewModel.onDoneRestore()
@@ -71,7 +71,7 @@ class RestorePassword : Fragment() {
                                     binding.loginRestore.error = null
                                 }
                             }
-                            if (info.email != email){
+                            if (info.email != email) {
                                 lifecycleScope.launch {
                                     binding.emailRestore.error = getString(R.string.wrong_email)
                                     viewModel.onDoneRestore()
@@ -79,10 +79,10 @@ class RestorePassword : Fragment() {
                                     binding.emailRestore.error = null
                                 }
                             }
-                        } else{
+                        } else {
                             lifecycleScope.launch {
                                 viewModel.loginRestore = login
-                                viewModel.postRestore = email
+                                viewModel.emailRestore = email
                                 viewModel.connectToServer()
                                 viewModel.requestServer()
                                 if (!viewModel.readWrite.socket.isConnected) {

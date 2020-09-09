@@ -17,7 +17,7 @@ class RestoreViewModel(application: Application) : AndroidViewModel(application)
     var allInfo: LiveData<Info>
     val readWrite = AndroidClient()
     var loginRestore = ""
-    var postRestore = ""
+    var emailRestore = ""
 
     init {
         val infoDao = InfoDatabase.getInfoDatabase(application).infoDao()
@@ -36,10 +36,10 @@ class RestoreViewModel(application: Application) : AndroidViewModel(application)
             if (readWrite.socket != null &&
                 readWrite.socket.isConnected &&
                 loginRestore.isNotEmpty() &&
-                postRestore.isNotEmpty()
+                emailRestore.isNotEmpty()
             ) {
-                readWrite.writeLine("loginPost")
-                readWrite.writeRestoreInfo(loginRestore, postRestore)
+                readWrite.writeLine("passRecover")
+                readWrite.writeRestoreInfo(loginRestore, emailRestore)
             }
         }
     }

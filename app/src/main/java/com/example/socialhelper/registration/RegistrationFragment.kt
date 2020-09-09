@@ -214,6 +214,26 @@ class RegistrationFragment : Fragment() {
                                         ).show()
                                         viewModel.onDoneNavigating()
                                     } else {
+                                        if (viewModel.state == "wrong"){
+                                            val infoReference = Info(
+                                                id = info.id,
+                                                name = info.name,
+                                                surname = info.surname,
+                                                password = info.password,
+                                                group = info.group,
+                                                login = info.login,
+                                                email = info.email,
+                                                reference = viewModel.referenceNumber,
+                                                serverKey = -2,
+                                                serverID = -2
+                                            )
+                                            viewModel.updateInfo(infoReference)
+                                            this@RegistrationFragment
+                                                .findNavController()
+                                                .navigate(RegistrationFragmentDirections
+                                                    .actionRegistrationFragmentToResponseFragment())
+                                            viewModel.onDoneNavigating()
+                                        }
                                         if(viewModel.state == "exist"){
                                             val infoReference = Info(
                                                 id = info.id,

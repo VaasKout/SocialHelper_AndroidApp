@@ -56,10 +56,9 @@ class LoginViewModel(application: Application) : AndroidViewModel(application) {
                     login = readWrite.readLine()
                     Log.e("login", login)
                     password = readWrite.read()
+                    val email = readWrite.readLine()
                     Log.e("password", password.toString())
                     serverKey = readWrite.read()
-
-                    val email = readWrite.readLine()
 
                     Log.e("serverID", serverID.toString())
                     Log.e("serverKey", serverKey.toString())

@@ -1,6 +1,7 @@
 package com.example.socialhelper.pregnant
 
 import android.os.Bundle
+import android.util.Log
 import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
@@ -14,6 +15,7 @@ import com.example.socialhelper.R
 import com.example.socialhelper.databinding.FragmentPregnantBinding
 import com.google.android.material.dialog.MaterialAlertDialogBuilder
 import com.google.android.material.snackbar.Snackbar
+import kotlinx.coroutines.delay
 import kotlinx.coroutines.launch
 
 class PregnantFragment : Fragment() {
@@ -36,18 +38,24 @@ class PregnantFragment : Fragment() {
 
         viewModel.spotIsFree.observe(viewLifecycleOwner, {
             val adapter = viewModel.bluetoothReadWrite.btAdapter
-            val socket = viewModel.bluetoothReadWrite.btSocket
+            var socket = viewModel.bluetoothReadWrite.btSocket
             if (it == true) {
                 lifecycleScope.launch {
                     if (adapter != null && adapter.isEnabled) {
-                        viewModel.createConnection()
+                        if (socket == null || !socket.isConnected){
+                            viewModel.createConnection()
+                            socket = viewModel.bluetoothReadWrite.btSocket
+                        }
+                        Log.e("adapter", "Adapter is available")
                         if (socket != null) {
-                            viewModel.startBluetoothTransaction(1)
+                            Log.e("socket" ,"Socket is available")
+                            viewModel.sendMessage("32")
+                            Log.e("sent" ,"0")
                             binding.result.text = viewModel.bluetoothAnswer.toString()
                         }
-                    }
-                    if (adapter != null && !adapter.isEnabled) {
+                    } else if (adapter != null && !adapter.isEnabled) {
                         viewModel.turnOnBluetooth(requireActivity())
+                        viewModel.onDoneSetSpotFree()
 
                     } else {
                         Snackbar.make(
@@ -55,9 +63,10 @@ class PregnantFragment : Fragment() {
                             getString(R.string.bluetooth_unavailable),
                             Snackbar.LENGTH_SHORT
                         ).show()
+                        viewModel.onDoneSetSpotFree()
                     }
                 }
-                viewModel.onDoneSetSpotFree()
+//                viewModel.onDoneSetSpotFree()
             }
         })
 

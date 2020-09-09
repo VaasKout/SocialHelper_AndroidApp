@@ -103,13 +103,14 @@ class RegistrationViewModel(application: Application) : AndroidViewModel(applica
                             it.email
                         )
                     } else if (g == "pregnant") {
-                        readWrite.writeLine("loginPregnant")
+                        readWrite.writeLine("regPregnant")
                         readWrite.writePregnantData(
                             it.reference,
                             it.name,
                             it.surname,
                             it.login,
-                            it.password.toInt()
+                            it.password.toInt(),
+                            it.email
                         )
                     }
                     state = readWrite.readLine()

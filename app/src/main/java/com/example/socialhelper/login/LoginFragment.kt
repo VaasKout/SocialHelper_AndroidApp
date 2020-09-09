@@ -101,7 +101,7 @@ class LoginFragment : Fragment() {
                                         getString(R.string.registration_denied)
                                     loginViewModel.onDoneNavigationToMain()
 
-                                } else
+                                } else {
                                     when {
                                         info.login != userInput -> {
                                             binding.userTextInput.error =
@@ -132,12 +132,19 @@ class LoginFragment : Fragment() {
                                                     )
                                                     loginViewModel.updateInfo(infoInstance)
 
-                                                    this@LoginFragment.findNavController()
-                                                        .navigate(
-                                                            LoginFragmentDirections
-                                                                .actionLoginFragmentToDisabledFragment()
-                                                        )
-                                                    loginViewModel.onDoneNavigationToMain()
+                                                    if (this@LoginFragment
+                                                            .findNavController()
+                                                            .currentDestination?.id ==
+                                                        R.id.loginFragment
+                                                    ) {
+                                                        this@LoginFragment.findNavController()
+                                                            .navigate(
+                                                                LoginFragmentDirections
+                                                                    .actionLoginFragmentToDisabledFragment()
+                                                            )
+                                                        loginViewModel.onDoneNavigationToMain()
+                                                    }
+
                                                 }
                                                 categoryList[1], categoryEngList[1] -> {
                                                     Log.e("pregnant", "eee")
@@ -155,12 +162,18 @@ class LoginFragment : Fragment() {
                                                     )
                                                     loginViewModel.updateInfo(infoInstance)
 
-                                                    this@LoginFragment.findNavController()
-                                                        .navigate(
-                                                            LoginFragmentDirections
-                                                                .actionLoginFragmentToPregnantFragment()
-                                                        )
-                                                    loginViewModel.onDoneNavigationToMain()
+                                                    if (this@LoginFragment
+                                                            .findNavController()
+                                                            .currentDestination?.id ==
+                                                        R.id.loginFragment
+                                                    ) {
+                                                        this@LoginFragment.findNavController()
+                                                            .navigate(
+                                                                LoginFragmentDirections
+                                                                    .actionLoginFragmentToPregnantFragment()
+                                                            )
+                                                        loginViewModel.onDoneNavigationToMain()
+                                                    }
                                                 }
                                                 categoryList[2], categoryEngList[2] -> {
                                                     val infoInstance = Info(
@@ -176,16 +189,24 @@ class LoginFragment : Fragment() {
                                                         wasLoggedIn = true
                                                     )
                                                     loginViewModel.updateInfo(infoInstance)
-                                                    this@LoginFragment.findNavController()
-                                                        .navigate(
-                                                            LoginFragmentDirections
-                                                                .actionLoginFragmentToSocialFragment()
-                                                        )
-                                                    loginViewModel.onDoneNavigationToMain()
+                                                    if (this@LoginFragment
+                                                            .findNavController()
+                                                            .currentDestination?.id ==
+                                                        R.id.loginFragment
+                                                    ) {
+                                                        this@LoginFragment.findNavController()
+                                                            .navigate(
+                                                                LoginFragmentDirections
+                                                                    .actionLoginFragmentToSocialFragment()
+                                                            )
+                                                        loginViewModel.onDoneNavigationToMain()
+                                                    }
                                                 }
                                             }
                                         }
                                     }
+                                }
+
                             }
                         }
                     })
@@ -199,9 +220,16 @@ class LoginFragment : Fragment() {
                 loginViewModel.allInfo.let {
                     loginViewModel.onClear()
                 }
-                this.findNavController()
-                    .navigate(LoginFragmentDirections.actionLoginFragmentToRegistrationFragment())
-                loginViewModel.onDoneNavigationToSign()
+                if (this@LoginFragment
+                        .findNavController()
+                        .currentDestination?.id ==
+                    R.id.loginFragment){
+
+                    this.findNavController()
+                        .navigate(LoginFragmentDirections.actionLoginFragmentToRegistrationFragment())
+                    loginViewModel.onDoneNavigationToSign()
+                }
+
             }
         })
 

@@ -19,7 +19,7 @@ public class BluetoothClient implements Closeable {
     private InputStream inputStream = null;
 
     // SPP UUID сервиса
-    private static final UUID MY_UUID = UUID.fromString("00001112-0000-1000-8000-00805F9B34FB");
+    private static final UUID MY_UUID = UUID.fromString("00001101-0000-1000-8000-00805F9B34FB");
 
     public static final int REQUEST_ENABLE_BT = 1;
 
@@ -34,11 +34,11 @@ public class BluetoothClient implements Closeable {
 
     public void createConnection() {
         // MAC-адрес Bluetooth модуля
-        String address = "DC:A6:32:85:43:61";
+        String address = "98:D3:11:F8:72:6B";
         BluetoothDevice device = btAdapter.getRemoteDevice(address);
 
         try {
-            closeConnection();
+//            closeConnection();
             btSocket = device.createRfcommSocketToServiceRecord(MY_UUID);
         } catch (IOException e) {
             Log.e("error", "raspberry socket is not available");
@@ -53,31 +53,32 @@ public class BluetoothClient implements Closeable {
 
             } catch (IOException e) {
                 closeConnection();
-                Log.e("error", "Unable to connect to raspberry");
+                Log.e("error", "Unable to connect to arduino");
             }
         }
     }
 
-    public void sendData(int msg) {
+    public void sendData(String msg) {
+        byte[] message = msg.getBytes();
         if (btSocket.isConnected()) {
             try {
-                outStream.write(msg);
+                outStream.write(message);
             } catch (IOException e) {
                 Log.e("error", "Unable to send message to raspberry");
             }
         }
     }
 
-    public int receiveData() {
-        if (btSocket.isConnected()) {
-            try {
-                return inputStream.read();
-            } catch (IOException e) {
-                Log.e("error", "Unable to read message from raspberry");
-                return 0;
-            }
-        } else return 0;
-    }
+//    public int receiveData() {
+//        if (btSocket.isConnected()) {
+//            try {
+//                return inputStream.read();
+//            } catch (IOException e) {
+//                Log.e("error", "Unable to read message from raspberry");
+//                return 0;
+//            }
+//        } else return 0;
+//    }
 
     public void closeConnection() {
         if (btSocket != null && btSocket.isConnected()) {

@@ -26,8 +26,10 @@ class ResponseFragment : Fragment() {
         binding.viewModel = viewModel
 
         viewModel.userInfo.observe(viewLifecycleOwner, {
-            if (it.serverID <= 0) {
+            if (it.serverID == 0 || it.serverID == -1) {
                 binding.respondText.text = getString(R.string.registration_denied)
+            } else if (it.serverID == -2){
+                binding.respondText.text = getString(R.string.no_reference)
             } else {
                 binding.respondText.text = getString(R.string.positive_response)
             }

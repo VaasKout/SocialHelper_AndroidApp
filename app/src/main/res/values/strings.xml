@@ -26,7 +26,7 @@
     <string name="number_reference">Номер справки</string>
     <string name="surname">Фамилия</string>
     <string name="surname_input_error">Введите фамилию</string>
-    <string name="registration_denied">Вам отказано в регистрации</string>
+    <string name="registration_denied">Вам отказано в регистрации, такой пользователь уже существует</string>
     <string name="enter">Войти</string>
     <string name="login">Логин</string>
     <string name="confirm_password">Подтвердите пароль</string>
@@ -56,6 +56,7 @@
     <string name="info">Информация</string>
     <string name="wrong_email">Неверная почта</string>
     <string name="wrong_key">Неверный ключ</string>
+    <string name="no_reference">Справка отсутствует в базе данных, встаньте на учёт</string>
     <string-array name="category">
         <item>Инвалид</item>
         <item>Беременная</item>

@@ -66,24 +66,17 @@ class PregnantViewModel(application: Application) : AndroidViewModel(application
         }
     }
 
-    fun startBluetoothTransaction(i: Int) {
-        uiScope.launch {
-            sendMessage(i)
-            receiveMessage()
+     suspend fun sendMessage(s: String) {
+        withContext(Dispatchers.IO) {
+            bluetoothReadWrite.sendData(s)
         }
     }
 
-    private suspend fun sendMessage(i: Int) {
-        withContext(Dispatchers.IO) {
-            bluetoothReadWrite.sendData(i)
-        }
-    }
-
-    private suspend fun receiveMessage() {
-        withContext(Dispatchers.IO) {
-            bluetoothAnswer = bluetoothReadWrite.receiveData()
-        }
-    }
+//    private suspend fun receiveMessage() {
+//        withContext(Dispatchers.IO) {
+//            bluetoothAnswer = bluetoothReadWrite.receiveData()
+//        }
+//    }
 
     fun onClear() {
         uiScope.launch {
@@ -95,5 +88,10 @@ class PregnantViewModel(application: Application) : AndroidViewModel(application
         withContext(Dispatchers.IO) {
             repository.deleteInfo()
         }
+    }
+
+    override fun onCleared() {
+        super.onCleared()
+        viewModelJob.cancel()
     }
 }

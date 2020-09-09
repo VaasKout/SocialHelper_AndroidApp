@@ -96,12 +96,14 @@ public class AndroidClient implements Closeable {
     }
 
     public void writePregnantData(int number, String name,
-                                  String surname, String login, int password) {
+                                  String surname, String login,
+                                  int password, String email) {
         write(number);
         writeLine(name);
         writeLine(surname);
         writeLine(login);
         write(password);
+        writeLine(email);
     }
 
     public void writeLoginPassword(String login, int password) {
