@@ -37,7 +37,7 @@ class PregnantFragment : Fragment() {
         }
 
         viewModel.spotIsFree.observe(viewLifecycleOwner, {
-            val adapter = viewModel.bluetoothReadWrite.btAdapter
+            var adapter = viewModel.bluetoothReadWrite.btAdapter
             var socket = viewModel.bluetoothReadWrite.btSocket
             if (it == true) {
                 lifecycleScope.launch {
@@ -52,9 +52,11 @@ class PregnantFragment : Fragment() {
                             viewModel.sendMessage("32")
                             Log.e("sent" ,"0")
                             binding.result.text = viewModel.bluetoothAnswer.toString()
+                            viewModel.onDoneSetSpotFree()
                         }
                     } else if (adapter != null && !adapter.isEnabled) {
                         viewModel.turnOnBluetooth(requireActivity())
+                        adapter = viewModel.bluetoothReadWrite.btAdapter
                         viewModel.onDoneSetSpotFree()
 
                     } else {
@@ -66,7 +68,6 @@ class PregnantFragment : Fragment() {
                         viewModel.onDoneSetSpotFree()
                     }
                 }
-//                viewModel.onDoneSetSpotFree()
             }
         })
 
