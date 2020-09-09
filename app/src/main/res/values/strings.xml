@@ -54,6 +54,8 @@
     <string name="key">Ключ</string>
     <string name="verify">Подтвердить</string>
     <string name="info">Информация</string>
+    <string name="wrong_email">Неверная почта</string>
+    <string name="wrong_key">Неверный ключ</string>
     <string-array name="category">
         <item>Инвалид</item>
         <item>Беременная</item>

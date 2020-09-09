@@ -17,6 +17,14 @@
             app:popEnterAnim="@anim/slide_in_left"
             app:popExitAnim="@anim/slide_in_left_next"
             app:popUpTo="@id/loginFragment" />
+        <action
+            android:id="@+id/action_registrationFragment_to_responseFragment"
+            app:destination="@id/responseFragment"
+            app:popUpTo="@id/loginFragment"
+            app:enterAnim="@anim/slide_in_right"
+            app:exitAnim="@anim/slide_in_right_next"
+            app:popEnterAnim="@anim/slide_in_left"
+            app:popExitAnim="@anim/slide_in_left_next"/>
     </fragment>
     <fragment
         android:id="@+id/pregnantFragment"

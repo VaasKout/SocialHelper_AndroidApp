@@ -203,7 +203,7 @@ class RegistrationFragment : Fragment() {
                             viewModel.onDoneNavigating()
                         }
                         .setPositiveButton("Да") { _, _ ->
-                            viewModel.allInfo.observe(viewLifecycleOwner, {
+                            viewModel.allInfo.observe(viewLifecycleOwner, {info ->
                                 lifecycleScope.launch {
                                     viewModel.connectToServer()
                                     viewModel.requestServer()
@@ -215,29 +215,48 @@ class RegistrationFragment : Fragment() {
                                         ).show()
                                         viewModel.onDoneNavigating()
                                     } else {
-                                        info = Info(
-                                            id = 1,
-                                            name = userName,
-                                            surname = surname,
-                                            password = password,
-                                            group = category,
-                                            login = login,
-                                            email = email,
-                                            reference = referenceNumber,
-                                            needVerification = true
-                                        )
-                                        viewModel.updateInfo(info)
-
-//                                Log.e("serverID", viewModel.serverId.toString())
-//                                Log.e("serverKey", viewModel.serverKey.toString())
-
-                                        this@RegistrationFragment.findNavController()
-                                            .navigate(
-                                                RegistrationFragmentDirections
-                                                    .actionRegistrationFragmentToKeyVerification()
+                                        if(viewModel.state == "exist"){
+                                            val infoReference = Info(
+                                                id = info.id,
+                                                name = info.name,
+                                                surname = info.surname,
+                                                password = info.password,
+                                                group = info.group,
+                                                login = info.login,
+                                                email = info.email,
+                                                reference = info.reference,
+                                                serverKey = 0,
+                                                serverID = 0
                                             )
+                                            viewModel.updateInfo(infoReference)
+                                            this@RegistrationFragment
+                                                .findNavController()
+                                                .navigate(RegistrationFragmentDirections
+                                                    .actionRegistrationFragmentToResponseFragment())
+                                            viewModel.onDoneNavigating()
 
-                                        viewModel.onDoneNavigating()
+                                        } else if (viewModel.state == "wait"){
+                                            val infoReference = Info(
+                                                id = info.id,
+                                                name = info.name,
+                                                surname = info.surname,
+                                                password = info.password,
+                                                group = info.group,
+                                                login = info.login,
+                                                email = info.email,
+                                                reference = info.reference,
+                                                needVerification = true
+                                            )
+                                            viewModel.updateInfo(infoReference)
+
+                                            this@RegistrationFragment.findNavController()
+                                                .navigate(
+                                                    RegistrationFragmentDirections
+                                                        .actionRegistrationFragmentToKeyVerification()
+                                                )
+
+                                            viewModel.onDoneNavigating()
+                                        }
                                     }
                                 }
                             })

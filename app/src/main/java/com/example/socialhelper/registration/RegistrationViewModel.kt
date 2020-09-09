@@ -12,8 +12,6 @@ import kotlinx.coroutines.*
 
 class RegistrationViewModel(application: Application) : AndroidViewModel(application) {
 
-    var serverId: Int = 0
-    var serverKey: Int = 0
     private val repository: InfoRepository
     val allInfo: LiveData<Info>
 
@@ -25,6 +23,7 @@ class RegistrationViewModel(application: Application) : AndroidViewModel(applica
 
 
     val readWrite = AndroidClient()
+    var state: String = ""
 
     //Live Data
     private val _navigateToWait = MutableLiveData<Boolean>()
@@ -95,8 +94,11 @@ class RegistrationViewModel(application: Application) : AndroidViewModel(applica
                     if (g == "wheelchair" || g == "socialworker") {
                         readWrite.writeLine("userRegData")
                         readWrite.writeUserData(
-                            g, it.name, it.surname,
-                            it.login, it.password.toInt()
+                            g,
+                            it.name,
+                            it.surname,
+                            it.login,
+                            it.password.toInt()
                         )
                     } else if (g == "pregnant") {
                         readWrite.writeLine("loginPregnant")
@@ -108,6 +110,7 @@ class RegistrationViewModel(application: Application) : AndroidViewModel(applica
                             it.password.toInt()
                         )
                     }
+                    state = readWrite.readLine()
                 }
             }
         }

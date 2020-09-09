@@ -103,31 +103,37 @@ class KeyVerification : Fragment() {
                             ).show()
                             viewModel.onDoneSendKey()
                         } else {
-                            /**
-                             * write everything here
-                             */
-                            viewModel.allInfo.observe(viewLifecycleOwner, { info ->
-                                val infoInstance = Info(
-                                    id = 1,
-                                    name = info.name,
-                                    surname = info.surname,
-                                    login = info.login,
-                                    password = info.password,
-                                    group = info.group,
-                                    email = info.email,
-                                    serverID = viewModel.serverId,
-                                    serverKey = key.toInt(),
-                                    needVerification = false
-                                )
-                                viewModel.onUpdate(infoInstance)
-                            })
+                            if (viewModel.serverId == 0){
+                                    binding.key.error = getString(R.string.wrong_key)
+                                    viewModel.onDoneSendKey()
+                                    delay(3000)
+                                    binding.key.error = null
+                                 }
+                            else if (viewModel.serverId > 0){
 
-                            this@KeyVerification.findNavController()
-                                .navigate(
-                                    KeyVerificationDirections
-                                        .actionKeyVerificationToResponseFragment()
-                                )
-                            viewModel.onDoneSendKey()
+                                viewModel.allInfo.observe(viewLifecycleOwner, { info ->
+                                    val infoInstance = Info(
+                                        id = 1,
+                                        name = info.name,
+                                        surname = info.surname,
+                                        login = info.login,
+                                        password = info.password,
+                                        group = info.group,
+                                        email = info.email,
+                                        serverID = viewModel.serverId,
+                                        serverKey = key.toInt(),
+                                        needVerification = false
+                                    )
+                                    viewModel.onUpdate(infoInstance)
+                                })
+
+                                this@KeyVerification.findNavController()
+                                    .navigate(
+                                        KeyVerificationDirections
+                                            .actionKeyVerificationToResponseFragment()
+                                    )
+                                viewModel.onDoneSendKey()
+                            }
                         }
                     }
                 }

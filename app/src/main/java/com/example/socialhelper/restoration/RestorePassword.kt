@@ -38,7 +38,7 @@ class RestorePassword : Fragment() {
             if (it == true) {
 
                 val login = binding.loginRestoreEdit.text.toString()
-                val post = binding.restoreEmailEdit.text.toString()
+                val email = binding.restoreEmailEdit.text.toString()
 
                 if (login.isEmpty()) {
                     lifecycleScope.launch {
@@ -49,7 +49,7 @@ class RestorePassword : Fragment() {
                     }
                 }
 
-                if (post.isEmpty()) {
+                if (email.isEmpty()) {
                     lifecycleScope.launch {
                         binding.emailRestore.error = getString(R.string.empty_field_error)
                         viewModel.onDoneRestore()
@@ -59,33 +59,54 @@ class RestorePassword : Fragment() {
                 }
 
                 if (login.isNotEmpty() &&
-                    post.isNotEmpty()
+                    email.isNotEmpty()
                 ) {
-                    lifecycleScope.launch {
-                        viewModel.loginRestore = login
-                        viewModel.postRestore = post
-                        viewModel.connectToServer()
-                        viewModel.requestServer()
-                        if (!viewModel.readWrite.socket.isConnected) {
-                            Snackbar.make(
-                                binding.sendRestoreRequestButton,
-                                getString(R.string.retry_later),
-                                Snackbar.LENGTH_SHORT
-                            ).show()
-                            viewModel.onDoneRestore()
-                        } else {
-                            MaterialAlertDialogBuilder(requireContext())
-                                .setTitle("Пароль отправлен на почту")
-                                .setMessage(
-                                    "Если письма нет в папке \"Входящие\", " +
-                                            "проверьте папку \"Спам\""
-                                )
-                                .setPositiveButton("Ок") { _, _ ->
-                                    this@RestorePassword.findNavController().popBackStack()
+                    viewModel.allInfo.observe(viewLifecycleOwner, {info ->
+                        if (info != null){
+                            if (info.login != login){
+                                lifecycleScope.launch {
+                                    binding.loginRestore.error = getString(R.string.wrong_login)
                                     viewModel.onDoneRestore()
-                                }.show()
+                                    delay(3000)
+                                    binding.loginRestore.error = null
+                                }
+                            }
+                            if (info.email != email){
+                                lifecycleScope.launch {
+                                    binding.emailRestore.error = getString(R.string.wrong_email)
+                                    viewModel.onDoneRestore()
+                                    delay(3000)
+                                    binding.emailRestore.error = null
+                                }
+                            }
+                        } else{
+                            lifecycleScope.launch {
+                                viewModel.loginRestore = login
+                                viewModel.postRestore = email
+                                viewModel.connectToServer()
+                                viewModel.requestServer()
+                                if (!viewModel.readWrite.socket.isConnected) {
+                                    Snackbar.make(
+                                        binding.sendRestoreRequestButton,
+                                        getString(R.string.retry_later),
+                                        Snackbar.LENGTH_SHORT
+                                    ).show()
+                                    viewModel.onDoneRestore()
+                                } else {
+                                    MaterialAlertDialogBuilder(requireContext())
+                                        .setTitle("Пароль отправлен на почту")
+                                        .setMessage(
+                                            "Если письма нет в папке \"Входящие\", " +
+                                                    "проверьте папку \"Спам\""
+                                        )
+                                        .setPositiveButton("Ок") { _, _ ->
+                                            this@RestorePassword.findNavController().popBackStack()
+                                            viewModel.onDoneRestore()
+                                        }.show()
+                                }
+                            }
                         }
-                    }
+                    })
                 }
             }
         })
