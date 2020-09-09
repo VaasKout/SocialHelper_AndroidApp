@@ -11,7 +11,7 @@ import com.example.socialhelper.repository.InfoRepository
 import kotlinx.coroutines.Dispatchers
 import kotlinx.coroutines.withContext
 
-class RestoreViewModel(application: Application): AndroidViewModel(application){
+class RestoreViewModel(application: Application) : AndroidViewModel(application) {
 
     private val repository: InfoRepository
     var allInfo: LiveData<Info>
@@ -31,12 +31,13 @@ class RestoreViewModel(application: Application): AndroidViewModel(application){
         }
     }
 
-    suspend fun requestServer(){
-        withContext(Dispatchers.IO){
+    suspend fun requestServer() {
+        withContext(Dispatchers.IO) {
             if (readWrite.socket != null &&
                 readWrite.socket.isConnected &&
                 loginRestore.isNotEmpty() &&
-                postRestore.isNotEmpty()){
+                postRestore.isNotEmpty()
+            ) {
                 readWrite.writeLine("loginPost")
                 readWrite.writeRestoreInfo(loginRestore, postRestore)
             }
@@ -51,18 +52,19 @@ class RestoreViewModel(application: Application): AndroidViewModel(application){
     val navigateBackToLogin: LiveData<Boolean> = _navigateBackToLogin
 
 
-    fun onStartRestore(){
+    fun onStartRestore() {
         _restoreNavigateToLogin.value = true
     }
-    fun onDoneRestore(){
-      _restoreNavigateToLogin.value = false
+
+    fun onDoneRestore() {
+        _restoreNavigateToLogin.value = false
     }
 
-    fun onNavigateBack(){
+    fun onNavigateBack() {
         _navigateBackToLogin.value = true
     }
 
-    fun onDoneNavigateBack(){
+    fun onDoneNavigateBack() {
         _navigateBackToLogin.value = false
     }
 

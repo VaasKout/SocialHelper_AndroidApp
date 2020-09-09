@@ -106,7 +106,7 @@ class LoginViewModel(application: Application) : AndroidViewModel(application) {
         }
     }
 
-     suspend fun updateInfo(info: Info) {
+    suspend fun updateInfo(info: Info) {
         withContext(Dispatchers.IO) {
             repository.updateInfo(info)
         }
@@ -137,11 +137,11 @@ class LoginViewModel(application: Application) : AndroidViewModel(application) {
         _navigateToSignInFrag.value = false
     }
 
-    fun onStartNavigationToRestore(){
+    fun onStartNavigationToRestore() {
         _navigateToRestoreFrag.value = true
     }
 
-    fun onDoneNavigationToRestore(){
+    fun onDoneNavigationToRestore() {
         _navigateToRestoreFrag.value = false
     }
 

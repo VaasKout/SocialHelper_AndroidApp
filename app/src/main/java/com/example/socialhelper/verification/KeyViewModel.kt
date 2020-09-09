@@ -10,7 +10,7 @@ import com.example.socialhelper.network.AndroidClient
 import com.example.socialhelper.repository.InfoRepository
 import kotlinx.coroutines.*
 
-class KeyViewModel(application: Application): AndroidViewModel(application){
+class KeyViewModel(application: Application) : AndroidViewModel(application) {
 
     private val repository: InfoRepository
     val allInfo: LiveData<Info>
@@ -35,11 +35,11 @@ class KeyViewModel(application: Application): AndroidViewModel(application){
         }
     }
 
-    suspend fun requestServer(){
-        withContext(Dispatchers.IO){
-            if (readWrite.socket != null && readWrite.socket.isConnected){
+    suspend fun requestServer() {
+        withContext(Dispatchers.IO) {
+            if (readWrite.socket != null && readWrite.socket.isConnected) {
                 readWrite.writeLine("key")
-                if (serverKey != 0){
+                if (serverKey != 0) {
                     readWrite.write(serverKey)
                     serverId = readWrite.read()
                     readWrite.readLine()
@@ -49,7 +49,7 @@ class KeyViewModel(application: Application): AndroidViewModel(application){
         }
     }
 
-    fun onUpdate(info: Info){
+    fun onUpdate(info: Info) {
         uiScope.launch {
             updateInfo(info)
         }
@@ -82,27 +82,27 @@ class KeyViewModel(application: Application): AndroidViewModel(application){
     private val _showNotification = MutableLiveData<Boolean>()
     val showNotification: LiveData<Boolean> = _showNotification
 
-    fun onStartBackNavigation(){
+    fun onStartBackNavigation() {
         _navigateBack.value = true
     }
 
-    fun onDoneNavigateBack(){
+    fun onDoneNavigateBack() {
         _navigateBack.value = false
     }
 
-    fun onSendKey(){
+    fun onSendKey() {
         _sendKey.value = true
     }
 
-    fun onDoneSendKey(){
+    fun onDoneSendKey() {
         _sendKey.value = false
     }
 
-    fun onShow(){
+    fun onShow() {
         _showNotification.value = true
     }
 
-    fun onDoneShow(){
+    fun onDoneShow() {
         _showNotification.value = false
     }
 

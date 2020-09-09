@@ -7,7 +7,7 @@ import com.example.socialhelper.database.Info
 import com.example.socialhelper.database.InfoDatabase
 import com.example.socialhelper.repository.InfoRepository
 
-class IntroViewModel(application: Application): AndroidViewModel(application){
+class IntroViewModel(application: Application) : AndroidViewModel(application) {
 
     private val repository: InfoRepository
     val allInfo: LiveData<Info>

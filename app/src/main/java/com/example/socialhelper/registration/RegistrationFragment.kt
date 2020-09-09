@@ -22,7 +22,7 @@ import com.google.android.material.snackbar.Snackbar
 import kotlinx.coroutines.delay
 import kotlinx.coroutines.launch
 
-class RegistrationFragment : Fragment(){
+class RegistrationFragment : Fragment() {
 
     override fun onCreateView(
         inflater: LayoutInflater, container: ViewGroup?,
@@ -36,12 +36,12 @@ class RegistrationFragment : Fragment(){
             ViewModelProvider(this).get(RegistrationViewModel::class.java)
         binding.viewModel = viewModel
         val categoryList = resources.getStringArray(R.array.category)
-      
+
         binding.toolbarReg.setNavigationOnClickListener {
             this.findNavController().popBackStack()
         }
-        binding.toolbarReg.setOnMenuItemClickListener{menuItem ->
-            if (menuItem.itemId == R.id.clear){
+        binding.toolbarReg.setOnMenuItemClickListener { menuItem ->
+            if (menuItem.itemId == R.id.clear) {
                 MaterialAlertDialogBuilder(requireContext())
                     .setMessage("Очистить поля ввода?")
                     .setNegativeButton("Нет") { _, _ ->
@@ -64,74 +64,74 @@ class RegistrationFragment : Fragment(){
         viewModel.navigateToWait.observe(viewLifecycleOwner, {
 
             if (it == true) {
-            val userName = binding.textInputUserEditReg.text.toString()
-            val password = binding.textInputPassEditReg.text.toString()
-            val passwordConfirm = binding.confirmPasswordEdit.text.toString()
-            val category = binding.exposeDownMenu.text.toString()
-            val numberEdit = binding.numberReferenceInputEdit.text.toString()
-            val surname = binding.surnameEditInput.text.toString()
-            val login = binding.loginEdit.text.toString()
-            val email = binding.emailEdit.text.toString()
-            val number = binding.numberReference
+                val userName = binding.textInputUserEditReg.text.toString()
+                val password = binding.textInputPassEditReg.text.toString()
+                val passwordConfirm = binding.confirmPasswordEdit.text.toString()
+                val category = binding.exposeDownMenu.text.toString()
+                val numberEdit = binding.numberReferenceInputEdit.text.toString()
+                val surname = binding.surnameEditInput.text.toString()
+                val login = binding.loginEdit.text.toString()
+                val email = binding.emailEdit.text.toString()
+                val number = binding.numberReference
 
 
                 if (userName.isEmpty()) {
                     lifecycleScope.launch {
-                    binding.userInputReg.error = getString(R.string.user_input_error)
+                        binding.userInputReg.error = getString(R.string.user_input_error)
                         viewModel.onDoneNavigating()
-                    delay(3000)
-                    binding.userInputReg.error = null
+                        delay(3000)
+                        binding.userInputReg.error = null
 
+                    }
                 }
-            }
 
                 if (password.isEmpty()) {
                     lifecycleScope.launch {
-                    binding.passwordInputReg.error = getString(R.string.password_input_error)
+                        binding.passwordInputReg.error = getString(R.string.password_input_error)
                         viewModel.onDoneNavigating()
-                    delay(3000)
-                    binding.passwordInputReg.error = null
+                        delay(3000)
+                        binding.passwordInputReg.error = null
+                    }
                 }
-            }
 
                 if (category.isEmpty()) {
                     lifecycleScope.launch {
-                    binding.spinner.error = getString(R.string.choose_category)
+                        binding.spinner.error = getString(R.string.choose_category)
                         viewModel.onDoneNavigating()
-                    delay(3000)
-                    binding.spinner.error = null
+                        delay(3000)
+                        binding.spinner.error = null
 
+                    }
                 }
-            }
 
                 if (login.isEmpty()) {
                     lifecycleScope.launch {
-                    binding.login.error = getString(R.string.enter_login)
+                        binding.login.error = getString(R.string.enter_login)
                         viewModel.onDoneNavigating()
-                    delay(3000)
-                    binding.login.error = null
+                        delay(3000)
+                        binding.login.error = null
+                    }
                 }
-            }
 
                 if (surname.isEmpty()) {
                     lifecycleScope.launch {
-                    binding.surnameInputReg.error = getString(R.string.surname_input_error)
+                        binding.surnameInputReg.error = getString(R.string.surname_input_error)
                         viewModel.onDoneNavigating()
-                    delay(3000)
-                    binding.surnameInputReg.error = null
+                        delay(3000)
+                        binding.surnameInputReg.error = null
+                    }
                 }
-            }
 
                 if (passwordConfirm.isEmpty()) {
                     lifecycleScope.launch {
-                    binding.confirmPassword.error = getString(R.string.confirm_password)
+                        binding.confirmPassword.error = getString(R.string.confirm_password)
                         viewModel.onDoneNavigating()
-                    delay(3000)
-                    binding.confirmPassword.error = null
+                        delay(3000)
+                        binding.confirmPassword.error = null
+                    }
                 }
-            }
 
-                if (email.isEmpty()){
+                if (email.isEmpty()) {
                     lifecycleScope.launch {
                         binding.email.error = "Введите почту"
                         viewModel.onDoneNavigating()
@@ -139,9 +139,10 @@ class RegistrationFragment : Fragment(){
                         binding.email.error = null
                     }
                 } else if (email.isNotEmpty() &&
-                    (!email.contains ("@") || !email.contains("."))){
+                    (!email.contains("@") || !email.contains("."))
+                ) {
                     lifecycleScope.launch {
-                    binding.email.error = getString(R.string.wrong_email_input)
+                        binding.email.error = getString(R.string.wrong_email_input)
                         delay(3000)
                         binding.email.error = null
                     }
@@ -155,10 +156,9 @@ class RegistrationFragment : Fragment(){
                         delay(3000)
                         number.error = null
                     }
+                } else if (number.isGone) {
+                    number.error = null
                 }
-                        else if (number.isGone) {
-                        number.error = null
-                        }
 
 
                 if (passwordConfirm != password) {
@@ -166,76 +166,82 @@ class RegistrationFragment : Fragment(){
                     viewModel.onDoneNavigating()
                 }
 
-            if (userName.isNotEmpty() &&
-                (password.isNotEmpty() && password.length <= 8) &&
-                passwordConfirm.isNotEmpty() &&
-                login.isNotEmpty() &&
-                category.isNotEmpty() &&
-                surname.isNotEmpty() &&
-                number.error.isNullOrEmpty() &&
-                password == passwordConfirm) {
+                if (userName.isNotEmpty() &&
+                    (password.isNotEmpty() && password.length <= 8) &&
+                    passwordConfirm.isNotEmpty() &&
+                    login.isNotEmpty() &&
+                    category.isNotEmpty() &&
+                    surname.isNotEmpty() &&
+                    number.error.isNullOrEmpty() &&
+                    password == passwordConfirm
+                ) {
 
-                var referenceNumber = 0
+                    var referenceNumber = 0
 
-                var info = Info(
-                    id = 1, name = userName, surname = surname,
-                    password = password, group = category,
-                    login = login, email = email, wasLoggedIn = false)
-
-                if (number.isVisible) {
-                    info = Info(
+                    var info = Info(
                         id = 1, name = userName, surname = surname,
                         password = password, group = category,
-                        reference = numberEdit.toInt(),
-                        login = login, email = email, wasLoggedIn = false)
+                        login = login, email = email, wasLoggedIn = false
+                    )
 
-                    referenceNumber = numberEdit.toInt()
-                }
+                    if (number.isVisible) {
+                        info = Info(
+                            id = 1, name = userName, surname = surname,
+                            password = password, group = category,
+                            reference = numberEdit.toInt(),
+                            login = login, email = email, wasLoggedIn = false
+                        )
 
-                viewModel.onInsert(info)
-
-                MaterialAlertDialogBuilder(requireContext())
-                    .setMessage("Данные введены верно?")
-                    .setNegativeButton("Нет") { _, _ ->
-                        viewModel.onDoneNavigating()
+                        referenceNumber = numberEdit.toInt()
                     }
-                    .setPositiveButton("Да") { _, _ ->
 
-                        lifecycleScope.launch {
-                            viewModel.connectToServer()
-                            viewModel.requestServer()
-                            if (!viewModel.readWrite.socket.isConnected) {
-                                Snackbar.make(
-                                    binding.materialButton,
-                                    getString(R.string.retry_later),
-                                    Snackbar.LENGTH_SHORT
-                                ).show()
-                                viewModel.onDoneNavigating()
-                            } else {
-                                info = Info(
-                                    id = 1,
-                                    name = userName,
-                                    surname = surname,
-                                    password = password,
-                                    group = category,
-                                    login = login,
-                                    email = email,
-                                    reference = referenceNumber,
-                                    needVerification = true)
-                                viewModel.updateInfo(info)
+                    viewModel.onInsert(info)
 
-                                Log.e("serverID", viewModel.serverId.toString())
-                                Log.e("serverKey", viewModel.serverKey.toString())
-
-                                this@RegistrationFragment.findNavController()
-                                    .navigate(
-                                        RegistrationFragmentDirections
-                                            .actionRegistrationFragmentToKeyVerification())
-
-                                viewModel.onDoneNavigating()
-                            }
+                    MaterialAlertDialogBuilder(requireContext())
+                        .setMessage("Данные введены верно?")
+                        .setNegativeButton("Нет") { _, _ ->
+                            viewModel.onDoneNavigating()
                         }
-                    }.show()
+                        .setPositiveButton("Да") { _, _ ->
+                            viewModel.allInfo.observe(viewLifecycleOwner, {
+                                lifecycleScope.launch {
+                                    viewModel.connectToServer()
+                                    viewModel.requestServer()
+                                    if (!viewModel.readWrite.socket.isConnected) {
+                                        Snackbar.make(
+                                            binding.materialButton,
+                                            getString(R.string.retry_later),
+                                            Snackbar.LENGTH_SHORT
+                                        ).show()
+                                        viewModel.onDoneNavigating()
+                                    } else {
+                                        info = Info(
+                                            id = 1,
+                                            name = userName,
+                                            surname = surname,
+                                            password = password,
+                                            group = category,
+                                            login = login,
+                                            email = email,
+                                            reference = referenceNumber,
+                                            needVerification = true
+                                        )
+                                        viewModel.updateInfo(info)
+
+//                                Log.e("serverID", viewModel.serverId.toString())
+//                                Log.e("serverKey", viewModel.serverKey.toString())
+
+                                        this@RegistrationFragment.findNavController()
+                                            .navigate(
+                                                RegistrationFragmentDirections
+                                                    .actionRegistrationFragmentToKeyVerification()
+                                            )
+
+                                        viewModel.onDoneNavigating()
+                                    }
+                                }
+                            })
+                        }.show()
                 }
             }
         })
@@ -249,12 +255,12 @@ class RegistrationFragment : Fragment(){
             R.array.category,
             R.layout.drop_down_menu
         ).also {
-           it.setDropDownViewResource(android.R.layout.simple_spinner_dropdown_item)
+            it.setDropDownViewResource(android.R.layout.simple_spinner_dropdown_item)
             binding.exposeDownMenu.setAdapter(it)
         }
 
         binding.exposeDownMenu.setOnItemClickListener { adapterView, _, position, _ ->
-            when(adapterView.getItemAtPosition(position).toString()){
+            when (adapterView.getItemAtPosition(position).toString()) {
                 categoryList[0], categoryList[2] -> {
                     binding.numberReference.visibility = View.GONE
                     binding.exposeDownMenu.error = null

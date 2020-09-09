@@ -34,7 +34,7 @@ class ResponseFragment : Fragment() {
         })
 
         viewModel.navigateBack.observe(viewLifecycleOwner, {
-            if (it == true){
+            if (it == true) {
                 this.findNavController().popBackStack()
                 viewModel.onDoneBackNavigation()
             }

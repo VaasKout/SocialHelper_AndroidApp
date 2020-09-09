@@ -20,7 +20,8 @@ class LoginFragment : Fragment() {
 
     override fun onCreateView(
         inflater: LayoutInflater, container: ViewGroup?,
-        savedInstanceState: Bundle?): View? {
+        savedInstanceState: Bundle?
+    ): View? {
 
         val binding = FragmentLoginBinding.inflate(inflater)
         val loginViewModel =
@@ -57,7 +58,8 @@ class LoginFragment : Fragment() {
                 }
 
                 if (userInput.isNotEmpty() &&
-                    passwordInput.isNotEmpty()) {
+                    passwordInput.isNotEmpty()
+                ) {
 
                     loginViewModel.login = userInput
                     loginViewModel.password = passwordInput.toInt()
@@ -71,11 +73,13 @@ class LoginFragment : Fragment() {
                                     Snackbar.make(
                                         binding.loginNextButton,
                                         getString(R.string.retry_later),
-                                        Snackbar.LENGTH_SHORT).show()
+                                        Snackbar.LENGTH_SHORT
+                                    ).show()
                                     loginViewModel.onDoneNavigationToMain()
 
                                 } else if (loginViewModel.serverID <= 0 ||
-                                            loginViewModel.serverKey <= 0) {
+                                    loginViewModel.serverKey <= 0
+                                ) {
                                     lifecycleScope.launch {
                                         binding.userTextInput.error =
                                             getString(R.string.wrong_login_or_password)
@@ -90,7 +94,7 @@ class LoginFragment : Fragment() {
                                 }
                             }
                             if (info != null) {
-                                if (info.serverID <= 0 &&  info.serverKey <= 0){
+                                if (info.serverID <= 0 && info.serverKey <= 0) {
                                     binding.userTextInput.error =
                                         getString(R.string.registration_denied)
                                     binding.userTextInput.error =
@@ -124,12 +128,15 @@ class LoginFragment : Fragment() {
                                                         email = info.email,
                                                         serverID = info.serverID,
                                                         serverKey = info.serverKey,
-                                                        wasLoggedIn = true)
+                                                        wasLoggedIn = true
+                                                    )
                                                     loginViewModel.updateInfo(infoInstance)
 
                                                     this@LoginFragment.findNavController()
-                                                        .navigate(LoginFragmentDirections
-                                                            .actionLoginFragmentToDisabledFragment())
+                                                        .navigate(
+                                                            LoginFragmentDirections
+                                                                .actionLoginFragmentToDisabledFragment()
+                                                        )
                                                     loginViewModel.onDoneNavigationToMain()
                                                 }
                                                 categoryList[1], categoryEngList[1] -> {
@@ -144,12 +151,15 @@ class LoginFragment : Fragment() {
                                                         email = info.email,
                                                         serverID = info.serverID,
                                                         serverKey = info.serverKey,
-                                                        wasLoggedIn = true)
+                                                        wasLoggedIn = true
+                                                    )
                                                     loginViewModel.updateInfo(infoInstance)
 
                                                     this@LoginFragment.findNavController()
-                                                        .navigate(LoginFragmentDirections
-                                                            .actionLoginFragmentToPregnantFragment())
+                                                        .navigate(
+                                                            LoginFragmentDirections
+                                                                .actionLoginFragmentToPregnantFragment()
+                                                        )
                                                     loginViewModel.onDoneNavigationToMain()
                                                 }
                                                 categoryList[2], categoryEngList[2] -> {
@@ -163,22 +173,25 @@ class LoginFragment : Fragment() {
                                                         email = info.email,
                                                         serverID = info.serverID,
                                                         serverKey = info.serverKey,
-                                                        wasLoggedIn = true)
+                                                        wasLoggedIn = true
+                                                    )
                                                     loginViewModel.updateInfo(infoInstance)
                                                     this@LoginFragment.findNavController()
-                                                        .navigate(LoginFragmentDirections
-                                                            .actionLoginFragmentToSocialFragment())
+                                                        .navigate(
+                                                            LoginFragmentDirections
+                                                                .actionLoginFragmentToSocialFragment()
+                                                        )
                                                     loginViewModel.onDoneNavigationToMain()
                                                 }
                                             }
                                         }
                                     }
-                                }
                             }
-                        })
-                    }
+                        }
+                    })
                 }
-            })
+            }
+        })
 
 
         loginViewModel.navigateToSignInFrag.observe(viewLifecycleOwner, {
@@ -193,7 +206,7 @@ class LoginFragment : Fragment() {
         })
 
         loginViewModel.navigateToRestoreFrag.observe(viewLifecycleOwner, {
-            if (it == true){
+            if (it == true) {
                 this.findNavController()
                     .navigate(LoginFragmentDirections.actionLoginFragmentToRestorePassword())
                 loginViewModel.onDoneNavigationToRestore()

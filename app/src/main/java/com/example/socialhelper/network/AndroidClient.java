@@ -23,29 +23,29 @@ public class AndroidClient implements Closeable {
      * Check if connection is available, if not, get logs without throwing IOException
      */
 
-        public void connectSocket(String ip, int port){
-            int timeout = 1000;
-            SocketAddress socketAddress = new InetSocketAddress(ip, port);
-            try{
-                closeConnection();
-                socket = new Socket();
-                socket.connect(socketAddress, timeout);
-                reader = createReader();
-                writer = createWriter();
+    public void connectSocket(String ip, int port) {
+        int timeout = 1000;
+        SocketAddress socketAddress = new InetSocketAddress(ip, port);
+        try {
+            closeConnection();
+            socket = new Socket();
+            socket.connect(socketAddress, timeout);
+            reader = createReader();
+            writer = createWriter();
 
-            }catch (SocketTimeoutException exception){
-                Log.e("timeout", "SocketTimeoutException"+ ip +":"+ port);
-            }catch (IOException e){
-                Log.e("error", "Unable to connect");
-            }
+        } catch (SocketTimeoutException exception) {
+            Log.e("timeout", "SocketTimeoutException" + ip + ":" + port);
+        } catch (IOException e) {
+            Log.e("error", "Unable to connect");
         }
+    }
 
 
-    public void closeConnection(){
-        if (socket != null && !socket.isClosed()){
-            try{
+    public void closeConnection() {
+        if (socket != null && !socket.isClosed()) {
+            try {
                 socket.close();
-            }catch (IOException e){
+            } catch (IOException e) {
                 Log.e("Error", "Failed to close socket");
             } finally {
                 socket = null;
@@ -58,12 +58,13 @@ public class AndroidClient implements Closeable {
     private BufferedReader createReader() throws IOException {
         return new BufferedReader(new InputStreamReader(socket.getInputStream()));
     }
+
     //OutputStream
     private BufferedWriter createWriter() throws IOException {
         return new BufferedWriter(new OutputStreamWriter(socket.getOutputStream()));
     }
 
-//    //Reading/writing a String line
+    //    //Reading/writing a String line
     public String readLine() {
         try {
             return reader.readLine();
@@ -94,7 +95,7 @@ public class AndroidClient implements Closeable {
     }
 
     public void writePregnantData(int number, String name,
-                                  String surname, String login, int password){
+                                  String surname, String login, int password) {
         write(number);
         writeLine(name);
         writeLine(surname);
@@ -102,14 +103,14 @@ public class AndroidClient implements Closeable {
         write(password);
     }
 
-    public void writeLoginPassword(String login, int password){
-           writeLine(login);
-           write(password);
+    public void writeLoginPassword(String login, int password) {
+        writeLine(login);
+        write(password);
     }
 
-    public void writeRestoreInfo(String login, String post){
-            writeLine(login);
-            writeLine(post);
+    public void writeRestoreInfo(String login, String post) {
+        writeLine(login);
+        writeLine(post);
     }
 
     public void writeLine(String message) {

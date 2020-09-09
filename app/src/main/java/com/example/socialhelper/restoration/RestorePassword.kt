@@ -20,27 +20,27 @@ class RestorePassword : Fragment() {
 
     override fun onCreateView(
         inflater: LayoutInflater, container: ViewGroup?,
-        savedInstanceState: Bundle?): View? {
+        savedInstanceState: Bundle?
+    ): View? {
         val binding: FragmentRestorePasswordBinding = DataBindingUtil
             .inflate(inflater, R.layout.fragment_restore_password, container, false)
-        val viewModel
-                = ViewModelProvider(this).get(RestoreViewModel::class.java)
+        val viewModel = ViewModelProvider(this).get(RestoreViewModel::class.java)
         binding.viewModel = viewModel
 
         viewModel.navigateBackToLogin.observe(viewLifecycleOwner, {
-            if (it == true){
+            if (it == true) {
                 this.findNavController().popBackStack()
                 viewModel.onDoneNavigateBack()
             }
         })
 
         viewModel.restoreNavigateToLogin.observe(viewLifecycleOwner, {
-            if (it == true){
+            if (it == true) {
 
                 val login = binding.loginRestoreEdit.text.toString()
                 val post = binding.restoreEmailEdit.text.toString()
 
-                if (login.isEmpty()){
+                if (login.isEmpty()) {
                     lifecycleScope.launch {
                         binding.loginRestore.error = getString(R.string.empty_field_error)
                         viewModel.onDoneRestore()
@@ -49,8 +49,8 @@ class RestorePassword : Fragment() {
                     }
                 }
 
-                if (post.isEmpty()){
-                    lifecycleScope.launch{
+                if (post.isEmpty()) {
+                    lifecycleScope.launch {
                         binding.emailRestore.error = getString(R.string.empty_field_error)
                         viewModel.onDoneRestore()
                         delay(3000)
@@ -59,7 +59,8 @@ class RestorePassword : Fragment() {
                 }
 
                 if (login.isNotEmpty() &&
-                    post.isNotEmpty()){
+                    post.isNotEmpty()
+                ) {
                     lifecycleScope.launch {
                         viewModel.loginRestore = login
                         viewModel.postRestore = post
@@ -69,14 +70,17 @@ class RestorePassword : Fragment() {
                             Snackbar.make(
                                 binding.sendRestoreRequestButton,
                                 getString(R.string.retry_later),
-                                Snackbar.LENGTH_SHORT).show()
+                                Snackbar.LENGTH_SHORT
+                            ).show()
                             viewModel.onDoneRestore()
                         } else {
                             MaterialAlertDialogBuilder(requireContext())
                                 .setTitle("Пароль отправлен на почту")
-                                .setMessage("Если письма нет в папке \"Входящие\", " +
-                                            "проверьте папку \"Спам\"")
-                                .setPositiveButton("Ок"){ _, _ ->
+                                .setMessage(
+                                    "Если письма нет в папке \"Входящие\", " +
+                                            "проверьте папку \"Спам\""
+                                )
+                                .setPositiveButton("Ок") { _, _ ->
                                     this@RestorePassword.findNavController().popBackStack()
                                     viewModel.onDoneRestore()
                                 }.show()

@@ -29,7 +29,7 @@ class KeyVerification : Fragment() {
         val viewModel = ViewModelProvider(this).get(KeyViewModel::class.java)
         binding.viewModel = viewModel
 
-        if (!viewModel.notificationShowed){
+        if (!viewModel.notificationShowed) {
             MaterialAlertDialogBuilder(requireContext())
                 .setTitle("Ключ верификации отправлен на указанную почту")
                 .setMessage(
@@ -42,7 +42,7 @@ class KeyVerification : Fragment() {
         }
 
         viewModel.showNotification.observe(viewLifecycleOwner, {
-            if (it == true){
+            if (it == true) {
                 MaterialAlertDialogBuilder(requireContext())
                     .setTitle("Ключ верификации отправлен на указанную почту")
                     .setMessage(

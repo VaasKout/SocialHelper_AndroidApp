@@ -10,7 +10,7 @@ import com.example.socialhelper.network.AndroidClient
 import com.example.socialhelper.repository.InfoRepository
 import kotlinx.coroutines.*
 
-class RegistrationViewModel(application: Application): AndroidViewModel(application) {
+class RegistrationViewModel(application: Application) : AndroidViewModel(application) {
 
     var serverId: Int = 0
     var serverKey: Int = 0
@@ -23,16 +23,19 @@ class RegistrationViewModel(application: Application): AndroidViewModel(applicat
         allInfo = repository.allInfo
     }
 
+
     val readWrite = AndroidClient()
-//Live Data
+
+    //Live Data
     private val _navigateToWait = MutableLiveData<Boolean>()
     val navigateToWait: LiveData<Boolean> = _navigateToWait
 
 
-    fun onDoneNavigating(){
+    fun onDoneNavigating() {
         _navigateToWait.value = false
     }
-    fun onStartNavigating(){
+
+    fun onStartNavigating() {
         _navigateToWait.value = true
     }
 
@@ -41,21 +44,21 @@ class RegistrationViewModel(application: Application): AndroidViewModel(applicat
     private val uiScope = CoroutineScope(Dispatchers.Main + viewModelJob)
 
     //Database methods
-    fun onInsert(info: Info){
+    fun onInsert(info: Info) {
         uiScope.launch {
             insertInfo(info)
         }
     }
 
-    private suspend fun insertInfo(info: Info){
-          withContext(Dispatchers.IO){
+    private suspend fun insertInfo(info: Info) {
+        withContext(Dispatchers.IO) {
             repository.insert(info)
         }
     }
 
 
-    suspend fun updateInfo(info: Info){
-        withContext(Dispatchers.IO){
+    suspend fun updateInfo(info: Info) {
+        withContext(Dispatchers.IO) {
             repository.updateInfo(info)
         }
     }
@@ -72,38 +75,40 @@ class RegistrationViewModel(application: Application): AndroidViewModel(applicat
         }
     }
 
-    suspend fun connectToServer(){
+    suspend fun connectToServer() {
         withContext(Dispatchers.IO) {
             readWrite.connectSocket("192.168.0.110", 9000)
         }
     }
 
-    suspend fun requestServer(){
-         withContext(Dispatchers.IO) {
+    suspend fun requestServer() {
+        withContext(Dispatchers.IO) {
             allInfo.value?.let {
-
                 var g = ""
-                when (it.group){
+                when (it.group) {
                     "Инвалид" -> g = "wheelchair"
                     "Беременная" -> g = "pregnant"
                     "Соц.работник" -> g = "socialworker"
                 }
 
-                    if (readWrite.socket != null && readWrite.socket.isConnected){
-                        if (g == "wheelchair" || g == "socialworker"){
-                            readWrite.writeLine("userRegData")
-                            readWrite.writeUserData(g, it.name, it.surname,
-                                                    it.login, it.password.toInt())
-                        } else if (g == "pregnant"){
-                            readWrite.writeLine("loginPregnant")
-                            readWrite.writePregnantData(
-                                it.reference,
-                                it.name,
-                                it.surname,
-                                it.login,
-                                it.password.toInt())
-                        }
+                if (readWrite.socket != null && readWrite.socket.isConnected) {
+                    if (g == "wheelchair" || g == "socialworker") {
+                        readWrite.writeLine("userRegData")
+                        readWrite.writeUserData(
+                            g, it.name, it.surname,
+                            it.login, it.password.toInt()
+                        )
+                    } else if (g == "pregnant") {
+                        readWrite.writeLine("loginPregnant")
+                        readWrite.writePregnantData(
+                            it.reference,
+                            it.name,
+                            it.surname,
+                            it.login,
+                            it.password.toInt()
+                        )
                     }
+                }
             }
         }
     }

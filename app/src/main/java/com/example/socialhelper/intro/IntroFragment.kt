@@ -19,7 +19,8 @@ class IntroFragment : Fragment() {
     override fun onCreateView(
         inflater: LayoutInflater,
         container: ViewGroup?,
-        savedInstanceState: Bundle?): View? {
+        savedInstanceState: Bundle?
+    ): View? {
 
         val binding: FragmentIntroBinding =
             DataBindingUtil.inflate(inflater, R.layout.fragment_intro, container, false)
@@ -40,18 +41,20 @@ class IntroFragment : Fragment() {
         lifecycleScope.launch {
 
             for (i in wordList) {
-                    i.alpha = 1.0F
-                    i.startAnimation(appear)
-                    delay(appear.duration)
-                    i.clearAnimation()
+                i.alpha = 1.0F
+                i.startAnimation(appear)
+                delay(appear.duration)
+                i.clearAnimation()
             }
 
             delay(appear.duration)
 
             this@IntroFragment
-                        .findNavController()
-                        .navigate(IntroFragmentDirections
-                            .actionIntroFragmentToKeyVerification())
+                .findNavController()
+                .navigate(
+                    IntroFragmentDirections
+                        .actionIntroFragmentToKeyVerification()
+                )
 
 //            viewModel.allInfo.observe(viewLifecycleOwner, {
 //

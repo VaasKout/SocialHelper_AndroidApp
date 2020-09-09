@@ -8,7 +8,7 @@ import com.example.socialhelper.database.Info
 import com.example.socialhelper.database.InfoDatabase
 import com.example.socialhelper.repository.InfoRepository
 
-class ResponseViewModel (application: Application): AndroidViewModel(application){
+class ResponseViewModel(application: Application) : AndroidViewModel(application) {
 
 
 //    private val viewModelJob = Job()
@@ -26,11 +26,11 @@ class ResponseViewModel (application: Application): AndroidViewModel(application
     private val _navigateBack = MutableLiveData<Boolean>()
     val navigateBack: LiveData<Boolean> = _navigateBack
 
-    fun onStartBackNavigation(){
+    fun onStartBackNavigation() {
         _navigateBack.value = true
     }
 
-    fun onDoneBackNavigation(){
+    fun onDoneBackNavigation() {
         _navigateBack.value = false
     }
 

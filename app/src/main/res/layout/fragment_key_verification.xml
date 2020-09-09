@@ -4,6 +4,7 @@
     xmlns:tools="http://schemas.android.com/tools">
 
     <data>
+
         <variable
             name="viewModel"
             type="com.example.socialhelper.verification.KeyViewModel" />
@@ -12,19 +13,19 @@
     <androidx.constraintlayout.widget.ConstraintLayout
         android:layout_width="match_parent"
         android:layout_height="match_parent"
-        tools:context=".verification.KeyVerification"
-        android:padding="16dp">
+        android:padding="16dp"
+        tools:context=".verification.KeyVerification">
 
 
         <ImageView
             android:id="@+id/navigate_back_from_verification"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
+            android:contentDescription="@string/back"
+            android:onClick="@{() -> viewModel.onStartBackNavigation()}"
             android:src="@drawable/ic_big_arrow"
             app:layout_constraintStart_toStartOf="parent"
-            app:layout_constraintTop_toTopOf="parent"
-            android:onClick="@{() -> viewModel.onStartBackNavigation()}"
-            android:contentDescription="@string/back" />
+            app:layout_constraintTop_toTopOf="parent" />
 
         <TextView
             android:id="@+id/verifyKey"
@@ -46,19 +47,19 @@
             android:layout_marginStart="64dp"
             android:layout_marginEnd="64dp"
             android:hint="@string/key"
+            app:endIconMode="clear_text"
+            app:errorEnabled="true"
             app:layout_constraintBottom_toBottomOf="parent"
             app:layout_constraintEnd_toEndOf="parent"
             app:layout_constraintStart_toStartOf="parent"
-            app:layout_constraintTop_toTopOf="parent"
-            app:errorEnabled="true"
-            app:endIconMode="clear_text">
+            app:layout_constraintTop_toTopOf="parent">
 
             <com.google.android.material.textfield.TextInputEditText
                 android:id="@+id/key_edit"
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
-                android:inputType="number"
-                android:imeOptions="actionDone"/>
+                android:imeOptions="actionDone"
+                android:inputType="number" />
         </com.google.android.material.textfield.TextInputLayout>
 
         <com.google.android.material.button.MaterialButton
@@ -66,20 +67,20 @@
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
             android:layout_marginTop="24dp"
-            app:layout_constraintEnd_toEndOf="parent"
-            app:layout_constraintTop_toBottomOf="@+id/key"
+            android:onClick="@{() -> viewModel.onSendKey()}"
             android:text="@string/verify"
-            android:onClick="@{() -> viewModel.onSendKey()}"/>
+            app:layout_constraintEnd_toEndOf="parent"
+            app:layout_constraintTop_toBottomOf="@+id/key" />
 
         <ImageView
             android:id="@+id/show_notification"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
+            android:contentDescription="@string/info"
+            android:onClick="@{() -> viewModel.onShow()}"
             app:layout_constraintEnd_toEndOf="parent"
             app:layout_constraintTop_toTopOf="parent"
-            app:srcCompat="@drawable/ic_info"
-            android:contentDescription="@string/info"
-            android:onClick="@{() -> viewModel.onShow()}"/>
+            app:srcCompat="@drawable/ic_info" />
 
     </androidx.constraintlayout.widget.ConstraintLayout>
 </layout>

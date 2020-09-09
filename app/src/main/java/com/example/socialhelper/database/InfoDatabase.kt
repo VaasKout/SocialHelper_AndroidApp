@@ -6,17 +6,17 @@ import androidx.room.Room
 import androidx.room.RoomDatabase
 
 @Database(entities = [Info::class], version = 1, exportSchema = false)
-abstract class InfoDatabase: RoomDatabase(){
+abstract class InfoDatabase : RoomDatabase() {
     abstract fun infoDao(): InfoDao
 
-    companion object{
+    companion object {
         @Volatile
         private var INSTANCE: InfoDatabase? = null
 
-        fun getInfoDatabase(context: Context): InfoDatabase{
-            synchronized(this){
+        fun getInfoDatabase(context: Context): InfoDatabase {
+            synchronized(this) {
                 var instance = INSTANCE
-                if (instance == null){
+                if (instance == null) {
                     instance = Room.databaseBuilder(
                         context.applicationContext,
                         InfoDatabase::class.java,
@@ -24,7 +24,7 @@ abstract class InfoDatabase: RoomDatabase(){
                     ).fallbackToDestructiveMigration()
                         .build()
                     INSTANCE = instance
-            }
+                }
                 return instance
             }
         }

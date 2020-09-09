@@ -9,7 +9,7 @@ import com.example.socialhelper.database.InfoDatabase
 import com.example.socialhelper.repository.InfoRepository
 import kotlinx.coroutines.*
 
-class SocialViewModel(application: Application): AndroidViewModel(application){
+class SocialViewModel(application: Application) : AndroidViewModel(application) {
 
     private val viewModelJob = Job()
     private val uiScope = CoroutineScope(Dispatchers.Main + viewModelJob)
@@ -25,21 +25,21 @@ class SocialViewModel(application: Application): AndroidViewModel(application){
     private val _exit = MutableLiveData<Boolean>()
     val exit: LiveData<Boolean> = _exit
 
-    fun startExit(){
+    fun startExit() {
         _exit.value = true
     }
 
-    fun onDoneExit(){
+    fun onDoneExit() {
         _exit.value = false
     }
 
-    fun onClear(){
+    fun onClear() {
         uiScope.launch {
             deleteInfo()
         }
     }
 
-    private suspend fun deleteInfo(){
+    private suspend fun deleteInfo() {
         withContext(Dispatchers.IO) {
             repository.deleteInfo()
         }

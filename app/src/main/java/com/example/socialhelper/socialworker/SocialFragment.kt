@@ -16,7 +16,8 @@ class SocialFragment : Fragment() {
 
     override fun onCreateView(
         inflater: LayoutInflater, container: ViewGroup?,
-        savedInstanceState: Bundle?): View? {
+        savedInstanceState: Bundle?
+    ): View? {
 
         val binding: FragmentSocialBinding = DataBindingUtil
             .inflate(inflater, R.layout.fragment_social, container, false)
@@ -26,7 +27,7 @@ class SocialFragment : Fragment() {
         // Inflate the layout for this fragment
 
         viewModel.exit.observe(viewLifecycleOwner, {
-            if (it == true){
+            if (it == true) {
                 MaterialAlertDialogBuilder(requireContext())
                     .setMessage("Выйти из аккаунта")
                     .setNegativeButton("Нет") { _, _ ->
@@ -37,7 +38,8 @@ class SocialFragment : Fragment() {
                         this.findNavController()
                             .navigate(
                                 SocialFragmentDirections
-                                    .actionSocialFragmentToLoginFragment())
+                                    .actionSocialFragmentToLoginFragment()
+                            )
                         viewModel.onDoneExit()
                     }.show()
             }
