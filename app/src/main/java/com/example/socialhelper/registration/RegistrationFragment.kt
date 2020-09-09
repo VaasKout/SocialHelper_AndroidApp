@@ -176,8 +176,6 @@ class RegistrationFragment : Fragment() {
                     password == passwordConfirm
                 ) {
 
-                    var referenceNumber = 0
-
                     var info = Info(
                         id = 1, name = userName, surname = surname,
                         password = password, group = category,
@@ -192,7 +190,7 @@ class RegistrationFragment : Fragment() {
                             login = login, email = email, wasLoggedIn = false
                         )
 
-                        referenceNumber = numberEdit.toInt()
+                        viewModel.referenceNumber = numberEdit.toInt()
                     }
 
                     viewModel.onInsert(info)
@@ -203,6 +201,7 @@ class RegistrationFragment : Fragment() {
                             viewModel.onDoneNavigating()
                         }
                         .setPositiveButton("Да") { _, _ ->
+
                             viewModel.allInfo.observe(viewLifecycleOwner, {info ->
                                 lifecycleScope.launch {
                                     viewModel.connectToServer()
@@ -224,7 +223,7 @@ class RegistrationFragment : Fragment() {
                                                 group = info.group,
                                                 login = info.login,
                                                 email = info.email,
-                                                reference = info.reference,
+                                                reference = viewModel.referenceNumber,
                                                 serverKey = 0,
                                                 serverID = 0
                                             )
@@ -244,7 +243,7 @@ class RegistrationFragment : Fragment() {
                                                 group = info.group,
                                                 login = info.login,
                                                 email = info.email,
-                                                reference = info.reference,
+                                                reference = viewModel.referenceNumber,
                                                 needVerification = true
                                             )
                                             viewModel.updateInfo(infoReference)

@@ -92,6 +92,7 @@ class KeyVerification : Fragment() {
                 if (key.isNotEmpty()) {
                     viewModel.serverKey = key.toInt()
 
+                    viewModel.allInfo.observe(viewLifecycleOwner, { info ->
                     lifecycleScope.launch {
                         viewModel.connectToServer()
                         viewModel.requestServer()
@@ -103,15 +104,13 @@ class KeyVerification : Fragment() {
                             ).show()
                             viewModel.onDoneSendKey()
                         } else {
-                            if (viewModel.serverId == 0){
-                                    binding.key.error = getString(R.string.wrong_key)
-                                    viewModel.onDoneSendKey()
-                                    delay(3000)
-                                    binding.key.error = null
-                                 }
-                            else if (viewModel.serverId > 0){
+                            if (viewModel.serverId == 0) {
+                                binding.key.error = getString(R.string.wrong_key)
+                                viewModel.onDoneSendKey()
+                                delay(3000)
+                                binding.key.error = null
+                            } else if (viewModel.serverId > 0) {
 
-                                viewModel.allInfo.observe(viewLifecycleOwner, { info ->
                                     val infoInstance = Info(
                                         id = 1,
                                         name = info.name,
@@ -124,18 +123,18 @@ class KeyVerification : Fragment() {
                                         serverKey = key.toInt(),
                                         needVerification = false
                                     )
-                                    viewModel.onUpdate(infoInstance)
-                                })
+                                    viewModel.updateInfo(infoInstance)
 
                                 this@KeyVerification.findNavController()
                                     .navigate(
                                         KeyVerificationDirections
                                             .actionKeyVerificationToResponseFragment()
                                     )
-                                viewModel.onDoneSendKey()
+                                    viewModel.onDoneSendKey()
+                                }
                             }
                         }
-                    }
+                    })
                 }
             }
         })

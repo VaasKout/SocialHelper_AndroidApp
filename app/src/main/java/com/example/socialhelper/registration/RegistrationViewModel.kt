@@ -24,6 +24,7 @@ class RegistrationViewModel(application: Application) : AndroidViewModel(applica
 
     val readWrite = AndroidClient()
     var state: String = ""
+    var referenceNumber = 0
 
     //Live Data
     private val _navigateToWait = MutableLiveData<Boolean>()
@@ -98,7 +99,8 @@ class RegistrationViewModel(application: Application) : AndroidViewModel(applica
                             it.name,
                             it.surname,
                             it.login,
-                            it.password.toInt()
+                            it.password.toInt(),
+                            it.email
                         )
                     } else if (g == "pregnant") {
                         readWrite.writeLine("loginPregnant")

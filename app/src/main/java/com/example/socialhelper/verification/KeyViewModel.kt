@@ -38,24 +38,22 @@ class KeyViewModel(application: Application) : AndroidViewModel(application) {
     suspend fun requestServer() {
         withContext(Dispatchers.IO) {
             if (readWrite.socket != null && readWrite.socket.isConnected) {
-                readWrite.writeLine("key")
+                readWrite.writeLine("verify")
                 if (serverKey != 0) {
                     readWrite.write(serverKey)
                     serverId = readWrite.read()
-                    readWrite.readLine()
                 }
             }
-
         }
     }
 
-    fun onUpdate(info: Info) {
-        uiScope.launch {
-            updateInfo(info)
-        }
-    }
+//    fun onUpdate(info: Info) {
+//        uiScope.launch {
+//            updateInfo(info)
+//        }
+//    }
 
-    private suspend fun updateInfo(info: Info) {
+    suspend fun updateInfo(info: Info) {
         withContext(Dispatchers.IO) {
             repository.updateInfo(info)
         }

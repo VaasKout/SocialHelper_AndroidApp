@@ -8,7 +8,7 @@
         android:id="@+id/registrationFragment"
         android:name="com.example.socialhelper.registration.RegistrationFragment"
         android:label="fragment_registration"
-        tools:layout="@layout/fragment_registration" >
+        tools:layout="@layout/fragment_registration">
         <action
             android:id="@+id/action_registrationFragment_to_keyVerification"
             app:destination="@id/keyVerification"
@@ -166,12 +166,12 @@
         <action
             android:id="@+id/action_introFragment_to_keyVerification"
             app:destination="@id/keyVerification"
-            app:popUpTo="@id/introFragment"
-            app:popUpToInclusive="true"
             app:enterAnim="@anim/slide_in_right"
             app:exitAnim="@anim/slide_in_right_next"
             app:popEnterAnim="@anim/slide_in_left"
-            app:popExitAnim="@anim/slide_in_left_next"/>
+            app:popExitAnim="@anim/slide_in_left_next"
+            app:popUpTo="@id/introFragment"
+            app:popUpToInclusive="false" />
     </fragment>
     <fragment
         android:id="@+id/disabledMaps"
