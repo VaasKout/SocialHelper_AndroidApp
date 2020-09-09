@@ -30,46 +30,57 @@ class PregnantFragment : Fragment() {
         val viewModel = ViewModelProvider(this).get(PregnantViewModel::class.java)
         binding.viewModel = viewModel
 
-        lifecycleScope.launch {
-            whenStarted {
+        lifecycleScope.launchWhenStarted {
                 viewModel.turnOnBluetooth(requireActivity())
-            }
         }
 
         viewModel.spotIsFree.observe(viewLifecycleOwner, {
             var adapter = viewModel.bluetoothReadWrite.btAdapter
             var socket = viewModel.bluetoothReadWrite.btSocket
             if (it == true) {
-                lifecycleScope.launch {
-                    if (adapter != null && adapter.isEnabled) {
-                        if (socket == null || !socket.isConnected){
-                            viewModel.createConnection()
-                            socket = viewModel.bluetoothReadWrite.btSocket
-                        }
-                        Log.e("adapter", "Adapter is available")
-                        if (socket != null) {
-                            Log.e("socket" ,"Socket is available")
-                            viewModel.sendMessage("32")
-                            Log.e("sent" ,"0")
-                            binding.result.text = viewModel.bluetoothAnswer.toString()
+                viewModel.allInfo.observe(viewLifecycleOwner, {info ->
+                    Log.e("id", info.serverID.toString())
+                    lifecycleScope.launch {
+                        if (adapter != null && adapter.isEnabled) {
+                            if (socket == null || !socket.isConnected) {
+                                viewModel.createConnection()
+                                socket = viewModel.bluetoothReadWrite.btSocket
+                            }
+                            Log.e("adapter", "Adapter is available")
+                            if (socket != null){
+                                while (!socket.isConnected){
+                                    viewModel.createConnection()
+                                    delay(5000)
+                                    socket = viewModel.bluetoothReadWrite.btSocket
+                                    Log.e("trying", "trying to connect")
+                                }
+                                if (socket.isConnected) {
+                                    Log.e("socket", "Socket is available")
+                                    viewModel.sendMessage(info.serverID.toString())
+                                    Log.e("sent", info.serverID.toString())
+//                            binding.result.text = viewModel.bluetoothAnswer.toString()
+                                    viewModel.onDoneSetSpotFree()
+                                }
+                            }
+                        } else if (adapter != null && !adapter.isEnabled) {
+                            viewModel.turnOnBluetooth(requireActivity())
+                            adapter = viewModel.bluetoothReadWrite.btAdapter
+                            viewModel.onDoneSetSpotFree()
+
+                        } else {
+                            Snackbar.make(
+                                binding.getSpotButton,
+                                getString(R.string.bluetooth_unavailable),
+                                Snackbar.LENGTH_SHORT
+                            ).show()
                             viewModel.onDoneSetSpotFree()
                         }
-                    } else if (adapter != null && !adapter.isEnabled) {
-                        viewModel.turnOnBluetooth(requireActivity())
-                        adapter = viewModel.bluetoothReadWrite.btAdapter
-                        viewModel.onDoneSetSpotFree()
-
-                    } else {
-                        Snackbar.make(
-                            binding.getSpotButton,
-                            getString(R.string.bluetooth_unavailable),
-                            Snackbar.LENGTH_SHORT
-                        ).show()
-                        viewModel.onDoneSetSpotFree()
                     }
-                }
+                })
             }
         })
+
+
 
 
         viewModel.exit.observe(viewLifecycleOwner, {

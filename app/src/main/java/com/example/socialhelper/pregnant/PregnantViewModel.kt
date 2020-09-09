@@ -4,6 +4,7 @@ import android.app.Activity
 import android.app.Application
 import android.bluetooth.BluetoothAdapter
 import android.content.Intent
+import android.util.Log
 import androidx.lifecycle.*
 import com.example.socialhelper.bluetooth.BluetoothClient
 import com.example.socialhelper.database.Info
@@ -13,7 +14,7 @@ import kotlinx.coroutines.*
 
 class PregnantViewModel(application: Application) : AndroidViewModel(application) {
 
-    var bluetoothAnswer = 0
+//    var bluetoothAnswer = 0
     val bluetoothReadWrite = BluetoothClient()
     private val viewModelJob = Job()
     private val uiScope = CoroutineScope(Dispatchers.Main + viewModelJob)
@@ -93,5 +94,8 @@ class PregnantViewModel(application: Application) : AndroidViewModel(application
     override fun onCleared() {
         super.onCleared()
         viewModelJob.cancel()
+        bluetoothReadWrite.closeConnection()
+        bluetoothReadWrite.btSocket = null
+        Log.e("closed", "Port closed")
     }
 }

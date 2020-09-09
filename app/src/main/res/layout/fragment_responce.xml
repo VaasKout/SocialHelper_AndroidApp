@@ -58,6 +58,7 @@
             app:layout_constraintTop_toBottomOf="@+id/category_text"
             android:textAppearance="@style/TextAppearance.MaterialComponents.Headline6"
             app:intToText="@{viewModel.userInfo.serverID}"
+            android:visibility="gone"
             tools:text="0"/>
 
         <TextView
@@ -69,8 +70,8 @@
             app:layout_constraintTop_toBottomOf="@+id/key_text"
             android:textAppearance="@style/TextAppearance.MaterialComponents.Headline6"
             tools:text="0"
-            app:intToText="@{viewModel.userInfo.serverKey}"/>
-
+            app:intToText="@{viewModel.userInfo.serverKey}"
+            android:visibility="gone"/>
 
         <TextView
             android:id="@+id/respondText"

@@ -49,80 +49,67 @@ class IntroFragment : Fragment() {
 
             delay(appear.duration)
 
-            if (this@IntroFragment
+            viewModel.allInfo.observe(viewLifecycleOwner, {
+
+                if (it == null || (!it.wasLoggedIn && !it.needVerification)) {
+                    if (this@IntroFragment
                             .findNavController()
                             .currentDestination?.id ==
                         R.id.introFragment
-                    ){
-                this@IntroFragment.findNavController()
-                    .navigate(
-                        IntroFragmentDirections
-                            .actionIntroFragmentToPregnantFragment())
-            }
+                    ) {
+                        this@IntroFragment.findNavController()
+                            .navigate(
+                                IntroFragmentDirections.actionIntroFragmentToLoginFragment()
+                            )
+                    }
+                }
 
-
-
-//            viewModel.allInfo.observe(viewLifecycleOwner, {
-//
-//                if (it == null || (!it.wasLoggedIn && !it.needVerification)) {
-//                    if (this@IntroFragment
-//                            .findNavController()
-//                            .currentDestination?.id ==
-//                        R.id.introFragment
-//                    ) {
-//                        this@IntroFragment.findNavController()
-//                            .navigate(
-//                                IntroFragmentDirections.actionIntroFragmentToLoginFragment()
-//                            )
-//                    }
-//                }
-//
-//                if (it != null && it.needVerification) {
-//                    if (this@IntroFragment
-//                            .findNavController()
-//                            .currentDestination?.id ==
-//                        R.id.introFragment
-//                    ) {
-//                        this@IntroFragment
-//                            .findNavController()
-//                            .navigate(
-//                                IntroFragmentDirections
-//                                    .actionIntroFragmentToKeyVerification()
-//                            )
-//                    }
-//                }
-//                if (it != null && it.wasLoggedIn) {
-//                    if (this@IntroFragment
-//                            .findNavController()
-//                            .currentDestination?.id ==
-//                        R.id.introFragment
-//                    ) {
-//                        when (it.group) {
-//                            categoryList[0], categoryEngList[0] -> {
-//                                this@IntroFragment.findNavController()
-//                                    .navigate(
-//                                        IntroFragmentDirections
-//                                            .actionIntroFragmentToDisabledFragment()
-//                                    )
-//                            }
-//                            categoryList[1], categoryEngList[1] -> {
-//                                this@IntroFragment.findNavController()
-//                                    .navigate(
-//                                        IntroFragmentDirections
-//                                            .actionIntroFragmentToPregnantFragment()
-//                                    )
-//                            }
-//                            categoryList[2], categoryEngList[2] -> {
-//                                this@IntroFragment.findNavController()
-//                                    .navigate(
-//                                        IntroFragmentDirections
-//                                            .actionIntroFragmentToSocialFragment()
-//                                    )
-//                            }
-//                        }
-//                    }
-//                }
-//            })
+                if (it != null && it.needVerification) {
+                    if (this@IntroFragment
+                            .findNavController()
+                            .currentDestination?.id ==
+                        R.id.introFragment
+                    ) {
+                        this@IntroFragment
+                            .findNavController()
+                            .navigate(
+                                IntroFragmentDirections
+                                    .actionIntroFragmentToKeyVerification()
+                            )
+                    }
+                }
+                if (it != null && it.wasLoggedIn) {
+                    if (this@IntroFragment
+                            .findNavController()
+                            .currentDestination?.id ==
+                        R.id.introFragment
+                    ) {
+                        when (it.group) {
+                            categoryList[0], categoryEngList[0] -> {
+                                this@IntroFragment.findNavController()
+                                    .navigate(
+                                        IntroFragmentDirections
+                                            .actionIntroFragmentToDisabledFragment()
+                                    )
+                            }
+                            categoryList[1], categoryEngList[1] -> {
+                                this@IntroFragment.findNavController()
+                                    .navigate(
+                                        IntroFragmentDirections
+                                            .actionIntroFragmentToPregnantFragment()
+                                    )
+                            }
+                            categoryList[2], categoryEngList[2] -> {
+                                this@IntroFragment.findNavController()
+                                    .navigate(
+                                        IntroFragmentDirections
+                                            .actionIntroFragmentToSocialFragment()
+                                    )
+                            }
+                        }
+                    }
+                }
+            })
         }
 
 
@@ -143,3 +130,15 @@ class IntroFragment : Fragment() {
     }
 
 }
+
+
+//if (this@IntroFragment
+//                            .findNavController()
+//                            .currentDestination?.id ==
+//                        R.id.introFragment
+//                    ){
+//                this@IntroFragment.findNavController()
+//                    .navigate(
+//                        IntroFragmentDirections
+//                            .actionIntroFragmentToPregnantFragment())
+//            }

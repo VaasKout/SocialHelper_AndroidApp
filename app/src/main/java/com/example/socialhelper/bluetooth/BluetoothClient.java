@@ -38,7 +38,7 @@ public class BluetoothClient implements Closeable {
         BluetoothDevice device = btAdapter.getRemoteDevice(address);
 
         try {
-//            closeConnection();
+            closeConnection();
             btSocket = device.createRfcommSocketToServiceRecord(MY_UUID);
         } catch (IOException e) {
             Log.e("error", "raspberry socket is not available");
@@ -64,7 +64,7 @@ public class BluetoothClient implements Closeable {
             try {
                 outStream.write(message);
             } catch (IOException e) {
-                Log.e("error", "Unable to send message to raspberry");
+                Log.e("error", "Unable to send message to arduino");
             }
         }
     }

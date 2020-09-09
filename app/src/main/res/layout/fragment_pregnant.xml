@@ -8,8 +8,6 @@
             type="com.example.socialhelper.pregnant.PregnantViewModel" />
     </data>
 
-
-
     <androidx.constraintlayout.widget.ConstraintLayout
         android:layout_width="match_parent"
         android:layout_height="match_parent"
@@ -37,6 +35,8 @@
             app:layout_constraintStart_toStartOf="parent"
             app:layout_constraintTop_toTopOf="parent"
             app:layout_constraintVertical_bias="0.7"
+            android:textStyle="bold"
+            android:textAppearance="@style/TextAppearance.MaterialComponents.Headline4"
             android:onClick="@{() -> viewModel.onSetSpotFree()}"/>
 
         <ImageView

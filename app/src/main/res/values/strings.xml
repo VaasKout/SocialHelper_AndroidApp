@@ -57,6 +57,7 @@
     <string name="wrong_email">Неверная почта</string>
     <string name="wrong_key">Неверный ключ</string>
     <string name="no_reference">Справка отсутствует в базе данных, встаньте на учёт</string>
+    <string name="terminal_is_unavailable">Терминал недоступен, повторите попытку позже</string>
     <string-array name="category">
         <item>Инвалид</item>
         <item>Беременная</item>
