@@ -22,13 +22,44 @@ class PregnantFragment : Fragment() {
 
     override fun onCreateView(
         inflater: LayoutInflater, container: ViewGroup?,
-        savedInstanceState: Bundle?
-    ): View? {
+        savedInstanceState: Bundle?): View? {
 
         val binding: FragmentPregnantBinding =
             DataBindingUtil.inflate(inflater, R.layout.fragment_pregnant, container, false)
         val viewModel = ViewModelProvider(this).get(PregnantViewModel::class.java)
         binding.viewModel = viewModel
+
+        binding.toolbarPregnant.setOnMenuItemClickListener{
+            when(it.itemId){
+                R.id.change_pass -> {
+                    MaterialAlertDialogBuilder(requireContext())
+                        .setMessage("Сменить пароль?")
+                        .setNegativeButton("Нет") { _, _ ->
+                        }
+                        .setPositiveButton("Да") { _, _ ->
+                            this.findNavController()
+                                .navigate(PregnantFragmentDirections
+                                    .actionPregnantFragmentToChangePassword())
+                        }.show()
+                    true
+                }
+                R.id.exit_from_pregnant ->{
+                    MaterialAlertDialogBuilder(requireContext())
+                        .setMessage("Выйти из аккаунта?")
+                        .setNegativeButton("Нет") { _, _ ->
+                        }
+                        .setPositiveButton("Да") { _, _ ->
+                            viewModel.onClear()
+                            this.findNavController()
+                                .navigate(
+                                    PregnantFragmentDirections
+                                        .actionPregnantFragmentToLoginFragment())
+                        }.show()
+                    true
+                }
+                else -> false
+            }
+        }
 
         lifecycleScope.launchWhenStarted {
                 viewModel.turnOnBluetooth(requireActivity())
@@ -80,27 +111,6 @@ class PregnantFragment : Fragment() {
             }
         })
 
-
-
-
-        viewModel.exit.observe(viewLifecycleOwner, {
-            if (it == true) {
-                MaterialAlertDialogBuilder(requireContext())
-                    .setMessage("Выйти из приложения?")
-                    .setNegativeButton("Нет") { _, _ ->
-                        viewModel.onDoneExit()
-                    }
-                    .setPositiveButton("Да") { _, _ ->
-                        viewModel.onClear()
-                        this.findNavController()
-                            .navigate(
-                                PregnantFragmentDirections
-                                    .actionPregnantFragmentToLoginFragment()
-                            )
-                        viewModel.onDoneExit()
-                    }.show()
-            }
-        })
 
         binding.lifecycleOwner = this
         return binding.root

@@ -32,13 +32,12 @@
     <string name="confirm_password">Подтвердите пароль</string>
     <string name="enter_name_surname">Введите имя и фамилию:</string>
     <string name="enter_login_email_password">Введите логин, почту и пароль:</string>
-    <string name="enter_category">Выберите категорию:</string>
     <string name="wrong_login">Неверный логин</string>
     <string name="wrong_password">Неверный пароль</string>
     <string name="wrong_login_or_password">Неверный логин или пароль</string>
     <string name="enter_login">Введите логин</string>
     <string name="password_mismatch">Пароли не совпадают</string>
-    <string name="enter_reference_number">Введите номер справки</string>
+    <string name="enter_reference_number">Введите номер справки:</string>
     <string name="registration">Регистрация</string>
     <string name="clear_fields">Удалить поля</string>
     <string name="exit">Выйти</string>
@@ -58,14 +57,11 @@
     <string name="wrong_key">Неверный ключ</string>
     <string name="no_reference">Справка отсутствует в базе данных, встаньте на учёт</string>
     <string name="terminal_is_unavailable">Терминал недоступен, повторите попытку позже</string>
-    <string-array name="category">
-        <item>Инвалид</item>
-        <item>Беременная</item>
-        <item>Соц.работник</item>
-    </string-array>
-    <string-array name="categoryEng">
-        <item>wheelchair</item>
-        <item>pregnant</item>
-        <item>socialworker</item>
-    </string-array>
+    <string name="change_password">Сменить пароль</string>
+    <string name="enter_old_pass">Введите старый пароль:</string>
+    <string name="enter_new_pass">Введите новый пароль:</string>
+    <string name="new_pass">Новый пароль</string>
+    <string name="change_pass">Сменить пароль</string>
+    <string name="check_reference">Проверьте номер справки</string>
+    <string name="login_exist">Возможно такой логин уже существует</string>
 </resources>

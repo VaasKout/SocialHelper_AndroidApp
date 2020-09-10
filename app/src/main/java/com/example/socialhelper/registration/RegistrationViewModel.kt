@@ -21,7 +21,6 @@ class RegistrationViewModel(application: Application) : AndroidViewModel(applica
         allInfo = repository.allInfo
     }
 
-
     val readWrite = AndroidClient()
     var state: String = ""
     var referenceNumber = 0
@@ -84,40 +83,20 @@ class RegistrationViewModel(application: Application) : AndroidViewModel(applica
     suspend fun requestServer() {
         withContext(Dispatchers.IO) {
             allInfo.value?.let {
-                var g = ""
-                when (it.group) {
-                    "Инвалид" -> g = "wheelchair"
-                    "Беременная" -> g = "pregnant"
-                    "Соц.работник" -> g = "socialworker"
-                }
-
                 if (readWrite.socket != null && readWrite.socket.isConnected) {
-                    if (g == "wheelchair" || g == "socialworker") {
-                        readWrite.writeLine("userRegData")
-                        readWrite.writeUserData(
-                            g,
-                            it.name,
-                            it.surname,
-                            it.login,
-                            it.password.toInt(),
-                            it.email
-                        )
-                    } else if (g == "pregnant") {
                         readWrite.writeLine("regPregnant")
                         readWrite.writePregnantData(
                             it.reference,
+                            it.password.toInt(),
                             it.name,
                             it.surname,
                             it.login,
-                            it.password.toInt(),
-                            it.email
-                        )
+                            it.email)
                     }
                     state = readWrite.readLine()
                 }
             }
         }
-    }
 
     override fun onCleared() {
         super.onCleared()

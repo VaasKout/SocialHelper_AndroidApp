@@ -45,21 +45,19 @@ class LoginViewModel(application: Application) : AndroidViewModel(application) {
                 readWrite.writeLine("login")
                 if (login.isNotEmpty() && password > 0) {
                     readWrite.writeLoginPassword(login, password)
-
                     serverID = readWrite.read()
-                    val group = readWrite.readLine()
-                    Log.e("group", group)
-                    val name = readWrite.readLine()
-                    Log.e("name", name)
-                    val surname = readWrite.readLine()
-                    Log.e("surname", surname)
-                    login = readWrite.readLine()
-                    Log.e("login", login)
                     password = readWrite.read()
-                    val email = readWrite.readLine()
-                    Log.e("password", password.toString())
                     serverKey = readWrite.read()
+                    val name = readWrite.readLine()
+                    val surname = readWrite.readLine()
+                    login = readWrite.readLine()
+                    val email = readWrite.readLine()
 
+
+                    Log.e("name", name)
+                    Log.e("surname", surname)
+                    Log.e("login", login)
+                    Log.e("password", password.toString())
                     Log.e("serverID", serverID.toString())
                     Log.e("serverKey", serverKey.toString())
 
@@ -71,7 +69,6 @@ class LoginViewModel(application: Application) : AndroidViewModel(application) {
                             surname = surname,
                             login = login,
                             password = password.toString(),
-                            group = group,
                             email = email,
                             serverID = serverID,
                             serverKey = serverKey

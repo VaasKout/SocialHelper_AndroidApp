@@ -32,17 +32,6 @@ class PregnantViewModel(application: Application) : AndroidViewModel(application
     private val _spotIsFree = MutableLiveData<Boolean>()
     val spotIsFree: LiveData<Boolean> = _spotIsFree
 
-    private val _exit = MutableLiveData<Boolean>()
-    val exit: LiveData<Boolean> = _exit
-
-    fun startExit() {
-        _exit.value = true
-    }
-
-    fun onDoneExit() {
-        _exit.value = false
-    }
-
     fun onSetSpotFree() {
         _spotIsFree.value = true
     }

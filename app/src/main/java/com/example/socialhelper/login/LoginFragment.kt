@@ -20,16 +20,12 @@ class LoginFragment : Fragment() {
 
     override fun onCreateView(
         inflater: LayoutInflater, container: ViewGroup?,
-        savedInstanceState: Bundle?
-    ): View? {
+        savedInstanceState: Bundle?): View? {
 
         val binding = FragmentLoginBinding.inflate(inflater)
         val loginViewModel =
             ViewModelProvider(this).get(LoginViewModel::class.java)
         binding.loginViewModel = loginViewModel
-
-        val categoryList = resources.getStringArray(R.array.category)
-        val categoryEngList = resources.getStringArray(R.array.categoryEng)
 
         loginViewModel.navigateToMainFrag.observe(viewLifecycleOwner, {
             if (it == true) {
@@ -115,98 +111,35 @@ class LoginFragment : Fragment() {
                                             binding.forgotPassword.visibility = View.VISIBLE
                                         }
                                         else -> {
-                                            Log.e("info", "info is not null")
-                                            when (info.group) {
-                                                categoryList[0], categoryEngList[0] -> {
-                                                    val infoInstance = Info(
-                                                        id = 1,
-                                                        name = info.name,
-                                                        surname = info.surname,
-                                                        login = info.login,
-                                                        password = info.password,
-                                                        group = info.group,
-                                                        email = info.email,
-                                                        serverID = info.serverID,
-                                                        serverKey = info.serverKey,
-                                                        wasLoggedIn = true
-                                                    )
-                                                    loginViewModel.updateInfo(infoInstance)
+                                            Log.e("pregnant", "loging")
+                                            val infoInstance = Info(
+                                                id = 1,
+                                                name = info.name,
+                                                surname = info.surname,
+                                                login = info.login,
+                                                password = info.password,
+                                                email = info.email,
+                                                serverID = info.serverID,
+                                                serverKey = info.serverKey,
+                                                wasLoggedIn = true
+                                            )
+                                            loginViewModel.updateInfo(infoInstance)
 
-                                                    if (this@LoginFragment
-                                                            .findNavController()
-                                                            .currentDestination?.id ==
-                                                        R.id.loginFragment
-                                                    ) {
-                                                        this@LoginFragment.findNavController()
-                                                            .navigate(
-                                                                LoginFragmentDirections
-                                                                    .actionLoginFragmentToDisabledFragment()
-                                                            )
-                                                        loginViewModel.onDoneNavigationToMain()
-                                                    }
-
-                                                }
-                                                categoryList[1], categoryEngList[1] -> {
-                                                    Log.e("pregnant", "eee")
-                                                    val infoInstance = Info(
-                                                        id = 1,
-                                                        name = info.name,
-                                                        surname = info.surname,
-                                                        login = info.login,
-                                                        password = info.password,
-                                                        group = info.group,
-                                                        email = info.email,
-                                                        serverID = info.serverID,
-                                                        serverKey = info.serverKey,
-                                                        wasLoggedIn = true
+                                            if (this@LoginFragment
+                                                    .findNavController()
+                                                    .currentDestination?.id ==
+                                                R.id.loginFragment
+                                            ) {
+                                                this@LoginFragment.findNavController()
+                                                    .navigate(
+                                                        LoginFragmentDirections
+                                                            .actionLoginFragmentToPregnantFragment()
                                                     )
-                                                    loginViewModel.updateInfo(infoInstance)
-
-                                                    if (this@LoginFragment
-                                                            .findNavController()
-                                                            .currentDestination?.id ==
-                                                        R.id.loginFragment
-                                                    ) {
-                                                        this@LoginFragment.findNavController()
-                                                            .navigate(
-                                                                LoginFragmentDirections
-                                                                    .actionLoginFragmentToPregnantFragment()
-                                                            )
-                                                        loginViewModel.onDoneNavigationToMain()
-                                                    }
-                                                }
-                                                categoryList[2], categoryEngList[2] -> {
-                                                    val infoInstance = Info(
-                                                        id = 1,
-                                                        name = info.name,
-                                                        surname = info.surname,
-                                                        login = info.login,
-                                                        password = info.password,
-                                                        group = info.group,
-                                                        email = info.email,
-                                                        serverID = info.serverID,
-                                                        serverKey = info.serverKey,
-                                                        wasLoggedIn = true
-                                                    )
-                                                    loginViewModel.updateInfo(infoInstance)
-                                                    if (this@LoginFragment
-                                                            .findNavController()
-                                                            .currentDestination?.id ==
-                                                        R.id.loginFragment
-                                                    ) {
-                                                        this@LoginFragment.findNavController()
-                                                            .navigate(
-                                                                LoginFragmentDirections
-                                                                    .actionLoginFragmentToSocialFragment()
-                                                            )
-                                                        loginViewModel.onDoneNavigationToMain()
-                                                    }
-                                                }
+                                                loginViewModel.onDoneNavigationToMain()
                                             }
                                         }
                                     }
                                 }
-
                             }
                         }
                     })
@@ -214,34 +147,32 @@ class LoginFragment : Fragment() {
             }
         })
 
+                    loginViewModel.navigateToSignInFrag.observe(viewLifecycleOwner, {
+                        if (it == true) {
+                            loginViewModel.allInfo.let {
+                                loginViewModel.onClear()
+                            }
+                            if (this@LoginFragment
+                                    .findNavController()
+                                    .currentDestination?.id ==
+                                R.id.loginFragment) {
+                                this@LoginFragment.findNavController()
+                                    .navigate(LoginFragmentDirections
+                                        .actionLoginFragmentToRegistrationFragment())
+                                loginViewModel.onDoneNavigationToSign()
+                            }
+                        }
+                    })
 
-        loginViewModel.navigateToSignInFrag.observe(viewLifecycleOwner, {
-            if (it == true) {
-                loginViewModel.allInfo.let {
-                    loginViewModel.onClear()
+                    loginViewModel.navigateToRestoreFrag.observe(viewLifecycleOwner, {
+                        if (it == true) {
+                            this.findNavController()
+                                .navigate(LoginFragmentDirections.actionLoginFragmentToRestorePassword())
+                            loginViewModel.onDoneNavigationToRestore()
+                        }
+                    })
+
+                    binding.lifecycleOwner = this
+                    return binding.root
                 }
-                if (this@LoginFragment
-                        .findNavController()
-                        .currentDestination?.id ==
-                    R.id.loginFragment){
-
-                    this.findNavController()
-                        .navigate(LoginFragmentDirections.actionLoginFragmentToRegistrationFragment())
-                    loginViewModel.onDoneNavigationToSign()
-                }
-
-            }
-        })
-
-        loginViewModel.navigateToRestoreFrag.observe(viewLifecycleOwner, {
-            if (it == true) {
-                this.findNavController()
-                    .navigate(LoginFragmentDirections.actionLoginFragmentToRestorePassword())
-                loginViewModel.onDoneNavigationToRestore()
-            }
-        })
-
-        binding.lifecycleOwner = this
-        return binding.root
-    }
-}
+        }

@@ -34,9 +34,6 @@ class IntroFragment : Fragment() {
         val wordList =
             listOf(binding.welcome1, binding.welcome2, binding.welcome3, binding.welcome4)
 
-        val categoryList = resources.getStringArray(R.array.category)
-        val categoryEngList = resources.getStringArray(R.array.categoryEng)
-
 
         lifecycleScope.launch {
 
@@ -49,6 +46,7 @@ class IntroFragment : Fragment() {
 
             delay(appear.duration)
 
+
             viewModel.allInfo.observe(viewLifecycleOwner, {
 
                 if (it == null || (!it.wasLoggedIn && !it.needVerification)) {
@@ -59,8 +57,7 @@ class IntroFragment : Fragment() {
                     ) {
                         this@IntroFragment.findNavController()
                             .navigate(
-                                IntroFragmentDirections.actionIntroFragmentToLoginFragment()
-                            )
+                                IntroFragmentDirections.actionIntroFragmentToLoginFragment())
                     }
                 }
 
@@ -74,8 +71,7 @@ class IntroFragment : Fragment() {
                             .findNavController()
                             .navigate(
                                 IntroFragmentDirections
-                                    .actionIntroFragmentToKeyVerification()
-                            )
+                                    .actionIntroFragmentToKeyVerification())
                     }
                 }
                 if (it != null && it.wasLoggedIn) {
@@ -84,51 +80,21 @@ class IntroFragment : Fragment() {
                             .currentDestination?.id ==
                         R.id.introFragment
                     ) {
-                        when (it.group) {
-                            categoryList[0], categoryEngList[0] -> {
-                                this@IntroFragment.findNavController()
-                                    .navigate(
-                                        IntroFragmentDirections
-                                            .actionIntroFragmentToDisabledFragment()
-                                    )
-                            }
-                            categoryList[1], categoryEngList[1] -> {
-                                this@IntroFragment.findNavController()
-                                    .navigate(
-                                        IntroFragmentDirections
-                                            .actionIntroFragmentToPregnantFragment()
-                                    )
-                            }
-                            categoryList[2], categoryEngList[2] -> {
-                                this@IntroFragment.findNavController()
-                                    .navigate(
-                                        IntroFragmentDirections
-                                            .actionIntroFragmentToSocialFragment()
-                                    )
-                            }
-                        }
+                        this@IntroFragment.findNavController()
+                            .navigate(
+                                IntroFragmentDirections
+                                    .actionIntroFragmentToPregnantFragment()
+                            )
                     }
                 }
             })
         }
 
 
-        //            this@IntroFragment
-//                .findNavController()
-//                .navigate(
-//                    IntroFragmentDirections
-//                        .actionIntroFragmentToKeyVerification()
-//                )
-
-
-        //            delay(appear.duration)
-//            this@IntroFragment.findNavController()
-//                .navigate(IntroFragmentDirections.actionIntroFragmentToDisabledMaps())
 
         binding.lifecycleOwner = this
         return binding.root
     }
-
 }
 
 

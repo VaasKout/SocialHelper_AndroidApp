@@ -95,14 +95,13 @@ public class AndroidClient implements Closeable {
         writeLine(email);
     }
 
-    public void writePregnantData(int number, String name,
-                                  String surname, String login,
-                                  int password, String email) {
+    public void writePregnantData(int number, int password, String name,
+                                  String surname, String login, String email) {
         write(number);
+        write(password);
         writeLine(name);
         writeLine(surname);
         writeLine(login);
-        write(password);
         writeLine(email);
     }
 
@@ -114,6 +113,11 @@ public class AndroidClient implements Closeable {
     public void writeRestoreInfo(String login, String post) {
         writeLine(login);
         writeLine(post);
+    }
+
+    public void changePassword(int id, int newPassword){
+        write(id);
+        write(newPassword);
     }
 
     public void writeLine(String message) {

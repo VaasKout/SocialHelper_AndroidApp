@@ -8,10 +8,28 @@
             type="com.example.socialhelper.pregnant.PregnantViewModel" />
     </data>
 
+    <androidx.coordinatorlayout.widget.CoordinatorLayout
+        android:layout_width="match_parent"
+        android:layout_height="match_parent">
+
+        <com.google.android.material.appbar.AppBarLayout
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:fitsSystemWindows="true">
+            <com.google.android.material.appbar.MaterialToolbar
+                android:id="@+id/toolbar_pregnant"
+                android:layout_width="match_parent"
+                android:layout_height="?attr/actionBarSize"
+                style="@style/Widget.MaterialComponents.Toolbar.Primary"
+                app:title="@string/app_name"
+                app:menu="@menu/tob_bar_pregnant"/>
+        </com.google.android.material.appbar.AppBarLayout>
+
     <androidx.constraintlayout.widget.ConstraintLayout
         android:layout_width="match_parent"
         android:layout_height="match_parent"
-        tools:context=".pregnant.PregnantFragment">
+        tools:context=".pregnant.PregnantFragment"
+        app:layout_behavior="@string/appbar_scrolling_view_behavior">
 
         <TextView
             android:id="@+id/result"
@@ -39,17 +57,6 @@
             android:textAppearance="@style/TextAppearance.MaterialComponents.Headline4"
             android:onClick="@{() -> viewModel.onSetSpotFree()}"/>
 
-        <ImageView
-            android:id="@+id/pregnant_exit"
-            android:layout_width="wrap_content"
-            android:layout_height="wrap_content"
-            android:layout_marginTop="16dp"
-            android:layout_marginEnd="16dp"
-            app:layout_constraintEnd_toEndOf="parent"
-            app:layout_constraintTop_toTopOf="parent"
-            app:srcCompat="@drawable/ic_exit"
-            android:contentDescription="@string/exit"
-            android:onClick="@{() -> viewModel.startExit()}"/>
-
     </androidx.constraintlayout.widget.ConstraintLayout>
+    </androidx.coordinatorlayout.widget.CoordinatorLayout>
 </layout>

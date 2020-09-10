@@ -14,11 +14,10 @@ import com.example.socialhelper.databinding.FragmentResponceBinding
 
 class ResponseFragment : Fragment() {
 
-
     override fun onCreateView(
         inflater: LayoutInflater, container: ViewGroup?,
-        savedInstanceState: Bundle?
-    ): View? {
+        savedInstanceState: Bundle?): View? {
+
         val binding: FragmentResponceBinding =
             DataBindingUtil.inflate(inflater, R.layout.fragment_responce, container, false)
         val viewModel =
@@ -28,8 +27,6 @@ class ResponseFragment : Fragment() {
         viewModel.userInfo.observe(viewLifecycleOwner, {
             if (it.serverID == 0 || it.serverID == -1) {
                 binding.respondText.text = getString(R.string.registration_denied)
-            } else if (it.serverID == -2){
-                binding.respondText.text = getString(R.string.no_reference)
             } else {
                 binding.respondText.text = getString(R.string.positive_response)
             }
@@ -37,45 +34,12 @@ class ResponseFragment : Fragment() {
 
         viewModel.navigateBack.observe(viewLifecycleOwner, {
             if (it == true) {
-                this.findNavController().popBackStack()
+                this.findNavController()
+                    .navigate(ResponseFragmentDirections
+                        .actionResponseFragmentToLoginFragment())
                 viewModel.onDoneBackNavigation()
             }
         })
-
-
-//        lifecycleScope.launch {
-//            whenResumed {
-//                    while (viewModel.serverKey <= 0){
-//                        viewModel.connectToServer()
-//                        if (!viewModel.readWrite.socket.isConnected){
-//                            Toast.makeText(requireContext(),
-//                                getString(R.string.connection_interrupted),
-//                                Toast.LENGTH_SHORT).show()
-//                            break
-//                        } else {
-//                        viewModel.sendID()
-//                        viewModel.readServerKey()
-//                        binding.serverKey.text = viewModel.serverKey.toString()
-//                        delay(3000)
-//                        }
-//                    }
-//                        if (viewModel.serverKey >= 0){
-//                    binding.serverKey.text = viewModel.serverKey.toString()
-//                    viewModel.userInfo.observe(viewLifecycleOwner, {
-//                        if (viewModel.serverKey != 0){
-//                            val info = Info(
-//                                it.id,
-//                                it.name,
-//                                it.password,
-//                                it.group,
-//                                it.serverID,
-//                                viewModel.serverKey)
-//                            viewModel.onUpdate(info)
-//                        }
-//                    })
-//                 }
-//            }
-//        }
 
         binding.lifecycleOwner = this
         return binding.root

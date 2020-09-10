@@ -117,7 +117,6 @@ class KeyVerification : Fragment() {
                                         surname = info.surname,
                                         login = info.login,
                                         password = info.password,
-                                        group = info.group,
                                         email = info.email,
                                         serverID = viewModel.serverId,
                                         serverKey = key.toInt(),
