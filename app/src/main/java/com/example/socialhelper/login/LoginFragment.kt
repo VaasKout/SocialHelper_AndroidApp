@@ -42,7 +42,6 @@ class LoginFragment : Fragment() {
                         delay(3000)
                         binding.loginTextInput.error = null
                     }
-
                 }
                 if (passwordInput.isEmpty()) {
                     lifecycleScope.launch {
@@ -54,8 +53,7 @@ class LoginFragment : Fragment() {
                 }
 
                 if (login.isNotEmpty() &&
-                    passwordInput.isNotEmpty()
-                ) {
+                    passwordInput.isNotEmpty()) {
 
                     viewModel.login = login
                     viewModel.password = passwordInput.toInt()
@@ -91,12 +89,16 @@ class LoginFragment : Fragment() {
                             }
                             if (info != null) {
                                 if (info.serverID <= 0 && info.serverKey <= 0) {
-                                    binding.loginTextInput.error =
-                                        getString(R.string.registration_denied)
-                                    binding.loginTextInput.error =
-                                        getString(R.string.registration_denied)
-                                    viewModel.onDoneNavigationToMain()
-
+                                    lifecycleScope.launch {
+                                        binding.loginTextInput.error =
+                                            getString(R.string.wrong_login)
+                                        binding.passwordTextInput.error =
+                                            getString(R.string.wrong_password)
+                                        viewModel.onDoneNavigationToMain()
+                                        delay(3000)
+                                        binding.loginTextInput.error = null
+                                        binding.passwordTextInput.error = null
+                                    }
                                 } else {
                                     when {
                                         info.login != login -> {

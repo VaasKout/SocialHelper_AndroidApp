@@ -149,9 +149,12 @@ class RegistrationFragment : Fragment() {
                 if (userName.isNotEmpty() &&
                     (password.isNotEmpty() && password.length <= 8) &&
                     passwordConfirm.isNotEmpty() &&
+                    (email.isNotEmpty() &&
+                            email.contains("@") &&
+                            email.contains(".")) &&
                     login.isNotEmpty() &&
                     surname.isNotEmpty() &&
-                    binding.numberReference.isNotEmpty() &&
+                    numberEdit.isNotEmpty() &&
                     password == passwordConfirm) {
 
                     var info = Info(
@@ -224,7 +227,6 @@ class RegistrationFragment : Fragment() {
                                                     .navigate(
                                                         RegistrationFragmentDirections
                                                             .actionRegistrationFragmentToKeyVerification())
-
                                                 viewModel.onDoneNavigating()
                                             } else ->{
                                             Log.e("error",

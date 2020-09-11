@@ -40,8 +40,8 @@
             app:layout_constraintEnd_toEndOf="parent"
             app:layout_constraintStart_toStartOf="parent"
             android:textAppearance="@style/TextAppearance.MaterialComponents.Headline5"
-            android:text=""
-            android:gravity="center"/>
+            android:textStyle="italic"
+            android:gravity="center" />
 
         <com.google.android.material.button.MaterialButton
             android:id="@+id/getSpotButton"

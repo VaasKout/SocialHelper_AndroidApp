@@ -72,27 +72,62 @@ class PregnantFragment : Fragment() {
                     Log.e("id", info.serverID.toString())
                     lifecycleScope.launch {
                         if (adapter != null && adapter.isEnabled) {
-                            if (socket == null || !socket.isConnected) {
-                                viewModel.createConnection()
+                            if (socket == null) {
+                                binding.getSpotButton.isEnabled = false
+                                binding.getSpotButton.text = getString(R.string.wait)
+                                viewModel.openSocket()
                                 socket = viewModel.bluetoothReadWrite.btSocket
                             }
                             Log.e("adapter", "Adapter is available")
                             if (socket != null){
-                                while (!socket.isConnected){
+                                var i = 0
+                                while (!socket.isConnected && i != 3){
                                     viewModel.createConnection()
                                     delay(5000)
-                                    socket = viewModel.bluetoothReadWrite.btSocket
                                     Log.e("trying", "trying to connect")
+                                    i++
                                 }
                                 if (socket.isConnected) {
                                     Log.e("socket", "Socket is available")
                                     viewModel.sendMessage(info.serverID.toString())
-                                    Log.e("sent", info.serverID.toString())
-//                            binding.result.text = viewModel.bluetoothAnswer.toString()
+                                    while (!viewModel.bluetoothReadWrite.sent && i != 5){
+                                        viewModel.createConnection()
+                                        delay(5000)
+                                        viewModel.sendMessage(info.serverID.toString())
+                                        i ++
+                                    }
+                                    if (!viewModel.bluetoothReadWrite.sent){
+                                        Snackbar.make(
+                                            binding.getSpotButton,
+                                            getString(R.string.retry_later),
+                                            Snackbar.LENGTH_SHORT
+                                        ).show()
+                                        viewModel.onDoneSetSpotFree()
+                                    } else {
+                                        binding.getSpotButton.isEnabled = true
+                                        binding.getSpotButton.text = getString(R.string.get_spot)
+                                        Log.e("sent", info.serverID.toString())
+                                        binding.result.text = getString(R.string.spot_is_empty)
+                                        viewModel.onDoneSetSpotFree()
+                                    }
+                                } else {
+                                    binding.getSpotButton.isEnabled = true
+                                    binding.getSpotButton.text = getString(R.string.get_spot)
+                                    Snackbar.make(
+                                        binding.getSpotButton,
+                                        getString(R.string.retry_later),
+                                        Snackbar.LENGTH_SHORT
+                                    ).show()
                                     viewModel.onDoneSetSpotFree()
                                 }
                             }
                         } else if (adapter != null && !adapter.isEnabled) {
+                            Snackbar.make(
+                                binding.getSpotButton,
+                                getString(R.string.connect_to_bluetooth),
+                                Snackbar.LENGTH_SHORT
+                            ).show()
+                            delay(1500)
                             viewModel.turnOnBluetooth(requireActivity())
                             adapter = viewModel.bluetoothReadWrite.btAdapter
                             viewModel.onDoneSetSpotFree()

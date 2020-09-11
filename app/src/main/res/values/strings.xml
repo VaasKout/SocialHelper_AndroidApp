@@ -18,7 +18,6 @@
     <string name="number_reference">Номер справки</string>
     <string name="surname">Фамилия</string>
     <string name="surname_input_error">Введите фамилию</string>
-    <string name="registration_denied">Вам отказано в регистрации, такой пользователь уже существует</string>
     <string name="enter">Войти</string>
     <string name="login">Логин</string>
     <string name="confirm_password">Подтвердите пароль</string>
@@ -59,4 +58,7 @@
     <string name="retry_register">Возникла неизвестная ошибка при регистрации, поробуйте ещё раз</string>
     <string name="get_back_to_login">Вернитесь на главный экран и введите логин,
                                         пароль, чтобы зайти в приложение</string>
+    <string name="spot_is_empty">Место свободно, присаживайтесь</string>
+    <string name="connect_to_bluetooth">Разрешите блютуз, затем нажмите кнопку</string>
+    <string name="reboot_app">Критическая ошибка, перезапустите приложение</string>
 </resources>

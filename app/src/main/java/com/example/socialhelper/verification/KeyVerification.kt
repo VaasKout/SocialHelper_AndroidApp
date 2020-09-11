@@ -21,8 +21,7 @@ class KeyVerification : Fragment() {
 
     override fun onCreateView(
         inflater: LayoutInflater, container: ViewGroup?,
-        savedInstanceState: Bundle?
-    ): View? {
+        savedInstanceState: Bundle?): View? {
 
         val binding: FragmentKeyVerificationBinding = DataBindingUtil
             .inflate(inflater, R.layout.fragment_key_verification, container, false)
@@ -81,7 +80,6 @@ class KeyVerification : Fragment() {
         viewModel.sendKey.observe(viewLifecycleOwner, {
             if (it == true) {
                 val key = binding.keyEdit.text.toString()
-
                 if (key.isEmpty()) {
                     lifecycleScope.launch {
                         binding.key.error = getString(R.string.empty_field_error)
@@ -112,10 +110,12 @@ class KeyVerification : Fragment() {
                             if (viewModel.serverId == 0) {
                                 binding.key.error = getString(R.string.wrong_key)
                                 viewModel.onDoneSendKey()
+                                binding.enterKeyButton.isEnabled = true
+                                binding.enterKeyButton.text = getString(R.string.verify)
                                 delay(3000)
                                 binding.key.error = null
                             } else if (viewModel.serverId > 0) {
-
+                                    binding.key.error = null
                                     val infoInstance = Info(
                                         id = 1,
                                         name = info.name,
