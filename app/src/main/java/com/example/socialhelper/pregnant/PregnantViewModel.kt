@@ -56,12 +56,6 @@ class PregnantViewModel(application: Application) : AndroidViewModel(application
         }
     }
 
-    suspend fun openSocket(){
-        withContext(Dispatchers.IO){
-            bluetoothReadWrite.openSocket()
-        }
-    }
-
      suspend fun sendMessage(s: String) {
         withContext(Dispatchers.IO) {
             bluetoothReadWrite.sendData(s)

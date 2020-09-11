@@ -17,11 +17,8 @@ public class BluetoothClient implements Closeable {
     public BluetoothAdapter btAdapter = null;
     private OutputStream outStream = null;
     private InputStream inputStream = null;
-    public boolean sent = true;
 
-    // SPP UUID сервиса
     private static final UUID MY_UUID = UUID.fromString("00001101-0000-1000-8000-00805F9B34FB");
-
     public static final int REQUEST_ENABLE_BT = 1;
 
     public void findAdapter() {
@@ -33,7 +30,8 @@ public class BluetoothClient implements Closeable {
         }
     }
 
-    public void openSocket(){
+    public void createConnection() {
+        // MAC-адрес Bluetooth модуля
         String address = "98:D3:11:F8:72:6B";
         BluetoothDevice device = btAdapter.getRemoteDevice(address);
 
@@ -44,10 +42,7 @@ public class BluetoothClient implements Closeable {
             Log.e("error", "raspberry socket is not available");
         }
         btAdapter.cancelDiscovery();
-    }
 
-    public void createConnection() {
-        // MAC-адрес Bluetooth модуля
         if (btSocket != null) {
             try {
                 btSocket.connect();
@@ -66,14 +61,22 @@ public class BluetoothClient implements Closeable {
         if (btSocket.isConnected()) {
             try {
                 outStream.write(message);
-                sent = true;
             } catch (IOException e) {
-                sent = false;
-                closeConnection();
                 Log.e("error", "Unable to send message to arduino");
             }
         }
     }
+
+//    public int receiveData() {
+//        if (btSocket.isConnected()) {
+//            try {
+//                return inputStream.read();
+//            } catch (IOException e) {
+//                Log.e("error", "Unable to read message from raspberry");
+//                return 0;
+//            }
+//        } else return 0;
+//    }
 
     public void closeConnection() {
         if (btSocket != null && btSocket.isConnected()) {

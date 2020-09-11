@@ -15,7 +15,7 @@ import java.net.SocketTimeoutException;
 
 public class AndroidClient implements Closeable {
 
-    public static final String IP = "192.168.0.101";
+    public static final String IP = "172.20.10.4";
     public static final int PORT = 900;
     public Socket socket;
     private BufferedReader reader;
