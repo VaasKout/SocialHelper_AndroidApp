@@ -1,28 +1,20 @@
 <resources>
     <string name="app_name">SocialHelper</string>
     <string name="logo">SH</string>
-    <string name="hello_blank_fragment">Hello blank fragment</string>
     <string name="welcome1">Добро</string>
     <string name="user_input_hint">Имя</string>
     <string name="password_input_hint">Пароль</string>
-    <string name="next">Далее</string>
     <string name="user_input_error">Логин не должен быть пустым</string>
     <string name="password_input_error">Пароль не должен быть пустым</string>
     <string name="get_spot">Уступить место</string>
-    <string name="spot_is_free">Место свободно, присаживайтесь</string>
     <string name="sign_in">Регистрация</string>
-    <string name="choose_category">Выберите категорию</string>
-    <string name="categories">Категории</string>
     <string name="social_helper">SocialHelper!</string>
     <string name="positive_response">Регистрация завершена успешно</string>
     <string name="welcome2">пожаловать</string>
     <string name="welcome3">в</string>
-    <string name="connection_error">Connection Error</string>
     <string name="retry_later">Нет подключения, повторите попытку позже</string>
     <string name="bluetooth_unavailable">Блютуз недоступен на данном устройстве</string>
     <string name="you_send_request">Вы подали заявку как:</string>
-    <string name="delete">Очистить БД</string>
-    <string name="connection_interrupted">Соединение разорвано, попробуйте позже</string>
     <string name="number_reference">Номер справки</string>
     <string name="surname">Фамилия</string>
     <string name="surname_input_error">Введите фамилию</string>
@@ -55,13 +47,16 @@
     <string name="info">Информация</string>
     <string name="wrong_email">Неверная почта</string>
     <string name="wrong_key">Неверный ключ</string>
-    <string name="no_reference">Справка отсутствует в базе данных, встаньте на учёт</string>
-    <string name="terminal_is_unavailable">Терминал недоступен, повторите попытку позже</string>
     <string name="change_password">Сменить пароль</string>
     <string name="enter_old_pass">Введите старый пароль:</string>
     <string name="enter_new_pass">Введите новый пароль:</string>
     <string name="new_pass">Новый пароль</string>
     <string name="change_pass">Сменить пароль</string>
     <string name="check_reference">Проверьте номер справки</string>
-    <string name="login_exist">Возможно такой логин уже существует</string>
+    <string name="wait">Ждите…</string>
+    <string name="user_exist">Пользователь с такими данными уже существует</string>
+    <string name="try_another_login">Попробуйте другой логин</string>
+    <string name="retry_register">Возникла неизвестная ошибка при регистрации, поробуйте ещё раз</string>
+    <string name="get_back_to_login">Вернитесь на главный экран и введите логин,
+                                        пароль, чтобы зайти в приложение</string>
 </resources>

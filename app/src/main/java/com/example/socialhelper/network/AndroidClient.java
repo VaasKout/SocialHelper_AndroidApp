@@ -64,12 +64,12 @@ public class AndroidClient implements Closeable {
         return new BufferedWriter(new OutputStreamWriter(socket.getOutputStream()));
     }
 
-    //    //Reading/writing a String line
     public String readLine() {
         try {
             return reader.readLine();
         } catch (IOException e) {
-            throw new RuntimeException(e);
+            Log.e("error", "Unable to read from server");
+            return "";
         }
     }
 
@@ -81,18 +81,6 @@ public class AndroidClient implements Closeable {
             Log.e("Error", "Unable to read from server");
             return -1;
         }
-    }
-
-
-    //Writing userRegData as a consequence of three Strings
-    public void writeUserData(String userType, String name,
-                              String surname, String login, int password, String email) {
-        writeLine(userType);
-        writeLine(name);
-        writeLine(surname);
-        writeLine(login);
-        write(password);
-        writeLine(email);
     }
 
     public void writePregnantData(int number, int password, String name,
@@ -118,6 +106,14 @@ public class AndroidClient implements Closeable {
     public void changePassword(int id, int newPassword){
         write(id);
         write(newPassword);
+    }
+
+    public void verify(int key, int ref,
+                       String name, String surname){
+        write(key);
+        write(ref);
+        writeLine(name);
+        writeLine(surname);
     }
 
     public void writeLine(String message) {

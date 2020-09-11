@@ -86,10 +86,6 @@ class LoginViewModel(application: Application) : AndroidViewModel(application) {
         }
     }
 
-    /**
-     * if problems with updatedata, insert
-     */
-
     private suspend fun deleteInfo() {
         withContext(Dispatchers.IO) {
             repository.deleteInfo()

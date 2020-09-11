@@ -2,7 +2,6 @@
 <navigation xmlns:android="http://schemas.android.com/apk/res/android"
     xmlns:app="http://schemas.android.com/apk/res-auto"
     xmlns:tools="http://schemas.android.com/tools"
-    android:id="@+id/navigation"
     app:startDestination="@id/introFragment">
     <fragment
         android:id="@+id/registrationFragment"
@@ -18,14 +17,6 @@
             app:popExitAnim="@anim/slide_in_left_next"
             app:popUpTo="@id/loginFragment"
             app:popUpToInclusive="false" />
-        <action
-            android:id="@+id/action_registrationFragment_to_responseFragment"
-            app:destination="@id/responseFragment"
-            app:popUpTo="@id/loginFragment"
-            app:enterAnim="@anim/slide_in_right"
-            app:exitAnim="@anim/slide_in_right_next"
-            app:popEnterAnim="@anim/slide_in_left"
-            app:popExitAnim="@anim/slide_in_left_next"/>
     </fragment>
     <fragment
         android:id="@+id/pregnantFragment"
@@ -82,13 +73,22 @@
     <fragment
         android:id="@+id/responseFragment"
         android:name="com.example.socialhelper.response.ResponseFragment"
-        android:label="fragment_responce"
-        tools:layout="@layout/fragment_responce" >
+        android:label="fragment_response"
+        tools:layout="@layout/fragment_response" >
         <action
             android:id="@+id/action_responseFragment_to_loginFragment"
             app:destination="@id/loginFragment"
             app:popUpTo="@id/responseFragment"
-            app:popUpToInclusive="true" />
+            app:popUpToInclusive="true"
+            app:enterAnim="@anim/slide_in_left"
+            app:exitAnim="@anim/slide_in_left_next"/>
+        <action
+            android:id="@+id/action_responseFragment_to_pregnantFragment"
+            app:destination="@id/pregnantFragment"
+            app:popUpTo="@id/responseFragment"
+            app:popUpToInclusive="true"
+            app:enterAnim="@anim/slide_in_right"
+            app:exitAnim="@anim/slide_in_right_next"/>
     </fragment>
     <fragment
         android:id="@+id/introFragment"
@@ -122,6 +122,9 @@
             app:popExitAnim="@anim/slide_in_left_next"
             app:popUpTo="@id/introFragment"
             app:popUpToInclusive="false" />
+        <action
+            android:id="@+id/action_introFragment_to_responseFragment"
+            app:destination="@id/responseFragment" />
     </fragment>
     <fragment
         android:id="@+id/restorePassword"

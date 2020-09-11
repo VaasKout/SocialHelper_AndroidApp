@@ -10,7 +10,7 @@ import androidx.fragment.app.Fragment
 import androidx.lifecycle.ViewModelProvider
 import androidx.navigation.fragment.findNavController
 import com.example.socialhelper.R
-import com.example.socialhelper.databinding.FragmentResponceBinding
+import com.example.socialhelper.databinding.FragmentResponseBinding
 
 class ResponseFragment : Fragment() {
 
@@ -18,17 +18,19 @@ class ResponseFragment : Fragment() {
         inflater: LayoutInflater, container: ViewGroup?,
         savedInstanceState: Bundle?): View? {
 
-        val binding: FragmentResponceBinding =
-            DataBindingUtil.inflate(inflater, R.layout.fragment_responce, container, false)
+        val binding: FragmentResponseBinding =
+            DataBindingUtil.inflate(inflater, R.layout.fragment_response, container, false)
         val viewModel =
             ViewModelProvider(this).get(ResponseViewModel::class.java)
         binding.viewModel = viewModel
 
         viewModel.userInfo.observe(viewLifecycleOwner, {
-            if (it.serverID == 0 || it.serverID == -1) {
-                binding.respondText.text = getString(R.string.registration_denied)
-            } else {
+            if (it.serverID > 0) {
                 binding.respondText.text = getString(R.string.positive_response)
+
+            } else {
+                binding.respondText.text = getString(R.string.retry_register)
+                binding.buttonEnterAccount.visibility = View.GONE
             }
         })
 
@@ -38,6 +40,14 @@ class ResponseFragment : Fragment() {
                     .navigate(ResponseFragmentDirections
                         .actionResponseFragmentToLoginFragment())
                 viewModel.onDoneBackNavigation()
+            }
+        })
+
+        viewModel.enter.observe(viewLifecycleOwner, {
+            if (it == true){
+                this.findNavController().navigate(ResponseFragmentDirections
+                    .actionResponseFragmentToPregnantFragment())
+                viewModel.onDoneEnterNavigation()
             }
         })
 

@@ -46,7 +46,6 @@ class IntroFragment : Fragment() {
 
             delay(appear.duration)
 
-
             viewModel.allInfo.observe(viewLifecycleOwner, {
 
                 if (it == null || (!it.wasLoggedIn && !it.needVerification)) {
@@ -89,8 +88,6 @@ class IntroFragment : Fragment() {
                 }
             })
         }
-
-
 
         binding.lifecycleOwner = this
         return binding.root

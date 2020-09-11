@@ -4,7 +4,7 @@
     xmlns:tools="http://schemas.android.com/tools">
     <data>
         <variable
-            name="loginViewModel"
+            name="viewModel"
             type="com.example.socialhelper.login.LoginViewModel" />
     </data>
 
@@ -35,7 +35,7 @@
                 app:layout_constraintTop_toTopOf="parent" />
 
             <com.google.android.material.textfield.TextInputLayout
-                android:id="@+id/userTextInput"
+                android:id="@+id/loginTextInput"
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
                 android:layout_marginStart="4dp"
@@ -53,11 +53,10 @@
                 app:endIconMode="clear_text">
 
                 <com.google.android.material.textfield.TextInputEditText
-                    android:id="@+id/user_input_edit_text"
+                    android:id="@+id/login_input_edit_text"
                     android:layout_width="match_parent"
                     android:layout_height="wrap_content"
-                    android:inputType="textPersonName"
-                    />
+                    android:inputType="textPersonName" />
             </com.google.android.material.textfield.TextInputLayout>
 
 
@@ -75,7 +74,7 @@
                 app:errorEnabled="true"
                 app:layout_constraintEnd_toEndOf="parent"
                 app:layout_constraintStart_toStartOf="parent"
-                app:layout_constraintTop_toBottomOf="@+id/userTextInput"
+                app:layout_constraintTop_toBottomOf="@+id/loginTextInput"
                 app:endIconMode="password_toggle">
 
                 <com.google.android.material.textfield.TextInputEditText
@@ -90,7 +89,7 @@
                 style="@style/Widget.MaterialComponents.Button.TextButton"
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
-                android:onClick="@{() -> loginViewModel.onStartNavigationToSign()}"
+                android:onClick="@{() -> viewModel.onStartNavigationToSign()}"
                 android:text="@string/sign_in"
                 app:layout_constraintBaseline_toBaselineOf="@+id/login_next_button"
                 app:layout_constraintStart_toStartOf="@+id/passwordTextInput" />
@@ -103,7 +102,7 @@
                 android:text="@string/enter"
                 app:layout_constraintEnd_toEndOf="@+id/passwordTextInput"
                 app:layout_constraintTop_toBottomOf="@+id/passwordTextInput"
-                android:onClick="@{() -> loginViewModel.onStartNavigationToMain()}"/>
+                android:onClick="@{() -> viewModel.onStartNavigationToMain()}"/>
 
             <com.google.android.material.button.MaterialButton
                 android:id="@+id/forgot_password"
@@ -119,7 +118,7 @@
                 app:layout_constraintStart_toStartOf="@+id/sign_in_button"
                 app:layout_constraintTop_toBottomOf="@+id/sign_in_button"
                 tools:visibility="visible"
-                android:onClick="@{() -> loginViewModel.onStartNavigationToRestore()}"/>
+                android:onClick="@{() -> viewModel.onStartNavigationToRestore()}"/>
         </androidx.constraintlayout.widget.ConstraintLayout>
     </ScrollView>
 </layout>

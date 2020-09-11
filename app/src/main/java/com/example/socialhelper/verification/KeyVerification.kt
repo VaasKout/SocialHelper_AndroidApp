@@ -44,9 +44,10 @@ class KeyVerification : Fragment() {
         viewModel.showNotification.observe(viewLifecycleOwner, {
             if (it == true) {
                 MaterialAlertDialogBuilder(requireContext())
-                    .setTitle("Ключ верификации отправлен на указанную почту")
+                    .setTitle("Ключ верификации отправлен")
                     .setMessage(
-                        "Если письма нет в папке \"Входящие\", " +
+                                "Зайдите на указанную почту, " +
+                                "eсли письма нет в папке \"Входящие\", " +
                                 "проверьте папку \"Спам\""
                     )
                     .setPositiveButton("Ок") { _, _ ->
@@ -94,6 +95,8 @@ class KeyVerification : Fragment() {
 
                     viewModel.allInfo.observe(viewLifecycleOwner, { info ->
                     lifecycleScope.launch {
+                        binding.enterKeyButton.isEnabled = false
+                        binding.enterKeyButton.text = getString(R.string.wait)
                         viewModel.connectToServer()
                         viewModel.requestServer()
                         if (!viewModel.readWrite.socket.isConnected) {
@@ -102,6 +105,8 @@ class KeyVerification : Fragment() {
                                 getString(R.string.retry_later),
                                 Snackbar.LENGTH_SHORT
                             ).show()
+                            binding.enterKeyButton.isEnabled = true
+                            binding.enterKeyButton.text = getString(R.string.verify)
                             viewModel.onDoneSendKey()
                         } else {
                             if (viewModel.serverId == 0) {

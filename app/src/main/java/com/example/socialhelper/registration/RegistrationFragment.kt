@@ -66,7 +66,7 @@ class RegistrationFragment : Fragment() {
                 val surname = binding.surnameEditInput.text.toString()
                 val login = binding.loginEdit.text.toString()
                 val email = binding.emailEdit.text.toString()
-                val number = binding.numberReference
+
 
 
                 if (userName.isEmpty()) {
@@ -134,10 +134,10 @@ class RegistrationFragment : Fragment() {
 
                 if (numberEdit.isEmpty()) {
                     lifecycleScope.launch {
-                        number.error = getString(R.string.enter_reference_number)
+                        binding.numberReference.error = getString(R.string.enter_reference_number)
                         viewModel.onDoneNavigating()
                         delay(3000)
-                        number.error = null
+                        binding.numberReference.error = null
                     }
                 }
 
@@ -151,7 +151,7 @@ class RegistrationFragment : Fragment() {
                     passwordConfirm.isNotEmpty() &&
                     login.isNotEmpty() &&
                     surname.isNotEmpty() &&
-                    number.isNotEmpty() &&
+                    binding.numberReference.isNotEmpty() &&
                     password == passwordConfirm) {
 
                     var info = Info(
@@ -159,7 +159,7 @@ class RegistrationFragment : Fragment() {
                         password = password, login = login,
                         email = email, wasLoggedIn = false)
 
-                    if (number.isVisible) {
+                    if (binding.numberReference.isVisible) {
                         info = Info(
                             id = 1, name = userName, surname = surname,
                             password = password, reference = numberEdit.toInt(),
@@ -176,47 +176,39 @@ class RegistrationFragment : Fragment() {
                             viewModel.onDoneNavigating()
                         }
                         .setPositiveButton("Да") { _, _ ->
-
                             viewModel.allInfo.observe(viewLifecycleOwner, {info ->
                                 lifecycleScope.launch {
+                                    binding.regButton.isEnabled = false
+                                    binding.regButton.text = getString(R.string.wait)
                                     viewModel.connectToServer()
                                     viewModel.requestServer()
                                     if (!viewModel.readWrite.socket.isConnected) {
                                         Snackbar.make(
-                                            binding.materialButton,
+                                            binding.regButton,
                                             getString(R.string.retry_later),
                                             Snackbar.LENGTH_SHORT
                                         ).show()
+                                        binding.regButton.isEnabled = true
+                                        binding.regButton.text = getString(R.string.register)
                                         viewModel.onDoneNavigating()
                                     } else {
                                         when (viewModel.state) {
                                             "wrong" -> {
                                                 Log.e("state", viewModel.state)
-                                                number.error = getString(R.string.check_reference)
-                                                binding.login.error = getString(R.string.login_exist)
+                                                binding.login.error =
+                                                    getString(R.string.try_another_login)
+                                                binding.numberReference.error =
+                                                    getString(R.string.check_reference)
+                                                Snackbar.make(
+                                                    binding.regButton,
+                                                    getString(R.string.user_exist),
+                                                    Snackbar.LENGTH_SHORT
+                                                ).show()
+                                                binding.regButton.isEnabled = true
+                                                binding.regButton.text = getString(R.string.register)
                                                 viewModel.onDoneNavigating()
-                                            }
-                                            "exist" -> {
-                                                val infoReference = Info(
-                                                    id = info.id,
-                                                    name = info.name,
-                                                    surname = info.surname,
-                                                    password = info.password,
-                                                    login = info.login,
-                                                    email = info.email,
-                                                    reference = viewModel.referenceNumber,
-                                                    serverKey = 0,
-                                                    serverID = 0
-                                                )
-                                                viewModel.updateInfo(infoReference)
-                                                this@RegistrationFragment
-                                                    .findNavController()
-                                                    .navigate(RegistrationFragmentDirections
-                                                        .actionRegistrationFragmentToResponseFragment())
-                                                viewModel.onDoneNavigating()
-
-                                            }
-                                            "wait" -> {
+                                            } "wait" -> {
+                                            Log.e("state", viewModel.state)
                                                 val infoReference = Info(
                                                     id = info.id,
                                                     name = info.name,
@@ -228,14 +220,23 @@ class RegistrationFragment : Fragment() {
                                                     needVerification = true
                                                 )
                                                 viewModel.updateInfo(infoReference)
-
                                                 this@RegistrationFragment.findNavController()
                                                     .navigate(
                                                         RegistrationFragmentDirections
-                                                            .actionRegistrationFragmentToKeyVerification()
-                                                    )
+                                                            .actionRegistrationFragmentToKeyVerification())
 
                                                 viewModel.onDoneNavigating()
+                                            } else ->{
+                                            Log.e("error",
+                                                "unknown response: ${viewModel.state}")
+                                            Snackbar.make(
+                                                binding.regButton,
+                                                getString(R.string.retry_later),
+                                                Snackbar.LENGTH_SHORT
+                                            ).show()
+                                            binding.regButton.isEnabled = true
+                                            binding.regButton.text = getString(R.string.register)
+                                            viewModel.onDoneNavigating()
                                             }
                                         }
                                     }

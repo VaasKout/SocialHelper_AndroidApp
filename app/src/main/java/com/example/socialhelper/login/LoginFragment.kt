@@ -23,95 +23,97 @@ class LoginFragment : Fragment() {
         savedInstanceState: Bundle?): View? {
 
         val binding = FragmentLoginBinding.inflate(inflater)
-        val loginViewModel =
+        val viewModel =
             ViewModelProvider(this).get(LoginViewModel::class.java)
-        binding.loginViewModel = loginViewModel
+        binding.viewModel = viewModel
 
-        loginViewModel.navigateToMainFrag.observe(viewLifecycleOwner, {
+        viewModel.navigateToMainFrag.observe(viewLifecycleOwner, {
             if (it == true) {
-                val userInput = binding.userInputEditText.text.toString()
+                val login = binding.loginInputEditText.text.toString()
                 val passwordInput = binding.passwordInputEditText.text.toString()
 
-                binding.userTextInput.error = null
+                binding.loginTextInput.error = null
                 binding.passwordTextInput.error = null
 
-                if (userInput.isEmpty()) {
+                if (login.isEmpty()) {
                     lifecycleScope.launch {
-                        binding.userTextInput.error = getString(R.string.user_input_error)
-                        loginViewModel.onDoneNavigationToMain()
+                        binding.loginTextInput.error = getString(R.string.user_input_error)
+                        viewModel.onDoneNavigationToMain()
                         delay(3000)
-                        binding.userTextInput.error = null
+                        binding.loginTextInput.error = null
                     }
 
                 }
                 if (passwordInput.isEmpty()) {
                     lifecycleScope.launch {
                         binding.passwordTextInput.error = getString(R.string.password_input_error)
-                        loginViewModel.onDoneNavigationToMain()
+                        viewModel.onDoneNavigationToMain()
                         delay(3000)
                         binding.passwordTextInput.error = null
                     }
                 }
 
-                if (userInput.isNotEmpty() &&
+                if (login.isNotEmpty() &&
                     passwordInput.isNotEmpty()
                 ) {
 
-                    loginViewModel.login = userInput
-                    loginViewModel.password = passwordInput.toInt()
-                    loginViewModel.allInfo.observe(viewLifecycleOwner, { info ->
+                    viewModel.login = login
+                    viewModel.password = passwordInput.toInt()
+                    viewModel.allInfo.observe(viewLifecycleOwner, { info ->
 
                         lifecycleScope.launch {
                             if (info == null) {
-                                loginViewModel.connectToServer()
-                                loginViewModel.requestServer()
-                                if (!loginViewModel.readWrite.socket.isConnected) {
+                                viewModel.connectToServer()
+                                viewModel.requestServer()
+                                if (!viewModel.readWrite.socket.isConnected) {
                                     Snackbar.make(
                                         binding.loginNextButton,
                                         getString(R.string.retry_later),
                                         Snackbar.LENGTH_SHORT
                                     ).show()
-                                    loginViewModel.onDoneNavigationToMain()
+                                    viewModel.onDoneNavigationToMain()
 
-                                } else if (loginViewModel.serverID <= 0 ||
-                                    loginViewModel.serverKey <= 0
+                                } else if (viewModel.serverID <= 0 ||
+                                    viewModel.serverKey <= 0
                                 ) {
                                     lifecycleScope.launch {
-                                        binding.userTextInput.error =
+                                        binding.loginTextInput.error =
                                             getString(R.string.wrong_login_or_password)
                                         binding.passwordTextInput.error =
                                             getString(R.string.wrong_login_or_password)
                                         binding.forgotPassword.visibility = View.VISIBLE
-                                        loginViewModel.onDoneNavigationToMain()
+                                        viewModel.onDoneNavigationToMain()
                                         delay(3000)
-                                        binding.userTextInput.error = null
+                                        binding.loginTextInput.error = null
                                         binding.passwordTextInput.error = null
                                     }
                                 }
                             }
                             if (info != null) {
                                 if (info.serverID <= 0 && info.serverKey <= 0) {
-                                    binding.userTextInput.error =
+                                    binding.loginTextInput.error =
                                         getString(R.string.registration_denied)
-                                    binding.userTextInput.error =
+                                    binding.loginTextInput.error =
                                         getString(R.string.registration_denied)
-                                    loginViewModel.onDoneNavigationToMain()
+                                    viewModel.onDoneNavigationToMain()
 
                                 } else {
                                     when {
-                                        info.login != userInput -> {
-                                            binding.userTextInput.error =
+                                        info.login != login -> {
+                                            binding.loginTextInput.error =
                                                 getString(R.string.wrong_login)
-                                            loginViewModel.onDoneNavigationToMain()
+                                            viewModel.onDoneNavigationToMain()
                                         }
                                         info.password != passwordInput -> {
                                             binding.passwordTextInput.error =
                                                 getString(R.string.wrong_password)
-                                            loginViewModel.onDoneNavigationToMain()
+                                            viewModel.onDoneNavigationToMain()
                                             binding.forgotPassword.visibility = View.VISIBLE
                                         }
                                         else -> {
                                             Log.e("pregnant", "loging")
+                                            binding.loginTextInput.error = null
+                                            binding.passwordTextInput.error = null
                                             val infoInstance = Info(
                                                 id = 1,
                                                 name = info.name,
@@ -123,7 +125,7 @@ class LoginFragment : Fragment() {
                                                 serverKey = info.serverKey,
                                                 wasLoggedIn = true
                                             )
-                                            loginViewModel.updateInfo(infoInstance)
+                                            viewModel.updateInfo(infoInstance)
 
                                             if (this@LoginFragment
                                                     .findNavController()
@@ -135,7 +137,7 @@ class LoginFragment : Fragment() {
                                                         LoginFragmentDirections
                                                             .actionLoginFragmentToPregnantFragment()
                                                     )
-                                                loginViewModel.onDoneNavigationToMain()
+                                                viewModel.onDoneNavigationToMain()
                                             }
                                         }
                                     }
@@ -147,10 +149,10 @@ class LoginFragment : Fragment() {
             }
         })
 
-                    loginViewModel.navigateToSignInFrag.observe(viewLifecycleOwner, {
+                    viewModel.navigateToSignInFrag.observe(viewLifecycleOwner, {
                         if (it == true) {
-                            loginViewModel.allInfo.let {
-                                loginViewModel.onClear()
+                            viewModel.allInfo.let {
+                                viewModel.onClear()
                             }
                             if (this@LoginFragment
                                     .findNavController()
@@ -159,16 +161,16 @@ class LoginFragment : Fragment() {
                                 this@LoginFragment.findNavController()
                                     .navigate(LoginFragmentDirections
                                         .actionLoginFragmentToRegistrationFragment())
-                                loginViewModel.onDoneNavigationToSign()
+                                viewModel.onDoneNavigationToSign()
                             }
                         }
                     })
 
-                    loginViewModel.navigateToRestoreFrag.observe(viewLifecycleOwner, {
+                    viewModel.navigateToRestoreFrag.observe(viewLifecycleOwner, {
                         if (it == true) {
                             this.findNavController()
                                 .navigate(LoginFragmentDirections.actionLoginFragmentToRestorePassword())
-                            loginViewModel.onDoneNavigationToRestore()
+                            viewModel.onDoneNavigationToRestore()
                         }
                     })
 

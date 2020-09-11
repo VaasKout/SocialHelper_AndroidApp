@@ -1,6 +1,7 @@
 package com.example.socialhelper.verification
 
 import android.app.Application
+import android.util.Log
 import androidx.lifecycle.AndroidViewModel
 import androidx.lifecycle.LiveData
 import androidx.lifecycle.MutableLiveData
@@ -40,8 +41,12 @@ class KeyViewModel(application: Application) : AndroidViewModel(application) {
             if (readWrite.socket != null && readWrite.socket.isConnected) {
                 readWrite.writeLine("verify")
                 if (serverKey != 0) {
-                    readWrite.write(serverKey)
-                    serverId = readWrite.read()
+                    allInfo.value?.let {
+                        readWrite.verify(serverKey, it.reference,
+                                        it.name, it.surname)
+                        Log.e("data", "sent")
+                        serverId = readWrite.read()
+                    }
                 }
             }
         }

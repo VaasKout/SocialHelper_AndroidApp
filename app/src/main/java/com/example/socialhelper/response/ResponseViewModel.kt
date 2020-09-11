@@ -22,11 +22,22 @@ class ResponseViewModel(application: Application) : AndroidViewModel(application
     private val _navigateBack = MutableLiveData<Boolean>()
     val navigateBack: LiveData<Boolean> = _navigateBack
 
+    private val _enter = MutableLiveData<Boolean>()
+    val enter: LiveData<Boolean> = _enter
+
     fun onStartBackNavigation() {
         _navigateBack.value = true
     }
 
     fun onDoneBackNavigation() {
         _navigateBack.value = false
+    }
+
+    fun onStartEnterNavigation(){
+        _enter.value = true
+    }
+
+    fun onDoneEnterNavigation(){
+        _enter.value = false
     }
 }

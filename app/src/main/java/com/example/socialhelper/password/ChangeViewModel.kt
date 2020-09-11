@@ -8,9 +8,7 @@ import com.example.socialhelper.database.Info
 import com.example.socialhelper.database.InfoDatabase
 import com.example.socialhelper.network.AndroidClient
 import com.example.socialhelper.repository.InfoRepository
-import kotlinx.coroutines.CoroutineScope
 import kotlinx.coroutines.Dispatchers
-import kotlinx.coroutines.Job
 import kotlinx.coroutines.withContext
 
 class ChangeViewModel(application: Application): AndroidViewModel(application){
