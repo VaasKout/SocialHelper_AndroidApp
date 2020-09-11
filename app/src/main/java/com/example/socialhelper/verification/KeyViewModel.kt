@@ -32,7 +32,7 @@ class KeyViewModel(application: Application) : AndroidViewModel(application) {
 
     suspend fun connectToServer() {
         withContext(Dispatchers.IO) {
-            readWrite.connectSocket("192.168.0.110", 9000)
+            readWrite.connectSocket()
         }
     }
 

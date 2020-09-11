@@ -15,6 +15,8 @@ import java.net.SocketTimeoutException;
 
 public class AndroidClient implements Closeable {
 
+    public static final String IP = "192.168.0.101";
+    public static final int PORT = 900;
     public Socket socket;
     private BufferedReader reader;
     private BufferedWriter writer;
@@ -23,9 +25,9 @@ public class AndroidClient implements Closeable {
      * Check if connection is available, if not, get logs without throwing IOException
      */
 
-    public void connectSocket(String ip, int port) {
+    public void connectSocket() {
         int timeout = 1000;
-        SocketAddress socketAddress = new InetSocketAddress(ip, port);
+        SocketAddress socketAddress = new InetSocketAddress(IP, PORT);
         try {
             closeConnection();
             socket = new Socket();
@@ -34,7 +36,7 @@ public class AndroidClient implements Closeable {
             writer = createWriter();
 
         } catch (SocketTimeoutException exception) {
-            Log.e("timeout", "SocketTimeoutException" + ip + ":" + port);
+            Log.e("timeout", "SocketTimeoutException" + IP + ":" + PORT);
         } catch (IOException e) {
             Log.e("error", "Unable to connect");
         }
