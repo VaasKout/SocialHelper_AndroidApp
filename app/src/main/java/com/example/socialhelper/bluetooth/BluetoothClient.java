@@ -17,6 +17,7 @@ public class BluetoothClient implements Closeable {
     public BluetoothAdapter btAdapter = null;
     private OutputStream outStream = null;
     private InputStream inputStream = null;
+    public boolean sent = true;
 
     private static final UUID MY_UUID = UUID.fromString("00001101-0000-1000-8000-00805F9B34FB");
     public static final int REQUEST_ENABLE_BT = 1;
@@ -61,7 +62,9 @@ public class BluetoothClient implements Closeable {
         if (btSocket.isConnected()) {
             try {
                 outStream.write(message);
+                sent = true;
             } catch (IOException e) {
+                sent = false;
                 Log.e("error", "Unable to send message to arduino");
             }
         }

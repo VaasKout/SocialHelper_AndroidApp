@@ -90,11 +90,28 @@ class PregnantFragment : Fragment() {
                                 if (socket.isConnected) {
                                     Log.e("socket", "Socket is available")
                                     viewModel.sendMessage(info.serverID.toString())
+                                        while (!viewModel.bluetoothReadWrite.sent && i != 5){
+                                            viewModel.createConnection()
+                                            delay(5000)
+                                            socket = viewModel.bluetoothReadWrite.btSocket
+                                            Log.e("trying",
+                                                "trying to connect after sending data")
+                                            i++
+                                        }
+                                    if (viewModel.bluetoothReadWrite.sent){
                                         binding.getSpotButton.isEnabled = true
                                         binding.getSpotButton.text = getString(R.string.get_spot)
                                         Log.e("sent", info.serverID.toString())
                                         binding.result.text = getString(R.string.spot_is_empty)
                                         viewModel.onDoneSetSpotFree()
+                                    } else {
+                                        Snackbar.make(
+                                            binding.getSpotButton,
+                                            getString(R.string.retry_later),
+                                            Snackbar.LENGTH_SHORT
+                                        ).show()
+                                        viewModel.onDoneSetSpotFree()
+                                    }
 
                                 } else {
                                     binding.getSpotButton.isEnabled = true
