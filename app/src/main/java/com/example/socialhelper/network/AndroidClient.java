@@ -15,7 +15,7 @@ import java.net.SocketTimeoutException;
 
 public class AndroidClient implements Closeable {
 
-    public static final String IP = "192.168.1.8";
+    public static final String IP = "192.168.4.172";
     public static final int PORT = 900;
     public Socket socket;
     private BufferedReader reader;
@@ -105,6 +105,16 @@ public class AndroidClient implements Closeable {
     public void writeRestoreInfo(String login, String post) {
         writeLine(login);
         writeLine(post);
+    }
+    public void writeWheelchairData(String login, String name, String surname,
+                                    String enter, String exit, String time, String comment){
+        writeLine(login);
+        writeLine(name);
+        writeLine(surname);
+        writeLine(enter);
+        writeLine(exit);
+        writeLine(time);
+        writeLine(comment);
     }
 
     public void changePassword(int id, int newPassword){

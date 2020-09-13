@@ -82,12 +82,10 @@ class RegistrationViewModel(application: Application) : AndroidViewModel(applica
 
     suspend fun requestServer() {
         withContext(Dispatchers.IO) {
-
-
             allInfo.value?.let {
                 var s = ""
                 when(it.category){
-                    "Инвалид" -> s = "wheels"
+                    "Инвалид" -> s = "wheelchair"
                     "Беременная" -> s = "pregnant"
                     "Соц.работник"-> s = "socialworker"
                 }

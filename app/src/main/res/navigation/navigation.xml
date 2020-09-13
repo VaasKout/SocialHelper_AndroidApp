@@ -208,6 +208,13 @@
             app:popEnterAnim="@anim/slide_in_left"
             app:popExitAnim="@anim/slide_in_left_next"
             app:popUpTo="@id/socialWorker" />
+        <action
+            android:id="@+id/action_socialWorker_to_loginFragment"
+            app:destination="@id/loginFragment"
+            app:enterAnim="@anim/slide_in_left"
+            app:exitAnim="@anim/slide_in_left_next"
+            app:popUpTo="@id/socialWorker"
+            app:popUpToInclusive="true" />
     </fragment>
     <fragment
         android:id="@+id/wheelChair"
@@ -222,5 +229,25 @@
             app:popEnterAnim="@anim/slide_in_left"
             app:popExitAnim="@anim/slide_in_left_next"
             app:popUpTo="@id/wheelChair" />
+        <action
+            android:id="@+id/action_wheelChair_to_loginFragment"
+            app:destination="@id/loginFragment"
+            app:enterAnim="@anim/slide_in_left"
+            app:exitAnim="@anim/slide_in_left_next"
+            app:popUpTo="@id/wheelChair"
+            app:popUpToInclusive="true" />
+        <action
+            android:id="@+id/action_wheelChair_to_wheelChairWait"
+            app:destination="@id/wheelChairWait"
+            app:popUpTo="@id/wheelChair"
+            app:enterAnim="@anim/slide_in_right"
+            app:exitAnim="@anim/slide_in_right_next"
+            app:popEnterAnim="@anim/slide_in_left"
+            app:popExitAnim="@anim/slide_in_left_next"/>
     </fragment>
+    <fragment
+        android:id="@+id/wheelChairWait"
+        android:name="com.example.socialhelper.wheelchair.WheelChairWait"
+        android:label="WheelChairWait"
+        tools:layout="@layout/fragment_wheel_chair_wait"/>
 </navigation>

@@ -42,7 +42,7 @@ class PregnantFragment : Fragment() {
                         }.show()
                     true
                 }
-                R.id.exit_from_pregnant ->{
+                R.id.exit_from_main ->{
                     MaterialAlertDialogBuilder(requireContext())
                         .setMessage("Выйти из аккаунта?")
                         .setNegativeButton("Нет") { _, _ ->

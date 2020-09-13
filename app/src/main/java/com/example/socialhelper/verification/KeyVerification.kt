@@ -126,6 +126,7 @@ class KeyVerification : Fragment() {
                                         serverID = viewModel.serverId,
                                         serverKey = key.toInt(),
                                         needVerification = false,
+                                        wasLoggedIn = true,
                                         category = info.category)
                                     viewModel.updateInfo(infoInstance)
 

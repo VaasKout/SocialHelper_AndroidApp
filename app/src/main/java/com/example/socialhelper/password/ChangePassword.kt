@@ -29,6 +29,8 @@ class ChangePassword : Fragment() {
         binding.viewModel = viewModel
 
         viewModel.changed.observe(viewLifecycleOwner, {
+            viewModel.allInfo.observe(viewLifecycleOwner, {info ->
+
             if (it == true){
                 val oldPass = binding.oldPasswordEdit.text.toString()
                 val newPass = binding.enterNewPasswordEdit.text.toString()
@@ -37,6 +39,14 @@ class ChangePassword : Fragment() {
                 if (oldPass.isEmpty()){
                     lifecycleScope.launch {
                         binding.oldPassword.error = getString(R.string.empty_field_error)
+                        viewModel.onDoneChange()
+                        delay(3000)
+                        binding.oldPassword.error = null
+                    }
+                }
+                if (oldPass != info.password){
+                    lifecycleScope.launch {
+                        binding.oldPassword.error = getString(R.string.wrong_password)
                         viewModel.onDoneChange()
                         delay(3000)
                         binding.oldPassword.error = null
@@ -65,6 +75,7 @@ class ChangePassword : Fragment() {
                     }
                 }
                 if (oldPass.isNotEmpty() &&
+                    oldPass == info.password &&
                         newPass.isNotEmpty()&&
                         confirmNewPass.isNotEmpty() &&
                         newPass == confirmNewPass){
@@ -107,6 +118,7 @@ class ChangePassword : Fragment() {
                         }.show()
                 }
             }
+            })
         })
 
         binding.exitFromChangePassword.setOnClickListener {

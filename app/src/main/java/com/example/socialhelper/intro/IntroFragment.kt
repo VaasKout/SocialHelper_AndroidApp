@@ -46,6 +46,16 @@ class IntroFragment : Fragment() {
             }
 
             delay(appear.duration)
+//            if (this@IntroFragment
+//                        .findNavController()
+//                        .currentDestination?.id ==
+//                    R.id.introFragment){
+//                this@IntroFragment.findNavController()
+//                    .navigate(
+//                        IntroFragmentDirections
+//                            .actionIntroFragmentToWheelChair())
+//            }
+
 
             viewModel.allInfo.observe(viewLifecycleOwner, {
 

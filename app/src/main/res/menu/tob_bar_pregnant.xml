@@ -7,7 +7,7 @@
         app:showAsAction="always"
         android:icon="@drawable/ic_password"/>
     <item
-        android:id="@+id/exit_from_pregnant"
+        android:id="@+id/exit_from_main"
         android:title="@string/exit"
         android:icon="@drawable/ic_exit"
         app:showAsAction="ifRoom" />
