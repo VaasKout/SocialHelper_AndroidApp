@@ -23,6 +23,8 @@ class ResponseFragment : Fragment() {
         val viewModel =
             ViewModelProvider(this).get(ResponseViewModel::class.java)
         binding.viewModel = viewModel
+        val categoryList = resources.getStringArray(R.array.category)
+
 
         viewModel.userInfo.observe(viewLifecycleOwner, {
             if (it.serverID > 0) {
@@ -32,6 +34,30 @@ class ResponseFragment : Fragment() {
                 binding.respondText.text = getString(R.string.retry_register)
                 binding.buttonEnterAccount.visibility = View.GONE
             }
+
+            viewModel.enter.observe(viewLifecycleOwner, {enter ->
+                if (enter == true && it.serverID > 0){
+                    when (it.category){
+                        categoryList[0] -> {
+                            this.findNavController()
+                                .navigate(ResponseFragmentDirections
+                                .actionResponseFragmentToWheelChair())
+                            viewModel.onDoneEnterNavigation()
+                        }
+                        categoryList[1] -> {
+                            this.findNavController().navigate(ResponseFragmentDirections
+                                .actionResponseFragmentToPregnantFragment())
+                            viewModel.onDoneEnterNavigation()
+                        }
+                        categoryList[2] -> {
+                            this.findNavController()
+                                .navigate(ResponseFragmentDirections
+                                    .actionResponseFragmentToSocialWorker())
+                            viewModel.onDoneEnterNavigation()
+                        }
+                    }
+                }
+            })
         })
 
         viewModel.navigateBack.observe(viewLifecycleOwner, {
@@ -40,14 +66,6 @@ class ResponseFragment : Fragment() {
                     .navigate(ResponseFragmentDirections
                         .actionResponseFragmentToLoginFragment())
                 viewModel.onDoneBackNavigation()
-            }
-        })
-
-        viewModel.enter.observe(viewLifecycleOwner, {
-            if (it == true){
-                this.findNavController().navigate(ResponseFragmentDirections
-                    .actionResponseFragmentToPregnantFragment())
-                viewModel.onDoneEnterNavigation()
             }
         })
 

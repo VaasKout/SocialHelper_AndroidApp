@@ -13,6 +13,7 @@ import androidx.navigation.fragment.findNavController
 import com.example.socialhelper.R
 import com.example.socialhelper.database.Info
 import com.example.socialhelper.databinding.FragmentLoginBinding
+import com.example.socialhelper.intro.IntroFragmentDirections
 import com.google.android.material.snackbar.Snackbar
 import kotlinx.coroutines.delay
 import kotlinx.coroutines.launch
@@ -28,6 +29,8 @@ class LoginFragment : Fragment() {
         val viewModel =
             ViewModelProvider(this).get(LoginViewModel::class.java)
         binding.viewModel = viewModel
+        val categoryList = resources.getStringArray(R.array.category)
+        val categoryEng = resources.getStringArray(R.array.categoryEng)
 
         viewModel.navigateToMainFrag.observe(viewLifecycleOwner, {
             if (it == true) {
@@ -115,33 +118,35 @@ class LoginFragment : Fragment() {
                                             binding.forgotPassword.visibility = View.VISIBLE
                                         }
                                         else -> {
-                                            Log.e("pregnant", "loging")
+                                            Log.e("go", "loging")
                                             binding.loginTextInput.error = null
                                             binding.passwordTextInput.error = null
-                                            val infoInstance = Info(
-                                                id = 1,
-                                                name = info.name,
-                                                surname = info.surname,
-                                                login = info.login,
-                                                password = info.password,
-                                                email = info.email,
-                                                serverID = info.serverID,
-                                                serverKey = info.serverKey,
-                                                wasLoggedIn = true
-                                            )
-                                            viewModel.updateInfo(infoInstance)
 
                                             if (this@LoginFragment
                                                     .findNavController()
                                                     .currentDestination?.id ==
                                                 R.id.loginFragment
                                             ) {
-                                                this@LoginFragment.findNavController()
-                                                    .navigate(
-                                                        LoginFragmentDirections
-                                                            .actionLoginFragmentToPregnantFragment()
-                                                    )
-                                                viewModel.onDoneNavigationToMain()
+                                                when (info.category) {
+                                                    categoryList[0], categoryEng[0] -> {
+                                                      this@LoginFragment.findNavController()
+                                                          .navigate(LoginFragmentDirections
+                                                              .actionLoginFragmentToWheelChair())
+                                                        viewModel.onDoneNavigationToMain()
+                                                    }
+                                                    categoryList[1], categoryEng[1] -> {
+                                                        this@LoginFragment.findNavController()
+                                                            .navigate(LoginFragmentDirections
+                                                                .actionLoginFragmentToPregnantFragment())
+                                                        viewModel.onDoneNavigationToMain()
+                                                    }
+                                                    categoryList[2], categoryEng[2] -> {
+                                                       this@LoginFragment.findNavController()
+                                                           .navigate(LoginFragmentDirections
+                                                               .actionLoginFragmentToSocialWorker())
+                                                        viewModel.onDoneNavigationToMain()
+                                                    }
+                                                }
                                             }
                                         }
                                     }

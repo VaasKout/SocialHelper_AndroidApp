@@ -52,8 +52,7 @@ class LoginViewModel(application: Application) : AndroidViewModel(application) {
                     val surname = readWrite.readLine()
                     login = readWrite.readLine()
                     val email = readWrite.readLine()
-
-
+                    val category = readWrite.readLine()
                     Log.e("name", name)
                     Log.e("surname", surname)
                     Log.e("login", login)
@@ -71,8 +70,8 @@ class LoginViewModel(application: Application) : AndroidViewModel(application) {
                             password = password.toString(),
                             email = email,
                             serverID = serverID,
-                            serverKey = serverKey
-                        )
+                            serverKey = serverKey,
+                            category = category)
                         insertInfo(info)
                     }
                 }

@@ -125,8 +125,8 @@ class KeyVerification : Fragment() {
                                         email = info.email,
                                         serverID = viewModel.serverId,
                                         serverKey = key.toInt(),
-                                        needVerification = false
-                                    )
+                                        needVerification = false,
+                                        category = info.category)
                                     viewModel.updateInfo(infoInstance)
 
                                 this@KeyVerification.findNavController()
@@ -142,7 +142,6 @@ class KeyVerification : Fragment() {
                 }
             }
         })
-
 
         binding.lifecycleOwner = this
         return binding.root

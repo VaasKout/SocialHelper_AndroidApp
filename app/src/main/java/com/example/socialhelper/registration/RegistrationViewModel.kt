@@ -82,8 +82,19 @@ class RegistrationViewModel(application: Application) : AndroidViewModel(applica
 
     suspend fun requestServer() {
         withContext(Dispatchers.IO) {
+
+
             allInfo.value?.let {
+                var s = ""
+                when(it.category){
+                    "Инвалид" -> s = "wheels"
+                    "Беременная" -> s = "pregnant"
+                    "Соц.работник"-> s = "socialworker"
+                }
                 if (readWrite.socket != null && readWrite.socket.isConnected) {
+                    /**
+                     * make categoties
+                     */
                         readWrite.writeLine("regPregnant")
                         readWrite.writePregnantData(
                             it.reference,
@@ -91,7 +102,8 @@ class RegistrationViewModel(application: Application) : AndroidViewModel(applica
                             it.name,
                             it.surname,
                             it.login,
-                            it.email)
+                            it.email,
+                            s)
                     }
                     state = readWrite.readLine()
                 }

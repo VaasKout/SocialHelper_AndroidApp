@@ -95,7 +95,8 @@ class ChangePassword : Fragment() {
                                             reference = info.reference,
                                             serverID = info.serverID,
                                             serverKey = info.serverKey,
-                                            wasLoggedIn = true)
+                                            wasLoggedIn = true,
+                                            category = info.category)
                                         viewModel.updateInfo(infoReference)
                                         this@ChangePassword
                                             .findNavController()

@@ -1,13 +1,11 @@
-<?xml version="1.0" encoding="utf-8"?>
 <layout xmlns:android="http://schemas.android.com/apk/res/android"
     xmlns:app="http://schemas.android.com/apk/res-auto"
     xmlns:tools="http://schemas.android.com/tools">
     <data>
         <variable
             name="viewModel"
-            type="com.example.socialhelper.pregnant.PregnantViewModel" />
+            type="com.example.socialhelper.wheelchair.WheelChairViewModel" />
     </data>
-
     <androidx.coordinatorlayout.widget.CoordinatorLayout
         android:layout_width="match_parent"
         android:layout_height="match_parent">
@@ -16,7 +14,7 @@
             android:layout_width="match_parent"
             android:layout_height="wrap_content">
             <com.google.android.material.appbar.MaterialToolbar
-                android:id="@+id/toolbar_pregnant"
+                android:id="@+id/toolbar_wheelchair"
                 android:layout_width="match_parent"
                 android:layout_height="?attr/actionBarSize"
                 style="@style/Widget.MaterialComponents.Toolbar.Primary"
@@ -27,34 +25,18 @@
     <androidx.constraintlayout.widget.ConstraintLayout
         android:layout_width="match_parent"
         android:layout_height="match_parent"
-        tools:context=".pregnant.PregnantFragment"
-        app:layout_behavior="@string/appbar_scrolling_view_behavior">
+        tools:context="com.example.socialhelper.disabled.DisabledFragment">
 
         <TextView
-            android:id="@+id/result"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
-            android:layout_marginBottom="64dp"
-            app:layout_constraintBottom_toTopOf="@+id/getSpotButton"
-            app:layout_constraintEnd_toEndOf="parent"
-            app:layout_constraintStart_toStartOf="parent"
-            android:textAppearance="@style/TextAppearance.MaterialComponents.Headline5"
-            android:textStyle="italic"
-            android:gravity="center" />
-
-        <com.google.android.material.button.MaterialButton
-            android:id="@+id/getSpotButton"
-            android:layout_width="wrap_content"
-            android:layout_height="wrap_content"
-            android:text="@string/get_spot"
+            android:textAppearance="@style/TextAppearance.MaterialComponents.Headline3"
             app:layout_constraintBottom_toBottomOf="parent"
             app:layout_constraintEnd_toEndOf="parent"
             app:layout_constraintStart_toStartOf="parent"
             app:layout_constraintTop_toTopOf="parent"
-            app:layout_constraintVertical_bias="0.7"
-            android:textStyle="bold"
-            android:textAppearance="@style/TextAppearance.MaterialComponents.Headline4"
-            android:onClick="@{() -> viewModel.onSetSpotFree()}"/>
+            android:gravity="center"
+            android:text="Disabled fragment"/>
 
     </androidx.constraintlayout.widget.ConstraintLayout>
     </androidx.coordinatorlayout.widget.CoordinatorLayout>

@@ -49,8 +49,6 @@
             app:destination="@id/pregnantFragment"
             app:enterAnim="@anim/slide_in_right"
             app:exitAnim="@anim/slide_in_right_next"
-            app:popEnterAnim="@anim/slide_in_left"
-            app:popExitAnim="@anim/slide_in_left_next"
             app:popUpTo="@id/loginFragment"
             app:popUpToInclusive="true" />
         <action
@@ -69,6 +67,20 @@
             app:exitAnim="@anim/slide_in_right_next"
             app:popEnterAnim="@anim/slide_in_left"
             app:popExitAnim="@anim/slide_in_left_next"/>
+        <action
+            android:id="@+id/action_loginFragment_to_wheelChair"
+            app:destination="@id/wheelChair"
+            app:enterAnim="@anim/slide_in_right"
+            app:exitAnim="@anim/slide_in_right_next"
+            app:popUpTo="@id/loginFragment"
+            app:popUpToInclusive="true" />
+        <action
+            android:id="@+id/action_loginFragment_to_socialWorker"
+            app:destination="@id/socialWorker"
+            app:popUpTo="@id/loginFragment"
+            app:popUpToInclusive="true"
+            app:enterAnim="@anim/slide_in_right"
+            app:exitAnim="@anim/slide_in_right_next"/>
     </fragment>
     <fragment
         android:id="@+id/responseFragment"
@@ -89,6 +101,20 @@
             app:popUpToInclusive="true"
             app:enterAnim="@anim/slide_in_right"
             app:exitAnim="@anim/slide_in_right_next"/>
+        <action
+            android:id="@+id/action_responseFragment_to_socialWorker"
+            app:destination="@id/socialWorker"
+            app:popUpTo="@id/responseFragment"
+            app:popUpToInclusive="true"
+            app:enterAnim="@anim/slide_in_right"
+            app:exitAnim="@anim/slide_in_right_next"/>
+        <action
+            android:id="@+id/action_responseFragment_to_wheelChair"
+            app:destination="@id/wheelChair"
+            app:popUpTo="@id/responseFragment"
+            app:popUpToInclusive="true"
+            app:enterAnim="@anim/slide_in_right"
+            app:exitAnim="@anim/slide_in_right_next" />
     </fragment>
     <fragment
         android:id="@+id/introFragment"
@@ -100,8 +126,6 @@
             app:destination="@id/loginFragment"
             app:enterAnim="@anim/slide_in_right"
             app:exitAnim="@anim/slide_in_right_next"
-            app:popEnterAnim="@anim/slide_in_left"
-            app:popExitAnim="@anim/slide_in_left_next"
             app:popUpTo="@id/introFragment"
             app:popUpToInclusive="true" />
         <action
@@ -109,8 +133,6 @@
             app:destination="@id/pregnantFragment"
             app:enterAnim="@anim/slide_in_right"
             app:exitAnim="@anim/slide_in_right_next"
-            app:popEnterAnim="@anim/slide_in_left"
-            app:popExitAnim="@anim/slide_in_left_next"
             app:popUpTo="@id/loginFragment"
             app:popUpToInclusive="true" />
         <action
@@ -118,13 +140,29 @@
             app:destination="@id/keyVerification"
             app:enterAnim="@anim/slide_in_right"
             app:exitAnim="@anim/slide_in_right_next"
-            app:popEnterAnim="@anim/slide_in_left"
-            app:popExitAnim="@anim/slide_in_left_next"
             app:popUpTo="@id/introFragment"
-            app:popUpToInclusive="false" />
+            app:popUpToInclusive="true" />
         <action
             android:id="@+id/action_introFragment_to_responseFragment"
-            app:destination="@id/responseFragment" />
+            app:destination="@id/responseFragment"
+            app:popUpTo="@id/loginFragment"
+            app:popUpToInclusive="true"
+            app:enterAnim="@anim/slide_in_right"
+            app:exitAnim="@anim/slide_in_right_next" />
+        <action
+            android:id="@+id/action_introFragment_to_socialWorker"
+            app:destination="@id/socialWorker"
+            app:popUpTo="@id/loginFragment"
+            app:popUpToInclusive="true"
+            app:enterAnim="@anim/slide_in_right"
+            app:exitAnim="@anim/slide_in_right_next" />
+        <action
+            android:id="@+id/action_introFragment_to_wheelChair"
+            app:destination="@id/wheelChair"
+            app:popUpTo="@id/introFragment"
+            app:popUpToInclusive="true"
+            app:enterAnim="@anim/slide_in_right"
+            app:exitAnim="@anim/slide_in_right_next" />
     </fragment>
     <fragment
         android:id="@+id/restorePassword"
@@ -157,4 +195,32 @@
         android:name="com.example.socialhelper.password.ChangePassword"
         android:label="ChangePassword"
         tools:layout="@layout/fragment_change_password"/>
+    <fragment
+        android:id="@+id/socialWorker"
+        android:name="com.example.socialhelper.socialworker.SocialWorker"
+        android:label="SocialWorker"
+        tools:layout="@layout/fragment_social_worker">
+        <action
+            android:id="@+id/action_socialWorker_to_changePassword"
+            app:destination="@id/changePassword"
+            app:enterAnim="@anim/slide_in_right"
+            app:exitAnim="@anim/slide_in_right_next"
+            app:popEnterAnim="@anim/slide_in_left"
+            app:popExitAnim="@anim/slide_in_left_next"
+            app:popUpTo="@id/socialWorker" />
+    </fragment>
+    <fragment
+        android:id="@+id/wheelChair"
+        android:name="com.example.socialhelper.wheelchair.WheelChair"
+        android:label="WheelChair"
+        tools:layout="@layout/fragment_wheel_chair">
+        <action
+            android:id="@+id/action_wheelChair_to_changePassword"
+            app:destination="@id/changePassword"
+            app:enterAnim="@anim/slide_in_right"
+            app:exitAnim="@anim/slide_in_right_next"
+            app:popEnterAnim="@anim/slide_in_left"
+            app:popExitAnim="@anim/slide_in_left_next"
+            app:popUpTo="@id/wheelChair" />
+    </fragment>
 </navigation>

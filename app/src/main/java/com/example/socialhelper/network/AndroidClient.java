@@ -15,7 +15,7 @@ import java.net.SocketTimeoutException;
 
 public class AndroidClient implements Closeable {
 
-    public static final String IP = "172.20.10.4";
+    public static final String IP = "192.168.1.8";
     public static final int PORT = 900;
     public Socket socket;
     private BufferedReader reader;
@@ -86,13 +86,15 @@ public class AndroidClient implements Closeable {
     }
 
     public void writePregnantData(int number, int password, String name,
-                                  String surname, String login, String email) {
+                                  String surname, String login,
+                                  String email, String category) {
         write(number);
         write(password);
         writeLine(name);
         writeLine(surname);
         writeLine(login);
         writeLine(email);
+        writeLine(category);
     }
 
     public void writeLoginPassword(String login, int password) {
@@ -111,11 +113,13 @@ public class AndroidClient implements Closeable {
     }
 
     public void verify(int key, int ref,
-                       String name, String surname){
+                       String name,
+                       String surname, String type){
         write(key);
         write(ref);
         writeLine(name);
         writeLine(surname);
+        writeLine(type);
     }
 
     public void writeLine(String message) {

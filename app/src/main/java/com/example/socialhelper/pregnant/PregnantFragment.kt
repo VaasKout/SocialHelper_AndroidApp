@@ -68,8 +68,8 @@ class PregnantFragment : Fragment() {
             var adapter = viewModel.bluetoothReadWrite.btAdapter
             var socket = viewModel.bluetoothReadWrite.btSocket
             if (it == true) {
-                viewModel.allInfo.observe(viewLifecycleOwner, {info ->
-                    Log.e("id", info.serverID.toString())
+//                viewModel.allInfo.observe(viewLifecycleOwner, {info ->
+//                    Log.e("id", info.serverID.toString())
                     lifecycleScope.launch {
                         if (adapter != null && adapter.isEnabled) {
                             if (socket == null) {
@@ -82,6 +82,7 @@ class PregnantFragment : Fragment() {
                             if (socket != null){
                                 var i = 0
                                 while (!socket.isConnected && i != 3){
+                                    viewModel.bluetoothReadWrite.closeConnection()
                                     viewModel.createConnection()
                                     delay(5000)
                                     Log.e("trying", "trying to connect")
@@ -89,30 +90,12 @@ class PregnantFragment : Fragment() {
                                 }
                                 if (socket.isConnected) {
                                     Log.e("socket", "Socket is available")
-                                    viewModel.sendMessage(info.serverID.toString())
-                                        while (!viewModel.bluetoothReadWrite.sent && i != 5){
-                                            viewModel.createConnection()
-                                            delay(5000)
-                                            socket = viewModel.bluetoothReadWrite.btSocket
-                                            Log.e("trying",
-                                                "trying to connect after sending data")
-                                            i++
-                                        }
-                                    if (viewModel.bluetoothReadWrite.sent){
+                                    viewModel.sendMessage("1")
                                         binding.getSpotButton.isEnabled = true
                                         binding.getSpotButton.text = getString(R.string.get_spot)
-                                        Log.e("sent", info.serverID.toString())
+                                        Log.e("sent", "1")
                                         binding.result.text = getString(R.string.spot_is_empty)
                                         viewModel.onDoneSetSpotFree()
-                                    } else {
-                                        Snackbar.make(
-                                            binding.getSpotButton,
-                                            getString(R.string.retry_later),
-                                            Snackbar.LENGTH_SHORT
-                                        ).show()
-                                        viewModel.onDoneSetSpotFree()
-                                    }
-
                                 } else {
                                     binding.getSpotButton.isEnabled = true
                                     binding.getSpotButton.text = getString(R.string.get_spot)
@@ -131,6 +114,7 @@ class PregnantFragment : Fragment() {
                                 Snackbar.LENGTH_SHORT
                             ).show()
                             delay(1500)
+                            viewModel.bluetoothReadWrite.closeConnection()
                             viewModel.turnOnBluetooth(requireActivity())
                             adapter = viewModel.bluetoothReadWrite.btAdapter
                             viewModel.onDoneSetSpotFree()
@@ -144,7 +128,7 @@ class PregnantFragment : Fragment() {
                             viewModel.onDoneSetSpotFree()
                         }
                     }
-                })
+//                })
             }
         })
 

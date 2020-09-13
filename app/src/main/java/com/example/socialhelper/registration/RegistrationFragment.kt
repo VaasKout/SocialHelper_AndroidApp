@@ -6,7 +6,8 @@ import androidx.fragment.app.Fragment
 import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
-import androidx.core.view.isNotEmpty
+import android.widget.ArrayAdapter
+import androidx.core.view.isGone
 import androidx.core.view.isVisible
 import androidx.databinding.DataBindingUtil
 import androidx.lifecycle.ViewModelProvider
@@ -28,10 +29,10 @@ class RegistrationFragment : Fragment() {
 
         val binding: FragmentRegistrationBinding = DataBindingUtil
             .inflate(inflater, R.layout.fragment_registration, container, false)
-
         val viewModel =
             ViewModelProvider(this).get(RegistrationViewModel::class.java)
         binding.viewModel = viewModel
+        val categoryList = resources.getStringArray(R.array.category)
 
         binding.toolbarReg.setNavigationOnClickListener {
             this.findNavController().popBackStack()
@@ -50,6 +51,7 @@ class RegistrationFragment : Fragment() {
                         binding.surnameEditInput.setText("")
                         binding.loginEdit.setText("")
                         binding.emailEdit.setText("")
+                        binding.exposeDownMenu.setText("")
                         viewModel.onClear()
                     }.show()
                 true
@@ -66,6 +68,7 @@ class RegistrationFragment : Fragment() {
                 val surname = binding.surnameEditInput.text.toString()
                 val login = binding.loginEdit.text.toString()
                 val email = binding.emailEdit.text.toString()
+                val category = binding.exposeDownMenu.text.toString()
 
 
 
@@ -131,14 +134,26 @@ class RegistrationFragment : Fragment() {
                     }
                 }
 
+                if (category.isEmpty()) {
+                    lifecycleScope.launch {
+                        binding.spinner.error = getString(R.string.choose_category)
+                        viewModel.onDoneNavigating()
+                        delay(3000)
+                        binding.spinner.error = null
+                    }
+                }
 
-                if (numberEdit.isEmpty()) {
+
+                if (numberEdit.isEmpty() && binding.numberReference.isVisible) {
                     lifecycleScope.launch {
                         binding.numberReference.error = getString(R.string.enter_reference_number)
                         viewModel.onDoneNavigating()
                         delay(3000)
                         binding.numberReference.error = null
                     }
+                }
+                else if (binding.spinner.isGone) {
+                    binding.spinner.error = null
                 }
 
                 if (passwordConfirm != password) {
@@ -154,20 +169,31 @@ class RegistrationFragment : Fragment() {
                             email.contains(".")) &&
                     login.isNotEmpty() &&
                     surname.isNotEmpty() &&
-                    numberEdit.isNotEmpty() &&
+                    binding.numberReference.error.isNullOrEmpty() &&
+                    category.isNotEmpty() &&
                     password == passwordConfirm) {
+
 
                     var info = Info(
                         id = 1, name = userName, surname = surname,
                         password = password, login = login,
-                        email = email, wasLoggedIn = false)
+                        email = email, wasLoggedIn = false, category = category)
+
+                    if (category == categoryList[0] || category == categoryList[2]){
+                        info = Info(
+                            id = 1, name = userName, surname = surname,
+                            password = password, login = login,
+                            email = email, wasLoggedIn = false,
+                            category = category,
+                            reference = 0)
+                    }
 
                     if (binding.numberReference.isVisible) {
                         info = Info(
                             id = 1, name = userName, surname = surname,
                             password = password, reference = numberEdit.toInt(),
-                            login = login, email = email, wasLoggedIn = false)
-
+                            login = login, email = email,
+                            wasLoggedIn = false, category = category)
                         viewModel.referenceNumber = numberEdit.toInt()
                     }
 
@@ -220,8 +246,8 @@ class RegistrationFragment : Fragment() {
                                                     login = info.login,
                                                     email = info.email,
                                                     reference = viewModel.referenceNumber,
-                                                    needVerification = true
-                                                )
+                                                    needVerification = true,
+                                                    category = category)
                                                 viewModel.updateInfo(infoReference)
                                                 this@RegistrationFragment.findNavController()
                                                     .navigate(
@@ -248,6 +274,29 @@ class RegistrationFragment : Fragment() {
                 }
             }
         })
+
+        val application = requireNotNull(activity).application
+        ArrayAdapter.createFromResource(
+            application,
+            R.array.category,
+            R.layout.drop_down_menu
+        ).also {
+            it.setDropDownViewResource(android.R.layout.simple_spinner_dropdown_item)
+            binding.exposeDownMenu.setAdapter(it)
+        }
+
+        binding.exposeDownMenu.setOnItemClickListener { adapterView, _, position, _ ->
+            when(adapterView.getItemAtPosition(position).toString()){
+                categoryList[0], categoryList[2] -> {
+                    binding.numberReference.visibility = View.GONE
+                    binding.exposeDownMenu.error = null
+                }
+                else -> {
+                    binding.numberReference.visibility = View.VISIBLE
+                    binding.exposeDownMenu.error = null
+                }
+            }
+        }
 
         binding.lifecycleOwner = this
         return binding.root

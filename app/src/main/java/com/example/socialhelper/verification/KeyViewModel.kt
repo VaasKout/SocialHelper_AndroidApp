@@ -43,7 +43,7 @@ class KeyViewModel(application: Application) : AndroidViewModel(application) {
                 if (serverKey != 0) {
                     allInfo.value?.let {
                         readWrite.verify(serverKey, it.reference,
-                                        it.name, it.surname)
+                                        it.name, it.surname, it.category)
                         Log.e("data", "sent")
                         serverId = readWrite.read()
                     }
