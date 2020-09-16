@@ -1,57 +1,53 @@
 package com.example.socialhelper.socialworker
 
-import android.content.ClipData.Item
 import android.view.LayoutInflater
-import android.view.View
 import android.view.ViewGroup
-import android.widget.Button
-import android.widget.TextView
+import androidx.databinding.DataBindingUtil
+import androidx.lifecycle.LiveData
+import androidx.lifecycle.MutableLiveData
+import androidx.recyclerview.widget.DiffUtil
+import androidx.recyclerview.widget.ListAdapter
 import androidx.recyclerview.widget.RecyclerView
 import com.example.socialhelper.R
 import com.example.socialhelper.database.WheelData
+import com.example.socialhelper.databinding.RecyclerItemBinding
 
+/**
+ * put here liveData with <ViewHolder> type
+ */
 
 class SocialAdapter:
-    RecyclerView.Adapter<SocialAdapter.ViewHolder>() {
+    ListAdapter<WheelData, SocialAdapter.ViewHolder>(NoteDiffCallBack()) {
 
-    var data = listOf<WheelData>()
-    set(value) {
-        field = value
-        notifyDataSetChanged()
+    private val _viewAdapter = MutableLiveData<ViewHolder>()
+    val viewAdapter: LiveData<ViewHolder> = _viewAdapter
+
+    override fun onBindViewHolder(holder: ViewHolder, position: Int) {
+        holder.bind(getItem(position))
     }
 
-    override fun onCreateViewHolder(parent: ViewGroup, viewType: Int): SocialAdapter.ViewHolder {
+    override fun onCreateViewHolder(parent: ViewGroup, viewType: Int): ViewHolder {
         val layoutInflater = LayoutInflater.from(parent.context)
-        val view = layoutInflater
-            .inflate(R.layout.recycler_item, parent, false)
-        return ViewHolder(view)
+        val binding: RecyclerItemBinding = DataBindingUtil
+            .inflate(layoutInflater, R.layout.recycler_item, parent, false)
+        return ViewHolder(binding)
     }
 
-    override fun onBindViewHolder(holder: SocialAdapter.ViewHolder, position: Int) {
-        val item = data[position]
-        holder.comment.text = item.comment
-        holder.name.text = item.name
-        holder.firstStation.text = item.first
-        holder.secondStation.text = item.second
-        holder.time.text = item.time
-        holder.button.setOnClickListener {
-            item.checked = true
+    inner class ViewHolder(val binding: RecyclerItemBinding):
+        RecyclerView.ViewHolder(binding.root) {
+        fun bind(wheelData: WheelData){
+            binding.wheelData = wheelData
+            _viewAdapter.value = this
         }
-    }
-
-    override fun getItemCount(): Int = data.size
-
-    class ViewHolder(itemView: View) : RecyclerView.ViewHolder(itemView) {
-
-        val name: TextView = itemView.findViewById(R.id.titleRecyclerItem)
-        val firstStation: TextView = itemView.findViewById(R.id.recyclerFirstStation)
-        val secondStation: TextView = itemView.findViewById(R.id.recyclerSecondStation)
-        val comment: TextView = itemView.findViewById(R.id.recyclerComment)
-        val time: TextView = itemView.findViewById(R.id.recyclerTime)
-        val button: Button = itemView.findViewById(R.id.recyclerButton)
     }
 }
 
-class Social(val clickListener: (data: WheelData) -> Unit) {
-    fun onClick(data: WheelData) = clickListener(data)
+class NoteDiffCallBack : DiffUtil.ItemCallback<WheelData>(){
+    override fun areItemsTheSame(oldItem: WheelData, newItem: WheelData): Boolean {
+        return oldItem.id == newItem.id
+    }
+
+    override fun areContentsTheSame(oldItem: WheelData, newItem: WheelData): Boolean {
+        return oldItem == newItem
+    }
 }

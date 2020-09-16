@@ -17,6 +17,7 @@
                 android:id="@+id/toolbar_wheelchair"
                 android:layout_width="match_parent"
                 android:layout_height="?attr/actionBarSize"
+                style="@style/Widget.MaterialComponents.Toolbar.Primary"
                 app:title="@string/app_name"
                 app:menu="@menu/tob_bar_pregnant"/>
         </com.google.android.material.appbar.AppBarLayout>
@@ -70,7 +71,9 @@
                         style="@style/Widget.MaterialComponents.TextInputLayout.FilledBox.ExposedDropdownMenu"
                         android:layout_width="match_parent"
                         android:layout_height="wrap_content"
-                        android:inputType="textPersonName" />
+                        android:inputType="textPersonName"
+                        android:imeOptions="actionNext"
+                        android:maxLines="1"/>
                 </com.google.android.material.textfield.TextInputLayout>
 
                 <ImageView
@@ -107,8 +110,9 @@
                         style="@style/Widget.MaterialComponents.TextInputLayout.FilledBox.ExposedDropdownMenu"
                         android:layout_width="match_parent"
                         android:layout_height="wrap_content"
+                        android:inputType="textPersonName"
                         android:imeOptions="actionDone"
-                        android:inputType="textPersonName" />
+                        android:maxLines="1"/>
                 </com.google.android.material.textfield.TextInputLayout>
 
                 <TextView

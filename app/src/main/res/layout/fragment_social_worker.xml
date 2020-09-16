@@ -18,19 +18,11 @@
                 app:menu="@menu/tob_bar_pregnant"/>
         </com.google.android.material.appbar.AppBarLayout>
 
-    <androidx.constraintlayout.widget.ConstraintLayout
-        android:layout_width="match_parent"
-        android:layout_height="match_parent"
-        app:layout_behavior="@string/appbar_scrolling_view_behavior"
-        tools:context="com.example.socialhelper.socialworker.SocialFragment" >
-
         <androidx.recyclerview.widget.RecyclerView
-            android:id="@+id/socialRecycler"
+            android:id="@+id/recyclerView"
             android:layout_width="match_parent"
             android:layout_height="match_parent"
-            app:layout_constraintEnd_toEndOf="parent"
-            app:layout_constraintStart_toStartOf="parent"
-            app:layout_constraintTop_toTopOf="parent"/>
-    </androidx.constraintlayout.widget.ConstraintLayout>
+            app:layout_behavior="@string/appbar_scrolling_view_behavior"
+            tools:listitem="@layout/recycler_item" />
     </androidx.coordinatorlayout.widget.CoordinatorLayout>
 </layout>

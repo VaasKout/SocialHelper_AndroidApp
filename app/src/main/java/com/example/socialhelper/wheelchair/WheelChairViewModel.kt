@@ -6,21 +6,22 @@ import androidx.lifecycle.LiveData
 import androidx.lifecycle.MutableLiveData
 import com.example.socialhelper.database.Info
 import com.example.socialhelper.database.InfoDatabase
-import com.example.socialhelper.database.WheelData
 import com.example.socialhelper.network.AndroidClient
 import com.example.socialhelper.repository.InfoRepository
 import kotlinx.coroutines.*
 
 class WheelChairViewModel(application: Application): AndroidViewModel(application){
-    val state = ""
     val readWrite = AndroidClient()
     private val repository: InfoRepository
     val allInfo: LiveData<Info>
     private val viewModelJob = Job()
     private val uiScope = CoroutineScope(Dispatchers.Main + viewModelJob)
+    val data = MutableList(4){""}
 
-
-    var data: WheelData? = null
+//    var first = ""
+//    var second = ""
+//    var time = ""
+//    var comment = ""
 
     private val _send = MutableLiveData<Boolean>()
     val send: LiveData<Boolean> = _send
@@ -51,19 +52,17 @@ class WheelChairViewModel(application: Application): AndroidViewModel(applicatio
 
     suspend fun requestServer() {
         withContext(Dispatchers.IO){
-             allInfo.value?.let {info ->
-                 data?.let {
-                     if (readWrite.socket != null
-                         && readWrite.socket.isConnected ){
-                         readWrite.writeLine("helpRequest")
-                         readWrite.writeWheelchairData(
-                             info.login, info.name, info.surname,
-                             it.first, it.second, it.time,
-                             it.comment)
-                     }
-                 }
-             }
-    }
+            allInfo.value?.let {
+                if (readWrite.socket != null
+                    && readWrite.socket.isConnected ){
+                    readWrite.writeLine("helpRequest")
+                    readWrite.writeWheelchairData(
+                        it.login, it.name, it.surname,
+                        data[0], data[1], data[2],
+                        data[3])
+                }
+            }
+        }
     }
 
     fun onStartSending(){

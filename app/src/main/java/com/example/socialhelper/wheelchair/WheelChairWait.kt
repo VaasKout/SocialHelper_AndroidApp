@@ -9,7 +9,6 @@ import androidx.databinding.DataBindingUtil
 import androidx.lifecycle.ViewModelProvider
 import androidx.lifecycle.lifecycleScope
 import com.example.socialhelper.R
-import com.example.socialhelper.databinding.FragmentWheelChairBinding
 import com.example.socialhelper.databinding.FragmentWheelChairWaitBinding
 import kotlinx.coroutines.launch
 
@@ -25,13 +24,39 @@ class WheelChairWait : Fragment() {
             .get(WaitViewModel::class.java)
         binding.viewModel = viewModel
 
-        lifecycleScope.launch {
-//            while (viewModel.readWrite.socket.isConnected){
-//                val s = viewModel.readWrite.readLine()
-//                binding.textWait.text = s
-//                break
-//            }
-        }
+//        //        lifecycleScope.launch {
+////            whenResumed {
+////                    while (viewModel.serverKey <= 0){
+////                        viewModel.connectToServer()
+////                        if (!viewModel.readWrite.socket.isConnected){
+////                            Toast.makeText(requireContext(),
+////                                getString(R.string.connection_interrupted),
+////                                Toast.LENGTH_SHORT).show()
+////                            break
+////                        } else {
+////                        viewModel.sendID()
+////                        viewModel.readServerKey()
+////                        binding.serverKey.text = viewModel.serverKey.toString()
+////                        delay(3000)
+////                        }
+////                    }
+////                        if (viewModel.serverKey >= 0){
+////                    binding.serverKey.text = viewModel.serverKey.toString()
+////                    viewModel.userInfo.observe(viewLifecycleOwner, {
+////                        if (viewModel.serverKey != 0){
+////                            val info = Info(
+////                                it.id,
+////                                it.name,
+////                                it.password,
+////                                it.group,
+////                                it.serverID,
+////                                viewModel.serverKey)
+////                            viewModel.onUpdate(info)
+////                        }
+////                    })
+////                 }
+////            }
+////        }
 
         binding.lifecycleOwner = this
         return binding.root

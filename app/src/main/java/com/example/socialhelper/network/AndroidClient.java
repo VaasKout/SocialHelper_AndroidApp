@@ -56,7 +56,7 @@ public class AndroidClient implements Closeable {
     }
 
 
-    //Here i create BReader(InputStream)
+    //InputStream
     private BufferedReader createReader() throws IOException {
         return new BufferedReader(new InputStreamReader(socket.getInputStream()));
     }

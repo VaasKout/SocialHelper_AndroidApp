@@ -46,6 +46,16 @@ class IntroFragment : Fragment() {
             }
 
             delay(appear.duration)
+
+            if (this@IntroFragment
+                        .findNavController()
+                        .currentDestination?.id ==
+                    R.id.introFragment){
+            this@IntroFragment.findNavController()
+                                    .navigate(
+                                        IntroFragmentDirections
+                                            .actionIntroFragmentToSocialWorker())
+            }
 //            if (this@IntroFragment
 //                        .findNavController()
 //                        .currentDestination?.id ==
@@ -56,58 +66,54 @@ class IntroFragment : Fragment() {
 //                            .actionIntroFragmentToWheelChair())
 //            }
 
-
-            viewModel.allInfo.observe(viewLifecycleOwner, {
-
-                if (this@IntroFragment
-                        .findNavController()
-                        .currentDestination?.id ==
-                    R.id.introFragment
-                ) {
-                    if (it == null || (!it.wasLoggedIn && !it.needVerification)) {
-
-                        this@IntroFragment.findNavController()
-                            .navigate(
-                                IntroFragmentDirections.actionIntroFragmentToLoginFragment())
-                    }
-
-                    if (it != null && it.needVerification) {
-                        this@IntroFragment.findNavController().navigate(
-                            IntroFragmentDirections
-                                .actionIntroFragmentToKeyVerification())
-                    }
-                    if (it != null && it.wasLoggedIn) {
-
-                        when (it.category) {
-                            categoryList[0], categoryEng[0] -> {
-                                this@IntroFragment.findNavController()
-                                    .navigate(
-                                        IntroFragmentDirections
-                                            .actionIntroFragmentToWheelChair()
-                                    )
-                            }
-                            categoryList[1], categoryEng[1] -> {
-                                this@IntroFragment.findNavController()
-                                    .navigate(
-                                        IntroFragmentDirections
-                                            .actionIntroFragmentToPregnantFragment()
-                                    )
-                            }
-                            categoryList[2], categoryEng[2] -> {
-                                this@IntroFragment.findNavController()
-                                    .navigate(
-                                        IntroFragmentDirections
-                                            .actionIntroFragmentToSocialWorker()
-                                    )
-                            }
-                        }
-                    }
-                }
-            })
-        }
-
-
-
+//            viewModel.allInfo.observe(viewLifecycleOwner, {
+//
+//                if (this@IntroFragment
+//                        .findNavController()
+//                        .currentDestination?.id ==
+//                    R.id.introFragment
+//                ) {
+//                    if (it == null || (!it.wasLoggedIn && !it.needVerification)) {
+//
+//                        this@IntroFragment.findNavController()
+//                            .navigate(
+//                                IntroFragmentDirections.actionIntroFragmentToLoginFragment())
+//                    }
+//
+//                    if (it != null && it.needVerification) {
+//                        this@IntroFragment.findNavController().navigate(
+//                            IntroFragmentDirections
+//                                .actionIntroFragmentToKeyVerification())
+//                    }
+//                    if (it != null && it.wasLoggedIn) {
+//
+//                        when (it.category) {
+//                            categoryList[0], categoryEng[0] -> {
+//                                this@IntroFragment.findNavController()
+//                                    .navigate(
+//                                        IntroFragmentDirections
+//                                            .actionIntroFragmentToWheelChair()
+//                                    )
+//                            }
+//                            categoryList[1], categoryEng[1] -> {
+//                                this@IntroFragment.findNavController()
+//                                    .navigate(
+//                                        IntroFragmentDirections
+//                                            .actionIntroFragmentToPregnantFragment()
+//                                    )
+//                            }
+//                            categoryList[2], categoryEng[2] -> {
+//                                this@IntroFragment.findNavController()
+//                                    .navigate(
+//                                        IntroFragmentDirections
+//                                            .actionIntroFragmentToSocialWorker()
+//                                    )
+//                            }
+//                        }
+//                    }
+//                }
+//            })
+//        }
 
 
 //            if (this@IntroFragment
@@ -120,6 +126,7 @@ class IntroFragment : Fragment() {
 //                        IntroFragmentDirections
 //                            .actionIntroFragmentToPregnantFragment())
 //            }
+        }
 
         binding.lifecycleOwner = this
         return binding.root

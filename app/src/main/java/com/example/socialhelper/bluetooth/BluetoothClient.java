@@ -6,25 +6,36 @@ import android.bluetooth.BluetoothDevice;
 import android.bluetooth.BluetoothSocket;
 import android.util.Log;
 
+import java.io.BufferedReader;
+import java.io.BufferedWriter;
 import java.io.Closeable;
 import java.io.IOException;
 import java.io.InputStream;
+import java.io.InputStreamReader;
 import java.io.OutputStream;
+import java.io.OutputStreamWriter;
 import java.util.UUID;
 
 public class BluetoothClient implements Closeable {
     public BluetoothSocket btSocket = null;
     public BluetoothAdapter btAdapter = null;
-    private OutputStream outStream = null;
-    private InputStream inputStream = null;
-    public boolean sent = true;
+    private BufferedWriter writer = null;
+    private BufferedReader reader = null;
 
     private static final UUID MY_UUID = UUID.fromString("00001101-0000-1000-8000-00805F9B34FB");
     public static final int REQUEST_ENABLE_BT = 1;
 
+    //InputStream
+    private BufferedReader createReader() throws IOException {
+        return new BufferedReader(new InputStreamReader(btSocket.getInputStream()));
+    }
+
+    //OutputStream
+    private BufferedWriter createWriter() throws IOException {
+        return new BufferedWriter(new OutputStreamWriter(btSocket.getOutputStream()));
+    }
+
     public void findAdapter() {
-        // Check for Bluetooth support and then check to make sure it is turned on
-        // Emulator doesn't support Bluetooth and will return null
         btAdapter = BluetoothAdapter.getDefaultAdapter();
         if (btAdapter == null) {
             Log.e("error", "Bluetooth adapter is not available");
@@ -32,54 +43,37 @@ public class BluetoothClient implements Closeable {
     }
 
     public void createConnection() {
-        // MAC-адрес Bluetooth модуля
-        String address = "98:D3:11:F8:72:6B";
-        BluetoothDevice device = btAdapter.getRemoteDevice(address);
+        if (btAdapter != null) {
+            // MAC-адрес Bluetooth модуля
+            String address = "98:D3:11:F8:72:6B";
+            BluetoothDevice device = btAdapter.getRemoteDevice(address);
 
-        try {
-            closeConnection();
-            btSocket = device.createRfcommSocketToServiceRecord(MY_UUID);
-        } catch (IOException e) {
-            Log.e("error", "raspberry socket is not available");
-        }
-        btAdapter.cancelDiscovery();
-
-        if (btSocket != null) {
             try {
-                btSocket.connect();
-                outStream = btSocket.getOutputStream();
-                inputStream = btSocket.getInputStream();
-
-            } catch (IOException e) {
                 closeConnection();
-                Log.e("error", "Unable to connect to arduino");
+                btSocket = device.createRfcommSocketToServiceRecord(MY_UUID);
+            } catch (IOException e) {
+                Log.e("error", "raspberry socket is not available");
+            }
+            btAdapter.cancelDiscovery();
+
+            if (btSocket != null) {
+                try {
+                    btSocket.connect();
+                    writer = createWriter();
+                    reader = createReader();
+                } catch (IOException e) {
+                    closeConnection();
+                    Log.e("error", "Unable to connect to arduino");
+                }
             }
         }
     }
 
     public void sendData(String msg) {
-        byte[] message = msg.getBytes();
         if (btSocket.isConnected()) {
-            try {
-                outStream.write(message);
-                sent = true;
-            } catch (IOException e) {
-                sent = false;
-                Log.e("error", "Unable to send message to arduino");
-            }
+            writeLine(msg);
         }
     }
-
-//    public int receiveData() {
-//        if (btSocket.isConnected()) {
-//            try {
-//                return inputStream.read();
-//            } catch (IOException e) {
-//                Log.e("error", "Unable to read message from raspberry");
-//                return 0;
-//            }
-//        } else return 0;
-//    }
 
     public void closeConnection() {
         if (btSocket != null && btSocket.isConnected()) {
@@ -93,10 +87,20 @@ public class BluetoothClient implements Closeable {
         }
     }
 
+    public void writeLine(String message) {
+        try {
+            writer.write(message);
+            writer.newLine();
+            writer.flush();
+        } catch (IOException e) {
+            Log.e("Error", "Unable to write message to the arduino");
+        }
+    }
+
     @Override
     public void close() throws IOException {
         btSocket.close();
-        outStream.close();
-        inputStream.close();
+        writer.close();
+        reader.close();
     }
 }

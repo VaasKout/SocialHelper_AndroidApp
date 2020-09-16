@@ -5,134 +5,151 @@
     xmlns:tools="http://schemas.android.com/tools">
 
     <data>
+
         <variable
-            name="clickListener"
-            type="com.example.socialhelper.socialworker.Social" />
-        <variable
-            name="data"
+            name="wheelData"
             type="com.example.socialhelper.database.WheelData" />
     </data>
 
-        <com.google.android.material.card.MaterialCardView
-    android:id="@+id/materialCard"
-    android:layout_width="match_parent"
-    android:layout_height="wrap_content"
-    android:layout_margin="16dp"
-    android:checkable="true"
-    android:clickable="true"
-    android:focusable="true"
-    android:longClickable="true"
-    app:cardCornerRadius="8dp">
+    <com.google.android.material.card.MaterialCardView
+        android:id="@+id/materialCard"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:layout_margin="12dp"
+        android:clickable="false"
+        android:focusable="false"
+        android:longClickable="true"
+        app:cardCornerRadius="8dp"
+        app:strokeWidth="2dp"
+        app:strokeColor="@color/colorPrimary">
 
-            <androidx.constraintlayout.widget.ConstraintLayout
+        <androidx.constraintlayout.widget.ConstraintLayout
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:orientation="vertical"
+            android:padding="16dp">
+
+            <TextView
+                android:id="@+id/titleRecyclerItem"
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
-                android:orientation="vertical"
-                android:padding="16dp">
+                android:text="@{wheelData.name}"
+                android:textAppearance="@style/TextAppearance.MaterialComponents.Headline5"
+                app:layout_constraintEnd_toEndOf="parent"
+                app:layout_constraintStart_toStartOf="parent"
+                app:layout_constraintTop_toTopOf="parent"
+                tools:text="Name" />
 
-                <TextView
-                    android:id="@+id/titleRecyclerItem"
-                    android:layout_width="match_parent"
-                    android:layout_height="wrap_content"
-                    android:textAppearance="@style/TextAppearance.MaterialComponents.Headline5"
-                    app:layout_constraintEnd_toEndOf="parent"
-                    app:layout_constraintStart_toStartOf="parent"
-                    app:layout_constraintTop_toTopOf="parent"
-                    tools:text="Name" />
+            <View
+                android:id="@+id/view"
+                android:layout_width="wrap_content"
+                android:layout_height="5dp"
+                android:layout_marginTop="8dp"
+                android:background="@color/colorPrimary"
+                app:layout_constraintEnd_toEndOf="parent"
+                app:layout_constraintStart_toStartOf="parent"
+                app:layout_constraintTop_toBottomOf="@+id/titleRecyclerItem" />
 
-                <View
-                    android:id="@+id/view"
-                    android:layout_width="wrap_content"
-                    android:layout_height="5dp"
-                    android:layout_marginTop="8dp"
-                    android:background="@color/colorPrimary"
-                    app:layout_constraintEnd_toEndOf="parent"
-                    app:layout_constraintStart_toStartOf="parent"
-                    app:layout_constraintTop_toBottomOf="@+id/titleRecyclerItem" />
+            <TextView
+                android:id="@+id/recyclerFirstStation"
+                android:layout_width="0dp"
+                android:layout_height="wrap_content"
+                android:layout_marginEnd="8dp"
+                android:fontFamily="sans-serif"
+                android:gravity="center"
+                android:text="@{wheelData.first}"
+                android:textAppearance="@style/TextAppearance.MaterialComponents.Body1"
+                app:layout_constraintBottom_toTopOf="@+id/view2"
+                app:layout_constraintEnd_toStartOf="@+id/recycler_arrow"
+                app:layout_constraintStart_toStartOf="parent"
+                app:layout_constraintTop_toBottomOf="@+id/view"
+                tools:text="First" />
 
-                <TextView
-                    android:id="@+id/recyclerFirstStation"
-                    android:layout_width="0dp"
-                    android:layout_height="wrap_content"
-                    android:layout_marginTop="8dp"
-                    android:layout_marginEnd="8dp"
-                    android:fontFamily="sans-serif"
-                    android:gravity="center"
-                    android:textAppearance="@style/TextAppearance.MaterialComponents.Body1"
-                    app:layout_constraintEnd_toStartOf="@+id/recycler_arrow"
-                    app:layout_constraintStart_toStartOf="parent"
-                    app:layout_constraintTop_toBottomOf="@+id/view"
-                    tools:text="First" />
+            <TextView
+                android:id="@+id/recyclerSecondStation"
+                android:layout_width="0dp"
+                android:layout_height="wrap_content"
+                android:layout_marginStart="8dp"
+                android:gravity="center"
+                android:text="@{wheelData.second}"
+                android:textAppearance="@style/TextAppearance.MaterialComponents.Body1"
+                app:layout_constraintEnd_toEndOf="parent"
+                app:layout_constraintStart_toEndOf="@+id/recycler_arrow"
+                app:layout_constraintTop_toBottomOf="@+id/view"
+                app:layout_constraintBottom_toTopOf="@+id/view2"
+                tools:text="Second" />
 
-                <TextView
-                    android:id="@+id/recyclerSecondStation"
-                    android:layout_width="0dp"
-                    android:layout_height="wrap_content"
-                    android:layout_marginStart="8dp"
-                    android:layout_marginTop="8dp"
-                    android:gravity="center"
-                    android:textAppearance="@style/TextAppearance.MaterialComponents.Body1"
-                    app:layout_constraintEnd_toEndOf="parent"
-                    app:layout_constraintStart_toEndOf="@+id/recycler_arrow"
-                    app:layout_constraintTop_toBottomOf="@+id/view"
-                    tools:text="Second" />
+            <ImageView
+                android:id="@+id/recycler_arrow"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_marginTop="8dp"
+                android:src="@drawable/ic_forward_arrow_small"
+                app:layout_constraintEnd_toStartOf="@+id/recyclerSecondStation"
+                app:layout_constraintStart_toEndOf="@+id/recyclerFirstStation"
+                app:layout_constraintTop_toBottomOf="@+id/view" />
 
-                <ImageView
-                    android:id="@+id/recycler_arrow"
-                    android:layout_width="wrap_content"
-                    android:layout_height="wrap_content"
-                    android:layout_marginTop="8dp"
-                    android:src="@drawable/ic_forward_arrow_small"
-                    app:layout_constraintEnd_toStartOf="@+id/recyclerSecondStation"
-                    app:layout_constraintStart_toEndOf="@+id/recyclerFirstStation"
-                    app:layout_constraintTop_toBottomOf="@+id/view" />
+            <View
+                android:id="@+id/view2"
+                android:layout_width="wrap_content"
+                android:layout_height="5dp"
+                android:layout_marginTop="8dp"
+                android:background="@color/colorPrimary"
+                app:layout_constraintEnd_toEndOf="parent"
+                app:layout_constraintStart_toStartOf="parent"
+                app:layout_constraintTop_toBottomOf="@+id/recycler_arrow" />
 
-                <View
-                    android:id="@+id/view2"
-                    android:layout_width="wrap_content"
-                    android:layout_height="5dp"
-                    android:layout_marginTop="8dp"
-                    android:background="@color/colorPrimary"
-                    app:layout_constraintEnd_toEndOf="parent"
-                    app:layout_constraintStart_toStartOf="parent"
-                    app:layout_constraintTop_toBottomOf="@+id/recycler_arrow" />
-
-                <TextView
-                    android:id="@+id/recyclerTime"
-                    android:layout_width="wrap_content"
-                    android:layout_height="wrap_content"
-                    app:layout_constraintBottom_toBottomOf="@+id/recyclerButton"
-                    app:layout_constraintStart_toStartOf="parent"
-                    android:textStyle="bold"
-                    android:textAppearance="@style/TextAppearance.MaterialComponents.Body1"
-                    tools:text="14:30"/>
+            <TextView
+                android:id="@+id/recyclerTime"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_marginStart="8dp"
+                android:layout_marginTop="20dp"
+                android:text="@{wheelData.time}"
+                android:textAppearance="@style/TextAppearance.MaterialComponents.Body1"
+                android:textStyle="bold"
+                app:layout_constraintStart_toStartOf="parent"
+                app:layout_constraintTop_toBottomOf="@+id/recyclerComment"
+                tools:text="14:30" />
 
 
-                <TextView
-                    android:id="@+id/recyclerComment"
-                    style="@style/TextAppearance.AppCompat.Body2"
-                    android:layout_width="wrap_content"
-                    android:layout_height="wrap_content"
-                    android:layout_marginTop="8dp"
-                    android:gravity="start"
-                    android:text="@string/without_comment"
-                    app:layout_constraintStart_toStartOf="parent"
-                    app:layout_constraintTop_toBottomOf="@+id/view2" />
+            <TextView
+                android:id="@+id/recyclerComment"
+                style="@style/TextAppearance.AppCompat.Body2"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_marginTop="8dp"
+                android:commentContent="@{wheelData}"
+                android:gravity="start"
+                app:layout_constraintStart_toStartOf="parent"
+                app:layout_constraintTop_toBottomOf="@+id/view2"
+                tools:text="@string/comment" />
 
-                <com.google.android.material.button.MaterialButton
-                    android:id="@+id/recyclerButton"
-                    style="@style/Widget.MaterialComponents.Button.TextButton"
-                    android:layout_width="wrap_content"
-                    android:layout_height="wrap_content"
-                    android:layout_marginTop="8dp"
-                    android:text="@string/accept"
-                    app:icon="@drawable/ic_check"
-                    android:onClick="@{() -> clickListener.onClick(data)}"
-                    app:layout_constraintBottom_toBottomOf="parent"
-                    app:layout_constraintEnd_toEndOf="parent"
-                    app:layout_constraintTop_toBottomOf="@+id/recyclerComment" />
-            </androidx.constraintlayout.widget.ConstraintLayout>
-            
+            <com.google.android.material.button.MaterialButton
+                android:id="@+id/recyclerButton"
+                style="@style/Widget.MaterialComponents.Button.TextButton"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_marginTop="8dp"
+                android:text="@string/accept"
+                app:icon="@drawable/ic_check"
+                app:layout_constraintBottom_toBottomOf="parent"
+                app:layout_constraintEnd_toEndOf="parent"
+                app:layout_constraintTop_toBottomOf="@+id/recyclerComment" />
 
-        </com.google.android.material.card.MaterialCardView>
+            <TextView
+                android:id="@+id/textCompleted"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_marginTop="16dp"
+                android:text="@string/request_complete"
+                android:textAppearance="@style/TextAppearance.MaterialComponents.Headline6"
+                android:textColor="@color/colorPrimary"
+                android:visibility="gone"
+                app:layout_constraintEnd_toEndOf="parent"
+                app:layout_constraintTop_toBottomOf="@+id/recyclerComment"
+                tools:visibility="visible"
+                />
+        </androidx.constraintlayout.widget.ConstraintLayout>
+    </com.google.android.material.card.MaterialCardView>
 </layout>
