@@ -17,7 +17,8 @@ class SocialViewModel(application: Application): AndroidViewModel(application){
 
     private val repository: InfoRepository
     private val wheelRepository: WheelRepository
-    private var selected: List<WheelData>? = null
+    var triedToConnect = false
+    var madeFirstConnection = false
 
     val allInfo: LiveData<Info>
     val allData: LiveData<List<WheelData>>
@@ -42,7 +43,22 @@ class SocialViewModel(application: Application): AndroidViewModel(application){
 
     suspend fun readData(){
         withContext(Dispatchers.IO){
-
+            if (readWrite.socket != null && readWrite.socket.isConnected) {
+//                readWrite.writeLine("gay")
+                val name = readWrite.readLine()
+                val first = readWrite.readLine()
+                val second = readWrite.readLine()
+                val time = readWrite.readLine()
+                val comment = readWrite.readLine()
+                val data = WheelData(
+                    name = name,
+                    first = first,
+                    second = second,
+                    time = time,
+                    comment = comment
+                )
+                onInsert(data)
+            }
         }
     }
 
@@ -70,18 +86,17 @@ class SocialViewModel(application: Application): AndroidViewModel(application){
         }
     }
 
-    fun onDeleteAll(){
-        uiScope.launch {
-            deleteAll()
-        }
-    }
-
-    private suspend fun deleteAll(){
-        withContext(Dispatchers.IO){
-            wheelRepository.deleteAll()
-        }
-    }
-
+//    fun onDeleteAll(){
+//        uiScope.launch {
+//            deleteAll()
+//        }
+//    }
+//
+//    private suspend fun deleteAll(){
+//        withContext(Dispatchers.IO){
+//            wheelRepository.deleteAll()
+//        }
+//    }
 
     fun onProcess(): Boolean{
         allData.value?.let {allData ->

@@ -1,0 +1,19 @@
+<?xml version="1.0" encoding="utf-8"?>
+<menu xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:app="http://schemas.android.com/apk/res-auto">
+    <item
+        android:id="@+id/refresh"
+        android:title="@string/refresh"
+        android:icon="@drawable/ic_refresh"
+        app:showAsAction="ifRoom" />
+    <item
+        android:id="@+id/change_pass"
+        android:title="@string/change_password"
+        app:showAsAction="always"
+        android:icon="@drawable/ic_password"/>
+    <item
+        android:id="@+id/exit_from_main"
+        android:title="@string/exit"
+        android:icon="@drawable/ic_exit"
+        app:showAsAction="ifRoom" />
+</menu>

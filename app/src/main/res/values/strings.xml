@@ -89,8 +89,17 @@
     <string name="from_station">станции</string>
     <string name="accept">Принять</string>
     <string name="without_comment">Без комментария</string>
-    <string name="full_comment">Комментарий: %1$s</string>
+    <string name="full_comment">Комментарий: \n%1$s</string>
     <string name="to_complete">Выполнить</string>
     <string name="request_complete">Заказ выполнен</string>
+    <string name="status_wait">Статус: ожидается</string>
+    <string name="status_in_progress">Статус: в работе</string>
+    <string name="status_complete">Статус: выполнен</string>
+    <string name="direction">Direction</string>
+    <string name="refresh">Обновить</string>
+    <string name="connected">Подключено</string>
 
+    <string-array name="subway">
+        <item></item>
+    </string-array>
 </resources>

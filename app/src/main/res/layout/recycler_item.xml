@@ -31,14 +31,24 @@
 
             <TextView
                 android:id="@+id/titleRecyclerItem"
-                android:layout_width="match_parent"
+                android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
                 android:text="@{wheelData.name}"
                 android:textAppearance="@style/TextAppearance.MaterialComponents.Headline5"
-                app:layout_constraintEnd_toEndOf="parent"
                 app:layout_constraintStart_toStartOf="parent"
                 app:layout_constraintTop_toTopOf="parent"
                 tools:text="Name" />
+
+            <TextView
+                android:id="@+id/textStatus"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:text="@string/status_wait"
+                android:textAppearance="@style/TextAppearance.AppCompat.Body2"
+                android:textColor="@color/colorPrimary"
+                app:layout_constraintBottom_toBottomOf="@+id/titleRecyclerItem"
+                app:layout_constraintEnd_toEndOf="parent"
+                app:layout_constraintTop_toTopOf="@+id/titleRecyclerItem" />
 
             <View
                 android:id="@+id/view"
@@ -50,44 +60,53 @@
                 app:layout_constraintStart_toStartOf="parent"
                 app:layout_constraintTop_toBottomOf="@+id/titleRecyclerItem" />
 
-            <TextView
-                android:id="@+id/recyclerFirstStation"
+            <androidx.constraintlayout.widget.ConstraintLayout
+                android:id="@+id/subwayConstraint"
                 android:layout_width="0dp"
-                android:layout_height="wrap_content"
-                android:layout_marginEnd="8dp"
-                android:fontFamily="sans-serif"
-                android:gravity="center"
-                android:text="@{wheelData.first}"
-                android:textAppearance="@style/TextAppearance.MaterialComponents.Body1"
-                app:layout_constraintBottom_toTopOf="@+id/view2"
-                app:layout_constraintEnd_toStartOf="@+id/recycler_arrow"
-                app:layout_constraintStart_toStartOf="parent"
-                app:layout_constraintTop_toBottomOf="@+id/view"
-                tools:text="First" />
-
-            <TextView
-                android:id="@+id/recyclerSecondStation"
-                android:layout_width="0dp"
-                android:layout_height="wrap_content"
-                android:layout_marginStart="8dp"
-                android:gravity="center"
-                android:text="@{wheelData.second}"
-                android:textAppearance="@style/TextAppearance.MaterialComponents.Body1"
-                app:layout_constraintEnd_toEndOf="parent"
-                app:layout_constraintStart_toEndOf="@+id/recycler_arrow"
-                app:layout_constraintTop_toBottomOf="@+id/view"
-                app:layout_constraintBottom_toTopOf="@+id/view2"
-                tools:text="Second" />
-
-            <ImageView
-                android:id="@+id/recycler_arrow"
-                android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
                 android:layout_marginTop="8dp"
-                android:src="@drawable/ic_forward_arrow_small"
-                app:layout_constraintEnd_toStartOf="@+id/recyclerSecondStation"
-                app:layout_constraintStart_toEndOf="@+id/recyclerFirstStation"
-                app:layout_constraintTop_toBottomOf="@+id/view" />
+                app:layout_constraintEnd_toEndOf="parent"
+                app:layout_constraintStart_toStartOf="parent"
+                app:layout_constraintTop_toBottomOf="@+id/view">
+
+                <ImageView
+                    android:id="@+id/recycler_arrow"
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:layout_marginTop="4dp"
+                    android:contentDescription="@string/direction"
+                    android:src="@drawable/ic_down_arrow"
+                    app:layout_constraintEnd_toEndOf="parent"
+                    app:layout_constraintStart_toStartOf="parent"
+                    app:layout_constraintTop_toBottomOf="@+id/recyclerFirstStation" />
+
+                <TextView
+                    android:id="@+id/recyclerSecondStation"
+                    android:layout_width="0dp"
+                    android:layout_height="wrap_content"
+                    android:gravity="center"
+                    android:text="@{wheelData.second}"
+                    android:textAppearance="@style/TextAppearance.MaterialComponents.Body1"
+                    app:layout_constraintBottom_toBottomOf="parent"
+                    app:layout_constraintEnd_toEndOf="parent"
+                    app:layout_constraintStart_toStartOf="parent"
+                    app:layout_constraintTop_toBottomOf="@+id/recycler_arrow"
+                    tools:text="Second" />
+
+                <TextView
+                    android:id="@+id/recyclerFirstStation"
+                    android:layout_width="0dp"
+                    android:layout_height="wrap_content"
+                    android:gravity="center"
+                    android:text="@{wheelData.first}"
+                    android:textAppearance="@style/TextAppearance.MaterialComponents.Body1"
+                    app:layout_constraintEnd_toEndOf="parent"
+                    app:layout_constraintStart_toStartOf="parent"
+                    app:layout_constraintTop_toTopOf="parent"
+                    tools:text="First" />
+
+            </androidx.constraintlayout.widget.ConstraintLayout>
+
 
             <View
                 android:id="@+id/view2"
@@ -97,25 +116,24 @@
                 android:background="@color/colorPrimary"
                 app:layout_constraintEnd_toEndOf="parent"
                 app:layout_constraintStart_toStartOf="parent"
-                app:layout_constraintTop_toBottomOf="@+id/recycler_arrow" />
+                app:layout_constraintTop_toBottomOf="@id/subwayConstraint" />
 
             <TextView
                 android:id="@+id/recyclerTime"
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
                 android:layout_marginStart="8dp"
-                android:layout_marginTop="20dp"
                 android:text="@{wheelData.time}"
                 android:textAppearance="@style/TextAppearance.MaterialComponents.Body1"
                 android:textStyle="bold"
+                app:layout_constraintBaseline_toBaselineOf="@+id/recyclerButton"
                 app:layout_constraintStart_toStartOf="parent"
-                app:layout_constraintTop_toBottomOf="@+id/recyclerComment"
                 tools:text="14:30" />
 
 
             <TextView
                 android:id="@+id/recyclerComment"
-                style="@style/TextAppearance.AppCompat.Body2"
+                android:textAppearance="@style/TextAppearance.MaterialComponents.Body2"
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
                 android:layout_marginTop="8dp"
@@ -123,7 +141,7 @@
                 android:gravity="start"
                 app:layout_constraintStart_toStartOf="parent"
                 app:layout_constraintTop_toBottomOf="@+id/view2"
-                tools:text="@string/comment" />
+                tools:text="@string/comment"/>
 
             <com.google.android.material.button.MaterialButton
                 android:id="@+id/recyclerButton"
@@ -137,19 +155,6 @@
                 app:layout_constraintEnd_toEndOf="parent"
                 app:layout_constraintTop_toBottomOf="@+id/recyclerComment" />
 
-            <TextView
-                android:id="@+id/textCompleted"
-                android:layout_width="wrap_content"
-                android:layout_height="wrap_content"
-                android:layout_marginTop="16dp"
-                android:text="@string/request_complete"
-                android:textAppearance="@style/TextAppearance.MaterialComponents.Headline6"
-                android:textColor="@color/colorPrimary"
-                android:visibility="gone"
-                app:layout_constraintEnd_toEndOf="parent"
-                app:layout_constraintTop_toBottomOf="@+id/recyclerComment"
-                tools:visibility="visible"
-                />
         </androidx.constraintlayout.widget.ConstraintLayout>
     </com.google.android.material.card.MaterialCardView>
 </layout>

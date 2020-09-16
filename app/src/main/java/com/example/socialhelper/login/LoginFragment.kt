@@ -11,9 +11,7 @@ import androidx.lifecycle.ViewModelProvider
 import androidx.lifecycle.lifecycleScope
 import androidx.navigation.fragment.findNavController
 import com.example.socialhelper.R
-import com.example.socialhelper.database.Info
 import com.example.socialhelper.databinding.FragmentLoginBinding
-import com.example.socialhelper.intro.IntroFragmentDirections
 import com.google.android.material.snackbar.Snackbar
 import kotlinx.coroutines.delay
 import kotlinx.coroutines.launch

@@ -8,8 +8,11 @@ import android.view.ViewGroup
 import androidx.databinding.DataBindingUtil
 import androidx.lifecycle.ViewModelProvider
 import androidx.lifecycle.lifecycleScope
+import androidx.lifecycle.whenResumed
 import com.example.socialhelper.R
 import com.example.socialhelper.databinding.FragmentWheelChairWaitBinding
+import com.google.android.material.snackbar.Snackbar
+import kotlinx.coroutines.delay
 import kotlinx.coroutines.launch
 
 class WheelChairWait : Fragment() {
@@ -24,39 +27,43 @@ class WheelChairWait : Fragment() {
             .get(WaitViewModel::class.java)
         binding.viewModel = viewModel
 
-//        //        lifecycleScope.launch {
-////            whenResumed {
-////                    while (viewModel.serverKey <= 0){
-////                        viewModel.connectToServer()
-////                        if (!viewModel.readWrite.socket.isConnected){
-////                            Toast.makeText(requireContext(),
-////                                getString(R.string.connection_interrupted),
-////                                Toast.LENGTH_SHORT).show()
-////                            break
-////                        } else {
-////                        viewModel.sendID()
-////                        viewModel.readServerKey()
-////                        binding.serverKey.text = viewModel.serverKey.toString()
-////                        delay(3000)
-////                        }
-////                    }
-////                        if (viewModel.serverKey >= 0){
-////                    binding.serverKey.text = viewModel.serverKey.toString()
-////                    viewModel.userInfo.observe(viewLifecycleOwner, {
-////                        if (viewModel.serverKey != 0){
-////                            val info = Info(
-////                                it.id,
-////                                it.name,
-////                                it.password,
-////                                it.group,
-////                                it.serverID,
-////                                viewModel.serverKey)
-////                            viewModel.onUpdate(info)
-////                        }
-////                    })
-////                 }
-////            }
-////        }
+//        fun connect(){
+//            lifecycleScope.launch {
+//                if (viewModel.readWrite.socket == null){
+//                    viewModel.connectToServer()
+//                }
+//                if (!viewModel.readWrite.socket.isConnected){
+//                    Snackbar.make(
+//                        binding.recyclerView,
+//                        getString(R.string.retry_later),
+//                        Snackbar.LENGTH_SHORT
+//                    ).show()
+//                    viewModel.triedToConnect = true
+//                } else {
+//                    if (viewModel.triedToConnect){
+//                        Snackbar.make(
+//                            binding.recyclerView,
+//                            getString(R.string.connected),
+//                            Snackbar.LENGTH_SHORT
+//                        ).show()
+//                    }
+//                    while (viewModel.readWrite.socket.isConnected){
+//                        viewModel.readData()
+//                        delay(1000)
+//                    }
+//                }
+//            }
+//        }
+//        if (!viewModel.madeFirstConnection){
+//            connect()
+//            viewModel.madeFirstConnection = true
+//        }
+
+                lifecycleScope.launch {
+                    whenResumed {
+
+                    }
+                }
 
         binding.lifecycleOwner = this
         return binding.root
