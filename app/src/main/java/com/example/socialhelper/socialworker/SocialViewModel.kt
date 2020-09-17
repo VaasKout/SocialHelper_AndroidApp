@@ -24,7 +24,7 @@ class SocialViewModel(application: Application): AndroidViewModel(application){
     val allData: LiveData<List<WheelData>>
 
     private val viewModelJob = Job()
-    val uiScope = CoroutineScope(Dispatchers.Main + viewModelJob)
+    private val uiScope = CoroutineScope(Dispatchers.Main + viewModelJob)
 
     init {
         val infoDao = InfoDatabase.getInfoDatabase(application).infoDao()
@@ -110,26 +110,27 @@ class SocialViewModel(application: Application): AndroidViewModel(application){
         viewModelJob.cancel()
     }
 
-
-//    suspend fun requestServer() {
-//        withContext(Dispatchers.IO) {
-//            allInfo.value?.let {
-//                if (readWrite.socket != null && readWrite.socket.isConnected) {
-                    /**
-                     * make categoties
-                     */
-//                    readWrite.writeLine("HelpGet")
-//                    val login = readWrite.readLine()
-//                    val name = readWrite.readLine()
-//                    val surname = readWrite.readLine()
-//                    val first = readWrite.readLine()
-//                    val second = readWrite.readLine()
-//                    val time = readWrite.readLine()
-//                    val comment = readWrite.readLine()
-//
-//                    _data.value?.add(WheelData(name = name, first = first,
-//                        second = second, time = time, comment = comment))
-//                }
-//            }
-//        }
+    suspend fun completeOrder(){
+        withContext(Dispatchers.IO){
+            if (readWrite.socket != null && readWrite.socket.isConnected) {
+                readWrite.writeLine("complete")
+            }
+        }
     }
+
+    suspend fun acceptOrder(){
+        withContext(Dispatchers.IO){
+            if (readWrite.socket != null && readWrite.socket.isConnected) {
+               readWrite.writeLine("accept")
+            }
+        }
+    }
+
+    suspend fun cancelOrder(){
+        withContext(Dispatchers.IO){
+            if (readWrite.socket != null && readWrite.socket.isConnected) {
+                readWrite.writeLine("cancel")
+            }
+        }
+    }
+}

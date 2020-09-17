@@ -12,6 +12,7 @@ import androidx.lifecycle.ViewModelProvider
 import androidx.lifecycle.lifecycleScope
 import androidx.navigation.fragment.findNavController
 import com.example.socialhelper.R
+import com.example.socialhelper.database.WheelData
 import com.example.socialhelper.databinding.FragmentWheelChairBinding
 import com.google.android.material.dialog.MaterialAlertDialogBuilder
 import com.google.android.material.snackbar.Snackbar
@@ -31,6 +32,7 @@ class WheelChair : Fragment() {
         val viewModel =
             ViewModelProvider(this).get(WheelChairViewModel::class.java)
         binding.viewModel = viewModel
+        binding.textTimeResult.text = viewModel.timeField
 
         binding.toolbarWheelchair.setOnMenuItemClickListener{
             when(it.itemId){
@@ -64,6 +66,14 @@ class WheelChair : Fragment() {
                         }.show()
                     true
                 }
+                /**
+                 * map here
+                 */
+                R.id.map -> {
+                    this.findNavController()
+                        .navigate(WheelChairDirections.actionWheelChairToDialogMap())
+                    true
+                }
                 else -> false
             }
         }
@@ -86,14 +96,16 @@ class WheelChair : Fragment() {
                     val timeSetListener = TimePickerDialog.OnTimeSetListener { _, hour, minute ->
                         cal.set(Calendar.HOUR_OF_DAY, hour)
                         cal.set(Calendar.MINUTE, minute)
-                         binding.textEnterTime.text =
+                         binding.textTimeResult.text =
                              SimpleDateFormat("HH:mm", Locale.ENGLISH).format(cal.time)
+                        viewModel.timeField = binding.textTimeResult.text.toString()
                     }
                     TimePickerDialog(context, timeSetListener, cal.get(Calendar.HOUR_OF_DAY),
                         cal.get(Calendar.MINUTE), true).show()
                     }
                 else -> {
-                    binding.textEnterTime.text = "Сейчас"
+                    binding.textTimeResult.text = ""
+                    viewModel.timeField = binding.textTimeResult.text.toString()
                 }
             }
         }
@@ -107,7 +119,7 @@ class WheelChair : Fragment() {
 
                 if (startStation.isEmpty()) {
                     lifecycleScope.launch {
-                        binding.startStation.error = getString(R.string.user_input_error)
+                        binding.startStation.error = getString(R.string.empty_field_error)
                         viewModel.onDoneSending()
                         delay(3000)
                         binding.startStation.error = null
@@ -116,7 +128,7 @@ class WheelChair : Fragment() {
 
                 if (endStation.isEmpty()) {
                     lifecycleScope.launch {
-                        binding.endStation.error = getString(R.string.user_input_error)
+                        binding.endStation.error = getString(R.string.empty_field_error)
                         viewModel.onDoneSending()
                         delay(3000)
                         binding.endStation.error = null
@@ -125,7 +137,7 @@ class WheelChair : Fragment() {
 
                 if (time.isEmpty()) {
                     lifecycleScope.launch {
-                        binding.timeMenu.error = getString(R.string.user_input_error)
+                        binding.timeMenu.error = getString(R.string.empty_field_error)
                         viewModel.onDoneSending()
                         delay(3000)
                         binding.timeMenu.error = null
@@ -135,11 +147,16 @@ class WheelChair : Fragment() {
                 if (startStation.isNotEmpty() &&
                         endStation.isNotEmpty() &&
                         time.isNotEmpty()){
-//                        viewModel.allInfo.observe(viewLifecycleOwner, {
-                                    viewModel.data[0] = startStation
-                                    viewModel.data[1] = endStation
-                                    viewModel.data[2] = time
-                                    viewModel.data[3] = comment
+                        viewModel.allInfo.observe(viewLifecycleOwner, {info ->
+                                    val data = WheelData(
+                                        id = 1,
+                                        name = info.name,
+                                        first = startStation,
+                                        second = endStation,
+                                        time = time,
+                                        comment = comment
+                                    )
+                                viewModel.onInsert(data)
 
                                 MaterialAlertDialogBuilder(requireContext())
                                         .setMessage("Данные введены верно?")
@@ -147,6 +164,7 @@ class WheelChair : Fragment() {
                                             viewModel.onDoneSending()
                                         }
                                         .setPositiveButton("Да") { _, _ ->
+                                            viewModel.data.observe(viewLifecycleOwner, {
                                         lifecycleScope.launch {
                                             binding.buttonHelpRequest.isEnabled = false
                                             binding.buttonHelpRequest.text = getString(R.string.wait)
@@ -170,8 +188,10 @@ class WheelChair : Fragment() {
                                                 viewModel.onDoneSending()
                                             }
                                         }
-                                    }.show()
-//                        })
+                                            })
+                                        }.show()
+
+                        })
                 }
             }
         })

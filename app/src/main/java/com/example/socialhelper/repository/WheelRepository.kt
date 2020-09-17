@@ -1,5 +1,6 @@
 package com.example.socialhelper.repository
 
+import androidx.lifecycle.LiveData
 import com.example.socialhelper.database.WheelDao
 import com.example.socialhelper.database.WheelData
 
@@ -10,8 +11,8 @@ class WheelRepository(private val wheelDao: WheelDao){
         wheelDao.insert(wheelData)
     }
 
-    fun selectData(key: Int){
-        wheelDao.selectData(key)
+    fun selectData(key: Int): LiveData<WheelData>{
+        return wheelDao.selectData(key)
     }
 
     suspend fun updateData(wheelData: WheelData){

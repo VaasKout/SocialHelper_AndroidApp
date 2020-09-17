@@ -54,7 +54,7 @@ class IntroFragment : Fragment() {
             this@IntroFragment.findNavController()
                                     .navigate(
                                         IntroFragmentDirections
-                                            .actionIntroFragmentToSocialWorker())
+                                            .actionIntroFragmentToWheelChair())
             }
 //            if (this@IntroFragment
 //                        .findNavController()

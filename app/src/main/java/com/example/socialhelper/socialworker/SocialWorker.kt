@@ -99,6 +99,12 @@ class SocialWorker : Fragment() {
                     connect()
                     true
                 }
+                R.id.map -> {
+                    this.findNavController()
+                        .navigate(SocialWorkerDirections
+                            .actionSocialWorkerToDialogMap())
+                    true
+                }
                 else -> false
             }
         }
@@ -189,11 +195,38 @@ class SocialWorker : Fragment() {
                     changeTheme(R.color.colorInProcess)
                     adapter.binding.textStatus.text =
                         getString(R.string.status_in_progress)
-            } else
-                    if (!viewModel.onProcess() &&
+                    adapter.binding.buttonCancelRecycler.visibility = View.VISIBLE
+            } else if (!viewModel.onProcess() &&
                         !socAdapter.currentList[adapter.adapterPosition].checked){
                         changeTheme(R.color.colorPrimary)
                         adapter.binding.recyclerButton.isEnabled = true
+                        adapter.binding.buttonCancelRecycler.visibility = View.GONE
+            }
+
+            adapter.binding.buttonCancelRecycler.setOnClickListener {
+                if (viewModel.onProcess()){
+                    MaterialAlertDialogBuilder(requireContext())
+                        .setMessage("Принять заказ?")
+                        .setNegativeButton("Нет") { _, _ ->
+                        }
+                        .setPositiveButton("Да") { _, _ ->
+                            /**
+                             * cancel order
+                             */
+                            lifecycleScope.launch {
+                                if (viewModel.readWrite.socket.isConnected){
+                                    viewModel.cancelOrder()
+                                } else{
+                                    Snackbar.make(
+                                        binding.recyclerView,
+                                        getString(R.string.retry_later),
+                                        Snackbar.LENGTH_SHORT
+                                    ).show()
+                                    viewModel.triedToConnect = true
+                                }
+                            }
+                        }.show()
+                }
             }
             adapter.binding.recyclerButton.setOnClickListener {
                 if (!viewModel.onProcess()){
@@ -204,9 +237,11 @@ class SocialWorker : Fragment() {
                             .setPositiveButton("Да") { _, _ ->
                                 lifecycleScope.launch {
                                     /**
-                                     *  tell to the server that order is received
+                                     *   order received
                                      */
+
                                     if (viewModel.readWrite.socket.isConnected){
+                                        viewModel.acceptOrder()
                                         socAdapter.currentList[adapter.adapterPosition].checked = true
                                         viewModel.updateData(socAdapter.
                                         currentList[adapter.adapterPosition])
@@ -217,6 +252,7 @@ class SocialWorker : Fragment() {
                                             getString(R.string.retry_later),
                                             Snackbar.LENGTH_SHORT
                                         ).show()
+                                        viewModel.triedToConnect = true
                                     }
                                 }
                             }.show()
@@ -228,9 +264,10 @@ class SocialWorker : Fragment() {
                         .setPositiveButton("Да") { _, _ ->
                             lifecycleScope.launch {
                                 /**
-                                 *  tell to the server that order is complete
+                                 *   order is complete
                                  */
                                 if (viewModel.readWrite.socket.isConnected){
+                                    viewModel.completeOrder()
                                     adapter.binding.recyclerButton.text = ""
                                     adapter.binding.recyclerButton.isEnabled = false
                                     changeTheme(R.color.colorAccent)
@@ -248,6 +285,7 @@ class SocialWorker : Fragment() {
                                         getString(R.string.retry_later),
                                         Snackbar.LENGTH_SHORT
                                     ).show()
+                                    viewModel.triedToConnect = true
                                 }
                             }
                         }.show()

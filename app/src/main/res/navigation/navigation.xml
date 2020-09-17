@@ -163,6 +163,9 @@
             app:popUpToInclusive="true"
             app:enterAnim="@anim/slide_in_right"
             app:exitAnim="@anim/slide_in_right_next" />
+        <action
+            android:id="@+id/action_introFragment_to_wheelChairWait"
+            app:destination="@id/wheelChairWait" />
     </fragment>
     <fragment
         android:id="@+id/restorePassword"
@@ -215,6 +218,11 @@
             app:exitAnim="@anim/slide_in_left_next"
             app:popUpTo="@id/socialWorker"
             app:popUpToInclusive="true" />
+        <action
+            android:id="@+id/action_socialWorker_to_dialogMap"
+            app:destination="@id/dialogMap"
+            app:popUpTo="@id/socialWorker"/>
+
     </fragment>
     <fragment
         android:id="@+id/wheelChair"
@@ -239,15 +247,31 @@
         <action
             android:id="@+id/action_wheelChair_to_wheelChairWait"
             app:destination="@id/wheelChairWait"
-            app:popUpTo="@id/wheelChair"
             app:enterAnim="@anim/slide_in_right"
             app:exitAnim="@anim/slide_in_right_next"
-            app:popEnterAnim="@anim/slide_in_left"
-            app:popExitAnim="@anim/slide_in_left_next"/>
+            app:popUpTo="@id/wheelChair"
+            app:popUpToInclusive="true" />
+        <action
+            android:id="@+id/action_wheelChair_to_dialogMap"
+            app:destination="@id/dialogMap"
+            app:popUpTo="@id/wheelChair" />
     </fragment>
     <fragment
         android:id="@+id/wheelChairWait"
         android:name="com.example.socialhelper.wheelchair.WheelChairWait"
         android:label="WheelChairWait"
-        tools:layout="@layout/fragment_wheel_chair_wait"/>
+        tools:layout="@layout/fragment_wheel_chair_wait">
+        <action
+            android:id="@+id/action_wheelChairWait_to_wheelChair"
+            app:destination="@id/wheelChair"
+            app:popUpTo="@id/wheelChairWait"
+            app:popUpToInclusive="true"
+            app:enterAnim="@anim/slide_in_left"
+            app:exitAnim="@anim/slide_in_left_next"/>
+    </fragment>
+    <fragment
+        android:id="@+id/dialogMap"
+        android:name="com.example.socialhelper.dialog.DialogMap"
+        android:label="DialogMap"
+        tools:layout="@layout/fragment_dialog_map"/>
 </navigation>

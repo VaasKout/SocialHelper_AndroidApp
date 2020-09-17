@@ -3,18 +3,13 @@
     xmlns:app="http://schemas.android.com/apk/res-auto">
     <item
         android:id="@+id/map"
-        app:showAsAction="always"
+        app:showAsAction="ifRoom"
         android:title="@string/subway_map"
         android:icon="@drawable/ic_map"/>
     <item
-        android:id="@+id/refresh"
-        android:title="@string/refresh"
-        android:icon="@drawable/ic_refresh"
-        app:showAsAction="always" />
-    <item
         android:id="@+id/change_pass"
         android:title="@string/change_password"
-        app:showAsAction="ifRoom"
+        app:showAsAction="always"
         android:icon="@drawable/ic_password"/>
     <item
         android:id="@+id/exit_from_main"

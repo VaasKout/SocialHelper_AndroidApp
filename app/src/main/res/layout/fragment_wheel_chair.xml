@@ -19,19 +19,23 @@
                 android:layout_height="?attr/actionBarSize"
                 style="@style/Widget.MaterialComponents.Toolbar.Primary"
                 app:title="@string/app_name"
-                app:menu="@menu/tob_bar_def"/>
+                app:menu="@menu/top_bar_wheel"
+                app:layout_scrollFlags="scroll|enterAlways|snap"/>
         </com.google.android.material.appbar.AppBarLayout>
+
         <androidx.core.widget.NestedScrollView
+            android:id="@+id/nestedScrollView"
             android:layout_width="match_parent"
             android:layout_height="match_parent"
+            app:layout_anchor="@+id/nestedScrollView"
+            app:layout_anchorGravity="center"
             app:layout_behavior="@string/appbar_scrolling_view_behavior">
-
 
             <androidx.constraintlayout.widget.ConstraintLayout
                 android:layout_width="match_parent"
                 android:layout_height="match_parent"
                 android:padding="16dp"
-                tools:context="com.example.socialhelper.disabled.DisabledFragment">
+                tools:context="com.example.socialhelper.wheelchair.WheelChair">
 
                 <TextView
                     android:id="@+id/textEnterSubway"
@@ -54,15 +58,15 @@
                     android:layout_height="wrap_content"
                     android:layout_marginStart="8dp"
                     android:layout_marginTop="8dp"
+                    android:layout_marginEnd="48dp"
                     android:hint="@string/start_station"
-                    app:boxCornerRadiusBottomEnd="8dp"
-                    app:boxCornerRadiusBottomStart="8dp"
-                    app:boxCornerRadiusTopEnd="8dp"
-                    app:boxCornerRadiusTopStart="8dp"
+                    app:boxCornerRadiusBottomEnd="6dp"
+                    app:boxCornerRadiusBottomStart="6dp"
+                    app:boxCornerRadiusTopEnd="6dp"
+                    app:boxCornerRadiusTopStart="6dp"
                     app:endIconMode="clear_text"
                     app:errorEnabled="true"
-                    app:layout_constraintEnd_toStartOf="@+id/downArrow"
-                    app:layout_constraintHorizontal_bias="0.5"
+                    app:layout_constraintEnd_toEndOf="parent"
                     app:layout_constraintStart_toStartOf="parent"
                     app:layout_constraintTop_toBottomOf="@+id/textEnterSubway">
 
@@ -71,58 +75,49 @@
                         style="@style/Widget.MaterialComponents.TextInputLayout.FilledBox.ExposedDropdownMenu"
                         android:layout_width="match_parent"
                         android:layout_height="wrap_content"
-                        android:inputType="textPersonName"
                         android:imeOptions="actionNext"
-                        android:maxLines="1"/>
+                        android:inputType="textPersonName"
+                        android:maxLines="1"
+                        android:textAppearance="@style/TextAppearance.MaterialComponents.Body1" />
                 </com.google.android.material.textfield.TextInputLayout>
-
-                <ImageView
-                    android:id="@+id/downArrow"
-                    android:layout_width="wrap_content"
-                    android:layout_height="wrap_content"
-                    android:src="@drawable/ic_forward_arrow"
-                    app:layout_constraintBottom_toBottomOf="@+id/endStation"
-                    app:layout_constraintEnd_toEndOf="parent"
-                    app:layout_constraintStart_toStartOf="parent"
-                    app:layout_constraintTop_toTopOf="@+id/startStation"
-                    app:layout_constraintVertical_bias="0.35" />
 
                 <com.google.android.material.textfield.TextInputLayout
                     android:id="@+id/endStation"
                     android:layout_width="0dp"
                     android:layout_height="wrap_content"
+                    android:layout_marginStart="8dp"
                     android:layout_marginTop="8dp"
-                    android:layout_marginEnd="8dp"
+                    android:layout_marginEnd="48dp"
                     android:hint="@string/end_station"
-                    app:boxCornerRadiusBottomEnd="8dp"
-                    app:boxCornerRadiusBottomStart="8dp"
-                    app:boxCornerRadiusTopEnd="8dp"
-                    app:boxCornerRadiusTopStart="8dp"
+                    app:boxCornerRadiusBottomEnd="6dp"
+                    app:boxCornerRadiusBottomStart="6dp"
+                    app:boxCornerRadiusTopEnd="6dp"
+                    app:boxCornerRadiusTopStart="6dp"
                     app:endIconMode="clear_text"
                     app:errorEnabled="true"
                     app:layout_constraintEnd_toEndOf="parent"
-                    app:layout_constraintHorizontal_bias="0.5"
-                    app:layout_constraintStart_toEndOf="@+id/downArrow"
-                    app:layout_constraintTop_toBottomOf="@+id/textEnterSubway">
+                    app:layout_constraintStart_toStartOf="parent"
+                    app:layout_constraintTop_toBottomOf="@+id/startStation">
 
                     <AutoCompleteTextView
                         android:id="@+id/end_station_edit"
                         style="@style/Widget.MaterialComponents.TextInputLayout.FilledBox.ExposedDropdownMenu"
                         android:layout_width="match_parent"
                         android:layout_height="wrap_content"
-                        android:inputType="textPersonName"
                         android:imeOptions="actionDone"
-                        android:maxLines="1"/>
+                        android:inputType="textPersonName"
+                        android:maxLines="1"
+                        android:textAppearance="@style/TextAppearance.MaterialComponents.Body1" />
                 </com.google.android.material.textfield.TextInputLayout>
 
                 <TextView
                     android:id="@+id/textEnterTime"
-                    android:layout_width="match_parent"
+                    android:layout_width="0dp"
                     android:layout_height="wrap_content"
                     android:layout_marginStart="8dp"
                     android:layout_marginTop="8dp"
                     android:layout_marginEnd="8dp"
-                    android:gravity="center"
+                    android:gravity="end"
                     android:text="@string/enter_time"
                     android:textAppearance="@style/TextAppearance.MaterialComponents.Headline6"
                     android:textStyle="italic"
@@ -130,21 +125,32 @@
                     app:layout_constraintStart_toStartOf="parent"
                     app:layout_constraintTop_toBottomOf="@+id/endStation" />
 
+                <TextView
+                    android:id="@+id/textTimeResult"
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:layout_marginTop="16dp"
+                    android:layout_marginEnd="8dp"
+                    android:textAppearance="@style/TextAppearance.MaterialComponents.Headline6"
+                    android:textStyle="italic"
+                    app:layout_constraintEnd_toEndOf="parent"
+                    app:layout_constraintTop_toTopOf="@+id/timeMenu" />
+
                 <com.google.android.material.textfield.TextInputLayout
                     android:id="@+id/timeMenu"
                     style="@style/Widget.MaterialComponents.TextInputLayout.FilledBox.ExposedDropdownMenu"
-                    android:layout_width="match_parent"
+                    android:layout_width="0dp"
                     android:layout_height="wrap_content"
                     android:layout_marginStart="8dp"
                     android:layout_marginTop="8dp"
-                    android:layout_marginEnd="8dp"
+                    android:layout_marginEnd="40dp"
                     android:hint="@string/time"
-                    app:boxCornerRadiusBottomEnd="8dp"
-                    app:boxCornerRadiusBottomStart="8dp"
-                    app:boxCornerRadiusTopEnd="8dp"
-                    app:boxCornerRadiusTopStart="8dp"
+                    app:boxCornerRadiusBottomEnd="6dp"
+                    app:boxCornerRadiusBottomStart="6dp"
+                    app:boxCornerRadiusTopEnd="6dp"
+                    app:boxCornerRadiusTopStart="6dp"
                     app:errorEnabled="true"
-                    app:layout_constraintEnd_toEndOf="parent"
+                    app:layout_constraintEnd_toStartOf="@+id/textTimeResult"
                     app:layout_constraintStart_toStartOf="parent"
                     app:layout_constraintTop_toBottomOf="@+id/textEnterTime">
 
@@ -163,21 +169,21 @@
                     android:layout_marginTop="8dp"
                     android:layout_marginEnd="8dp"
                     android:hint="@string/comment"
-                    app:boxCornerRadiusBottomEnd="8dp"
-                    app:boxCornerRadiusBottomStart="8dp"
-                    app:boxCornerRadiusTopEnd="8dp"
-                    app:boxCornerRadiusTopStart="8dp"
-                    app:layout_constraintBottom_toBottomOf="parent"
+                    app:boxCornerRadiusBottomEnd="6dp"
+                    app:boxCornerRadiusBottomStart="6dp"
+                    app:boxCornerRadiusTopEnd="6dp"
+                    app:boxCornerRadiusTopStart="6dp"
+                    app:endIconMode="clear_text"
                     app:layout_constraintEnd_toEndOf="parent"
                     app:layout_constraintStart_toStartOf="parent"
-                    app:layout_constraintTop_toBottomOf="@+id/timeMenu"
-                    app:layout_constraintVertical_bias="0.0">
+                    app:layout_constraintTop_toBottomOf="@+id/timeMenu">
 
                     <com.google.android.material.textfield.TextInputEditText
                         android:id="@+id/comment_edit"
                         android:layout_width="match_parent"
                         android:layout_height="wrap_content"
-                        android:inputType="textMultiLine" />
+                        android:inputType="textAutoComplete|textMultiLine"
+                        android:maxWidth="16dp" />
                 </com.google.android.material.textfield.TextInputLayout>
 
                 <com.google.android.material.button.MaterialButton
@@ -187,11 +193,65 @@
                     android:layout_marginTop="32dp"
                     android:layout_marginEnd="16dp"
                     android:layout_marginBottom="16dp"
+                    android:onClick="@{() -> viewModel.onStartSending()}"
                     android:text="@string/send"
                     app:layout_constraintBottom_toBottomOf="parent"
                     app:layout_constraintEnd_toEndOf="parent"
-                    app:layout_constraintTop_toBottomOf="@+id/comment"
-                    android:onClick="@{() -> viewModel.onStartSending()}"/>
+                    app:layout_constraintTop_toBottomOf="@+id/comment" />
+
+                <ImageView
+                    android:id="@+id/circle_first_station"
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:layout_marginStart="8dp"
+                    android:layout_marginTop="12dp"
+                    android:contentDescription="@string/first_station"
+                    app:layout_constraintStart_toEndOf="@+id/startStation"
+                    app:layout_constraintTop_toTopOf="@+id/startStation"
+                    app:srcCompat="@drawable/circle" />
+
+                <TextView
+                    android:id="@+id/textFirstCircle"
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:gravity="center"
+                    app:layout_constraintBottom_toBottomOf="@+id/circle_first_station"
+                    app:layout_constraintEnd_toEndOf="@+id/circle_first_station"
+                    app:layout_constraintStart_toStartOf="@+id/circle_first_station"
+                    app:layout_constraintTop_toTopOf="@+id/circle_first_station"
+                    tools:text="10" />
+
+                <TextView
+                    android:id="@+id/textSecondCircle"
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:gravity="center"
+                    app:layout_constraintBottom_toBottomOf="@+id/circle_second_station"
+                    app:layout_constraintEnd_toEndOf="@+id/circle_second_station"
+                    app:layout_constraintStart_toStartOf="@+id/circle_second_station"
+                    app:layout_constraintTop_toTopOf="@+id/circle_second_station"
+                    tools:text="12" />
+
+                <ImageView
+                    android:id="@+id/circle_second_station"
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:layout_marginStart="8dp"
+                    android:layout_marginTop="12dp"
+                    app:layout_constraintStart_toEndOf="@+id/endStation"
+                    app:layout_constraintTop_toTopOf="@+id/endStation"
+                    app:srcCompat="@drawable/circle" />
+
+                <ImageView
+                    android:id="@+id/line_wheel_frag"
+                    android:layout_width="wrap_content"
+                    android:layout_height="0dp"
+                    android:contentDescription="@string/line"
+                    app:layout_constraintBottom_toTopOf="@+id/circle_second_station"
+                    app:layout_constraintEnd_toEndOf="@+id/circle_first_station"
+                    app:layout_constraintStart_toStartOf="@+id/circle_first_station"
+                    app:layout_constraintTop_toBottomOf="@+id/circle_first_station"
+                    app:srcCompat="@drawable/line" />
             </androidx.constraintlayout.widget.ConstraintLayout>
 
         </androidx.core.widget.NestedScrollView>
