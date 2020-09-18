@@ -5,6 +5,7 @@ import androidx.fragment.app.Fragment
 import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
+import androidx.core.widget.addTextChangedListener
 import androidx.databinding.DataBindingUtil
 import androidx.lifecycle.ViewModelProvider
 import androidx.lifecycle.lifecycleScope
@@ -77,16 +78,16 @@ class KeyVerification : Fragment() {
             }
         })
 
+        binding.keyEdit.addTextChangedListener {
+            binding.key.error = null
+        }
+
         viewModel.sendKey.observe(viewLifecycleOwner, {
             if (it == true) {
                 val key = binding.keyEdit.text.toString()
                 if (key.isEmpty()) {
-                    lifecycleScope.launch {
                         binding.key.error = getString(R.string.empty_field_error)
                         viewModel.onDoneSendKey()
-                        delay(3000)
-                        binding.key.error = null
-                    }
                 }
                 if (key.isNotEmpty()) {
                     viewModel.serverKey = key.toInt()

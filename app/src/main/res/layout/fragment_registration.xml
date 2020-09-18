@@ -168,7 +168,8 @@
                     app:boxCornerRadiusTopEnd="6dp"
                     app:boxCornerRadiusTopStart="6dp"
                     app:errorEnabled="true"
-                    android:hint="@string/email">
+                    android:hint="@string/email"
+                    app:endIconMode="clear_text">
 
                     <com.google.android.material.textfield.TextInputEditText
                         android:id="@+id/email_edit"

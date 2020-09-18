@@ -6,6 +6,7 @@ import androidx.fragment.app.Fragment
 import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
+import androidx.core.widget.addTextChangedListener
 import androidx.databinding.DataBindingUtil
 import androidx.lifecycle.ViewModelProvider
 import androidx.lifecycle.lifecycleScope
@@ -30,6 +31,14 @@ class LoginFragment : Fragment() {
         val categoryList = resources.getStringArray(R.array.category)
         val categoryEng = resources.getStringArray(R.array.categoryEng)
 
+        binding.loginInputEditText.addTextChangedListener {
+            binding.loginTextInput.error = null
+        }
+
+        binding.passwordInputEditText.addTextChangedListener {
+            binding.passwordTextInput.error = null
+        }
+
         viewModel.navigateToMainFrag.observe(viewLifecycleOwner, {
             if (it == true) {
                 val login = binding.loginInputEditText.text.toString()
@@ -39,20 +48,12 @@ class LoginFragment : Fragment() {
                 binding.passwordTextInput.error = null
 
                 if (login.isEmpty()) {
-                    lifecycleScope.launch {
                         binding.loginTextInput.error = getString(R.string.user_input_error)
                         viewModel.onDoneNavigationToMain()
-                        delay(3000)
-                        binding.loginTextInput.error = null
-                    }
                 }
                 if (passwordInput.isEmpty()) {
-                    lifecycleScope.launch {
                         binding.passwordTextInput.error = getString(R.string.password_input_error)
                         viewModel.onDoneNavigationToMain()
-                        delay(3000)
-                        binding.passwordTextInput.error = null
-                    }
                 }
 
                 if (login.isNotEmpty() &&
@@ -77,31 +78,21 @@ class LoginFragment : Fragment() {
                                 } else if (viewModel.serverID <= 0 ||
                                     viewModel.serverKey <= 0
                                 ) {
-                                    lifecycleScope.launch {
                                         binding.loginTextInput.error =
                                             getString(R.string.wrong_login_or_password)
                                         binding.passwordTextInput.error =
                                             getString(R.string.wrong_login_or_password)
                                         binding.forgotPassword.visibility = View.VISIBLE
                                         viewModel.onDoneNavigationToMain()
-                                        delay(3000)
-                                        binding.loginTextInput.error = null
-                                        binding.passwordTextInput.error = null
-                                    }
                                 }
                             }
                             if (info != null) {
                                 if (info.serverID <= 0 && info.serverKey <= 0) {
-                                    lifecycleScope.launch {
                                         binding.loginTextInput.error =
                                             getString(R.string.wrong_login)
                                         binding.passwordTextInput.error =
                                             getString(R.string.wrong_password)
                                         viewModel.onDoneNavigationToMain()
-                                        delay(3000)
-                                        binding.loginTextInput.error = null
-                                        binding.passwordTextInput.error = null
-                                    }
                                 } else {
                                     when {
                                         info.login != login -> {

@@ -4,6 +4,7 @@ import android.os.Bundle
 import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
+import androidx.core.widget.addTextChangedListener
 import androidx.databinding.DataBindingUtil
 import androidx.fragment.app.Fragment
 import androidx.lifecycle.ViewModelProvider
@@ -28,6 +29,18 @@ class ChangePassword : Fragment() {
             ViewModelProvider(this).get(ChangeViewModel::class.java)
         binding.viewModel = viewModel
 
+        binding.oldPasswordEdit.addTextChangedListener {
+            binding.oldPassword.error = null
+        }
+
+        binding.enterNewPasswordEdit.addTextChangedListener {
+            binding.oldPassword.error = null
+        }
+
+        binding.confirmNewPassEdit.addTextChangedListener {
+            binding.enterNewPassword.error = null
+        }
+
         viewModel.changed.observe(viewLifecycleOwner, {
             viewModel.allInfo.observe(viewLifecycleOwner, {info ->
 
@@ -37,28 +50,16 @@ class ChangePassword : Fragment() {
                 val confirmNewPass = binding.confirmNewPassEdit.text.toString()
 
                 if (oldPass.isEmpty()){
-                    lifecycleScope.launch {
                         binding.oldPassword.error = getString(R.string.empty_field_error)
                         viewModel.onDoneChange()
-                        delay(3000)
-                        binding.oldPassword.error = null
-                    }
                 }
                 if (oldPass != info.password){
-                    lifecycleScope.launch {
                         binding.oldPassword.error = getString(R.string.wrong_password)
                         viewModel.onDoneChange()
-                        delay(3000)
-                        binding.oldPassword.error = null
-                    }
                 }
                 if (newPass.isEmpty()){
-                    lifecycleScope.launch {
                         binding.enterNewPassword.error = getString(R.string.empty_field_error)
                         viewModel.onDoneChange()
-                        delay(3000)
-                        binding.enterNewPassword.error = null
-                    }
                 }
                 if (confirmNewPass.isEmpty()){
                     lifecycleScope.launch {
@@ -69,10 +70,8 @@ class ChangePassword : Fragment() {
                     }
                 }
                 if (newPass != confirmNewPass){
-                    lifecycleScope.launch {
                         binding.confirmNewPassword.error = getString(R.string.password_mismatch)
                         viewModel.onDoneChange()
-                    }
                 }
                 if (oldPass.isNotEmpty() &&
                     oldPass == info.password &&

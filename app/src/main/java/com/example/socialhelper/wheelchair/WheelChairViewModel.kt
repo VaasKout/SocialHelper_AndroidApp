@@ -24,6 +24,9 @@ class WheelChairViewModel(application: Application): AndroidViewModel(applicatio
     private val viewModelJob = Job()
     private val uiScope = CoroutineScope(Dispatchers.Main + viewModelJob)
 
+    private val _station1 = MutableLiveData<String>()
+    val station1: LiveData<String> = _station1
+
     private val _send = MutableLiveData<Boolean>()
     val send: LiveData<Boolean> = _send
     var timeField = ""
@@ -35,6 +38,10 @@ class WheelChairViewModel(application: Application): AndroidViewModel(applicatio
         val wheelDao = WheelDatabase.getWheelDatabase(application).wheelDao()
         wheelRepository = WheelRepository(wheelDao)
         data = wheelRepository.selectData(1)
+    }
+
+    fun firstStation(st: String){
+        _station1.value = st
     }
 
     fun onClear(){

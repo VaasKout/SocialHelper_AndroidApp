@@ -2,10 +2,12 @@ package com.example.socialhelper.wheelchair
 
 import android.app.TimePickerDialog
 import android.os.Bundle
+import android.text.TextWatcher
 import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
 import android.widget.ArrayAdapter
+import androidx.core.widget.addTextChangedListener
 import androidx.databinding.DataBindingUtil
 import androidx.fragment.app.Fragment
 import androidx.lifecycle.ViewModelProvider
@@ -110,6 +112,16 @@ class WheelChair : Fragment() {
             }
         }
 
+        binding.editStartStation.addTextChangedListener {
+            binding.startStation.error = null
+        }
+        binding.endStationEdit.addTextChangedListener {
+            binding.endStation.error = null
+        }
+        binding.timeDropdown.addTextChangedListener {
+            binding.timeMenu.error = null
+        }
+
         viewModel.send.observe(viewLifecycleOwner, {
             if (it == true){
                 val startStation = binding.editStartStation.text.toString()
@@ -118,30 +130,18 @@ class WheelChair : Fragment() {
                 val comment = binding.commentEdit.text.toString()
 
                 if (startStation.isEmpty()) {
-                    lifecycleScope.launch {
                         binding.startStation.error = getString(R.string.empty_field_error)
                         viewModel.onDoneSending()
-                        delay(3000)
-                        binding.startStation.error = null
-                    }
                 }
 
                 if (endStation.isEmpty()) {
-                    lifecycleScope.launch {
                         binding.endStation.error = getString(R.string.empty_field_error)
                         viewModel.onDoneSending()
-                        delay(3000)
-                        binding.endStation.error = null
-                    }
                 }
 
                 if (time.isEmpty()) {
-                    lifecycleScope.launch {
                         binding.timeMenu.error = getString(R.string.empty_field_error)
                         viewModel.onDoneSending()
-                        delay(3000)
-                        binding.timeMenu.error = null
-                    }
                 }
 
                 if (startStation.isNotEmpty() &&
@@ -199,3 +199,4 @@ class WheelChair : Fragment() {
         return binding.root
     }
 }
+

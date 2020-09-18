@@ -5,6 +5,7 @@ import androidx.fragment.app.Fragment
 import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
+import androidx.core.widget.addTextChangedListener
 import androidx.databinding.DataBindingUtil
 import androidx.lifecycle.ViewModelProvider
 import androidx.lifecycle.lifecycleScope
@@ -34,6 +35,13 @@ class RestorePassword : Fragment() {
             }
         })
 
+        binding.loginRestoreEdit.addTextChangedListener {
+            binding.loginRestore.error = null
+        }
+        binding.restoreEmailEdit.addTextChangedListener {
+            binding.emailRestore.error = null
+        }
+
         viewModel.restoreNavigateToLogin.observe(viewLifecycleOwner, {
             if (it == true) {
 
@@ -41,21 +49,13 @@ class RestorePassword : Fragment() {
                 val email = binding.restoreEmailEdit.text.toString()
 
                 if (login.isEmpty()) {
-                    lifecycleScope.launch {
                         binding.loginRestore.error = getString(R.string.empty_field_error)
                         viewModel.onDoneRestore()
-                        delay(3000)
-                        binding.loginRestore.error = null
-                    }
                 }
 
                 if (email.isEmpty()) {
-                    lifecycleScope.launch {
                         binding.emailRestore.error = getString(R.string.empty_field_error)
                         viewModel.onDoneRestore()
-                        delay(3000)
-                        binding.emailRestore.error = null
-                    }
                 }
 
                 if (login.isNotEmpty() &&
@@ -64,20 +64,12 @@ class RestorePassword : Fragment() {
                     viewModel.allInfo.observe(viewLifecycleOwner, { info ->
                         if (info != null) {
                             if (info.login != login) {
-                                lifecycleScope.launch {
                                     binding.loginRestore.error = getString(R.string.wrong_login)
                                     viewModel.onDoneRestore()
-                                    delay(3000)
-                                    binding.loginRestore.error = null
-                                }
                             }
                             if (info.email != email) {
-                                lifecycleScope.launch {
                                     binding.emailRestore.error = getString(R.string.wrong_email)
                                     viewModel.onDoneRestore()
-                                    delay(3000)
-                                    binding.emailRestore.error = null
-                                }
                             }
                         } else {
                             lifecycleScope.launch {

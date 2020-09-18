@@ -9,6 +9,7 @@ import android.view.ViewGroup
 import android.widget.ArrayAdapter
 import androidx.core.view.isGone
 import androidx.core.view.isVisible
+import androidx.core.widget.addTextChangedListener
 import androidx.databinding.DataBindingUtil
 import androidx.lifecycle.ViewModelProvider
 import androidx.lifecycle.lifecycleScope
@@ -57,6 +58,37 @@ class RegistrationFragment : Fragment() {
                 true
             } else false
         }
+        /**
+         * TextWatchers
+         */
+
+        binding.textInputUserEditReg.addTextChangedListener {
+            binding.userInputReg.error = null
+        }
+
+        binding.textInputPassEditReg.addTextChangedListener {
+            binding.passwordInputReg.error = null
+        }
+
+        binding.loginEdit.addTextChangedListener {
+            binding.login.error = null
+        }
+
+        binding.surnameEditInput.addTextChangedListener{
+            binding.surnameInputReg.error = null
+        }
+
+        binding.confirmPasswordEdit.addTextChangedListener {
+            binding.confirmPassword.error = null
+        }
+
+        binding.emailEdit.addTextChangedListener {
+            binding.email.error = null
+        }
+
+        binding.numberReferenceInputEdit.addTextChangedListener {
+            binding.numberReference.error = null
+        }
 
         viewModel.navigateToWait.observe(viewLifecycleOwner, {
 
@@ -73,87 +105,48 @@ class RegistrationFragment : Fragment() {
 
 
                 if (userName.isEmpty()) {
-                    lifecycleScope.launch {
                         binding.userInputReg.error = getString(R.string.user_input_error)
                         viewModel.onDoneNavigating()
-                        delay(3000)
-                        binding.userInputReg.error = null
-                    }
                 }
 
                 if (password.isEmpty()) {
-                    lifecycleScope.launch {
                         binding.passwordInputReg.error = getString(R.string.password_input_error)
                         viewModel.onDoneNavigating()
-                        delay(3000)
-                        binding.passwordInputReg.error = null
-                    }
                 }
 
                 if (login.isEmpty()) {
-                    lifecycleScope.launch {
                         binding.login.error = getString(R.string.enter_login)
                         viewModel.onDoneNavigating()
-                        delay(3000)
-                        binding.login.error = null
-                    }
                 }
 
                 if (surname.isEmpty()) {
-                    lifecycleScope.launch {
                         binding.surnameInputReg.error = getString(R.string.surname_input_error)
                         viewModel.onDoneNavigating()
-                        delay(3000)
-                        binding.surnameInputReg.error = null
-                    }
                 }
 
                 if (passwordConfirm.isEmpty()) {
-                    lifecycleScope.launch {
                         binding.confirmPassword.error = getString(R.string.confirm_password)
                         viewModel.onDoneNavigating()
-                        delay(3000)
-                        binding.confirmPassword.error = null
-                    }
                 }
 
                 if (email.isEmpty()) {
-                    lifecycleScope.launch {
                         binding.email.error = "Введите почту"
                         viewModel.onDoneNavigating()
-                        delay(3000)
-                        binding.email.error = null
-                    }
+
                 } else if (email.isNotEmpty() &&
-                    (!email.contains("@") || !email.contains("."))
-                ) {
-                    lifecycleScope.launch {
+                    (!email.contains("@") ||
+                            !email.contains("."))) {
                         binding.email.error = getString(R.string.wrong_email_input)
-                        delay(3000)
-                        binding.email.error = null
-                    }
                 }
 
                 if (category.isEmpty()) {
-                    lifecycleScope.launch {
                         binding.spinner.error = getString(R.string.choose_category)
                         viewModel.onDoneNavigating()
-                        delay(3000)
-                        binding.spinner.error = null
-                    }
                 }
-
 
                 if (numberEdit.isEmpty() && binding.numberReference.isVisible) {
-                    lifecycleScope.launch {
                         binding.numberReference.error = getString(R.string.enter_reference_number)
                         viewModel.onDoneNavigating()
-                        delay(3000)
-                        binding.numberReference.error = null
-                    }
-                }
-                else if (binding.spinner.isGone) {
-                    binding.spinner.error = null
                 }
 
                 if (passwordConfirm != password) {
@@ -289,11 +282,12 @@ class RegistrationFragment : Fragment() {
             when(adapterView.getItemAtPosition(position).toString()){
                 categoryList[0], categoryList[2] -> {
                     binding.numberReference.visibility = View.GONE
-                    binding.exposeDownMenu.error = null
+                    binding.numberReference.error = null
+                    binding.spinner.error = null
                 }
                 else -> {
                     binding.numberReference.visibility = View.VISIBLE
-                    binding.exposeDownMenu.error = null
+                    binding.spinner.error = null
                 }
             }
         }

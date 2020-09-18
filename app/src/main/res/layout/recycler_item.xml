@@ -5,7 +5,6 @@
     xmlns:tools="http://schemas.android.com/tools">
 
     <data>
-
         <variable
             name="wheelData"
             type="com.example.socialhelper.database.WheelData" />
