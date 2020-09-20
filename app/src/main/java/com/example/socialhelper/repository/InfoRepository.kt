@@ -2,7 +2,6 @@ package com.example.socialhelper.repository
 
 import com.example.socialhelper.database.Info
 import com.example.socialhelper.database.InfoDao
-import com.example.socialhelper.database.WheelDao
 
 class InfoRepository (private val infoDao: InfoDao){
     val allInfo = infoDao.getAllInfo()

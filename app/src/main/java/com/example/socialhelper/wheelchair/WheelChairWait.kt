@@ -9,11 +9,9 @@ import androidx.core.content.ContextCompat
 import androidx.databinding.DataBindingUtil
 import androidx.lifecycle.ViewModelProvider
 import androidx.lifecycle.lifecycleScope
-import androidx.lifecycle.whenResumed
 import androidx.navigation.fragment.findNavController
 import com.example.socialhelper.R
 import com.example.socialhelper.databinding.FragmentWheelChairWaitBinding
-import com.example.socialhelper.socialworker.SocialWorkerDirections
 import com.google.android.material.dialog.MaterialAlertDialogBuilder
 import com.google.android.material.snackbar.Snackbar
 import kotlinx.coroutines.delay
@@ -65,7 +63,11 @@ class WheelChairWait : Fragment() {
                                     ContextCompat
                                     .getColor(requireContext(), R.color.colorPrimary))
                                 delay(3000)
-                                this@WheelChairWait.findNavController().popBackStack()
+                                this@WheelChairWait
+                                    .findNavController()
+                                    .navigate(WheelChairWaitDirections
+                                        .actionWheelChairWaitToWheelChair())
+                                viewModel.clear()
                             } else -> continue
                         }
                     }
@@ -75,6 +77,12 @@ class WheelChairWait : Fragment() {
 
         binding.toolbarWheelchairWait.setOnMenuItemClickListener{
             when(it.itemId){
+                R.id.map ->{
+                    this.findNavController()
+                        .navigate(WheelChairWaitDirections
+                            .actionWheelChairWaitToDialogMap())
+                    true
+                }
                 R.id.refresh -> {
                     connect()
                     true
@@ -94,7 +102,11 @@ class WheelChairWait : Fragment() {
                                             Snackbar.LENGTH_SHORT
                                         ).show()
                                         delay(1000)
-                                        this@WheelChairWait.findNavController()
+                                        this@WheelChairWait
+                                            .findNavController()
+                                            .navigate(WheelChairWaitDirections
+                                                .actionWheelChairWaitToWheelChair())
+                                        viewModel.clear()
                                     } else {
                                         Snackbar.make(
                                             binding.textWait,

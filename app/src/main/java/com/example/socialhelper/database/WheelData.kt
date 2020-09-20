@@ -13,5 +13,6 @@ data class WheelData(
     @ColumnInfo (name = "second") val second: String,
     @ColumnInfo (name = "time") val time: String,
     @ColumnInfo (name = "comment") val comment: String = "",
-    @ColumnInfo (name = "checked") var checked: Boolean = false
+    @ColumnInfo (name = "checked") var checked: Boolean = false,
+    @ColumnInfo (name = "ordered") var ordered: Boolean = false
 )

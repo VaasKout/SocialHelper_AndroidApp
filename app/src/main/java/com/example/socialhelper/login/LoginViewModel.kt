@@ -97,12 +97,6 @@ class LoginViewModel(application: Application) : AndroidViewModel(application) {
         }
     }
 
-    suspend fun updateInfo(info: Info) {
-        withContext(Dispatchers.IO) {
-            repository.updateInfo(info)
-        }
-    }
-
     private val _navigateToMainFrag = MutableLiveData<Boolean>()
     val navigateToMainFrag: LiveData<Boolean> = _navigateToMainFrag
 

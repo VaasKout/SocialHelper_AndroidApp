@@ -24,9 +24,6 @@ class WheelChairViewModel(application: Application): AndroidViewModel(applicatio
     private val viewModelJob = Job()
     private val uiScope = CoroutineScope(Dispatchers.Main + viewModelJob)
 
-    private val _station1 = MutableLiveData<String>()
-    val station1: LiveData<String> = _station1
-
     private val _send = MutableLiveData<Boolean>()
     val send: LiveData<Boolean> = _send
     var timeField = ""
@@ -40,8 +37,16 @@ class WheelChairViewModel(application: Application): AndroidViewModel(applicatio
         data = wheelRepository.selectData(1)
     }
 
-    fun firstStation(st: String){
-        _station1.value = st
+    fun onInsert(wheelData: WheelData){
+        uiScope.launch {
+            insertData(wheelData)
+        }
+    }
+
+    private suspend fun insertData(wheelData: WheelData){
+        withContext(Dispatchers.IO){
+            wheelRepository.insert(wheelData)
+        }
     }
 
     fun onClear(){
@@ -53,6 +58,12 @@ class WheelChairViewModel(application: Application): AndroidViewModel(applicatio
     private suspend fun clear(){
         withContext(Dispatchers.IO){
             repository.deleteInfo()
+        }
+    }
+
+     suspend fun update(wheelData: WheelData){
+        withContext(Dispatchers.IO){
+            wheelRepository.updateData(wheelData)
         }
     }
 
@@ -78,30 +89,6 @@ class WheelChairViewModel(application: Application): AndroidViewModel(applicatio
             }
         }
     }
-
-    fun onInsert(wheelData: WheelData){
-        uiScope.launch {
-            insertData(wheelData)
-        }
-    }
-
-     private suspend fun insertData(wheelData: WheelData){
-        withContext(Dispatchers.IO){
-            wheelRepository.insert(wheelData)
-        }
-    }
-
-//    fun onUpdate(wheelData: WheelData){
-//        uiScope.launch {
-//            updateData(wheelData)
-//        }
-//    }
-//
-//    private suspend fun updateData(wheelData: WheelData){
-//        withContext(Dispatchers.IO){
-//            wheelRepository.updateData(wheelData)
-//        }
-//    }
 
     fun onStartSending(){
         _send.value = true

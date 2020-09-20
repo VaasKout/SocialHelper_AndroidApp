@@ -22,7 +22,7 @@
             android:layout_height="wrap_content"
             android:contentDescription="@string/back"
             android:onClick="@{() -> viewModel.onStartBackNavigation()}"
-            android:src="@drawable/ic_big_arrow"
+            android:src="@drawable/ic_big_back_arrow"
             app:layout_constraintStart_toStartOf="parent"
             app:layout_constraintTop_toTopOf="parent" />
 

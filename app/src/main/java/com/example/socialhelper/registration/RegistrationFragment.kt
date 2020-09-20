@@ -2,15 +2,14 @@ package com.example.socialhelper.registration
 
 import android.os.Bundle
 import android.util.Log
-import androidx.fragment.app.Fragment
 import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
 import android.widget.ArrayAdapter
-import androidx.core.view.isGone
 import androidx.core.view.isVisible
 import androidx.core.widget.addTextChangedListener
 import androidx.databinding.DataBindingUtil
+import androidx.fragment.app.Fragment
 import androidx.lifecycle.ViewModelProvider
 import androidx.lifecycle.lifecycleScope
 import androidx.navigation.fragment.findNavController
@@ -19,7 +18,6 @@ import com.example.socialhelper.database.Info
 import com.example.socialhelper.databinding.FragmentRegistrationBinding
 import com.google.android.material.dialog.MaterialAlertDialogBuilder
 import com.google.android.material.snackbar.Snackbar
-import kotlinx.coroutines.delay
 import kotlinx.coroutines.launch
 
 class RegistrationFragment : Fragment() {
@@ -216,16 +214,25 @@ class RegistrationFragment : Fragment() {
                                     } else {
                                         when (viewModel.state) {
                                             "wrong" -> {
+
                                                 Log.e("state", viewModel.state)
                                                 binding.login.error =
                                                     getString(R.string.try_another_login)
                                                 binding.numberReference.error =
                                                     getString(R.string.check_reference)
-                                                Snackbar.make(
-                                                    binding.regButton,
-                                                    getString(R.string.user_exist),
-                                                    Snackbar.LENGTH_SHORT
-                                                ).show()
+                                                if (info.category == categoryList[1]){
+                                                    Snackbar.make(
+                                                        binding.regButton,
+                                                        getString(R.string.user_exist),
+                                                        Snackbar.LENGTH_SHORT
+                                                    ).show()
+                                                } else{
+                                                    Snackbar.make(
+                                                        binding.regButton,
+                                                        getString(R.string.pregnant_exist),
+                                                        Snackbar.LENGTH_LONG
+                                                    ).show()
+                                                }
                                                 binding.regButton.isEnabled = true
                                                 binding.regButton.text = getString(R.string.register)
                                                 viewModel.onDoneNavigating()
