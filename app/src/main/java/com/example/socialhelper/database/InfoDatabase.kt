@@ -5,6 +5,10 @@ import androidx.room.Database
 import androidx.room.Room
 import androidx.room.RoomDatabase
 
+/**
+ * @see com.example.socialhelper.database.Info
+ */
+
 @Database(entities = [Info::class], version = 1, exportSchema = false)
 abstract class InfoDatabase : RoomDatabase() {
     abstract fun infoDao(): InfoDao

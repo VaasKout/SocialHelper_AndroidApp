@@ -13,7 +13,11 @@ import com.example.socialhelper.R
 import com.example.socialhelper.databinding.FragmentResponseBinding
 
 class ResponseFragment : Fragment() {
-
+    /**
+     * Fragment is used to show, that you've registered successfully
+     * @see R.layout.fragment_response
+     * it shows your name, surname and category
+     */
     override fun onCreateView(
         inflater: LayoutInflater, container: ViewGroup?,
         savedInstanceState: Bundle?): View? {

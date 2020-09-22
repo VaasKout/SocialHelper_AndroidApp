@@ -4,6 +4,16 @@ import androidx.room.ColumnInfo
 import androidx.room.Entity
 import androidx.room.PrimaryKey
 
+/**
+ * Second table based on Room database
+ *
+ * it is used to store data of WheelChair client
+ * when it makes an order and SocialWorker when
+ * it takes an order
+ *
+ * WheelDao is Data Access Object with methods to Update, Delete and Insert the table
+ * WheelDatabase is class to initialize database itself
+ */
 
 @Entity(tableName = "wheel_data")
 data class WheelData(

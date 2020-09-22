@@ -21,7 +21,11 @@ import com.google.android.material.snackbar.Snackbar
 import kotlinx.coroutines.launch
 
 class RegistrationFragment : Fragment() {
-
+    /**
+     * Fragment is used to sign in clients
+     * @see R.layout.fragment_registration
+     *
+     */
     override fun onCreateView(
         inflater: LayoutInflater, container: ViewGroup?,
         savedInstanceState: Bundle?): View? {
@@ -31,8 +35,11 @@ class RegistrationFragment : Fragment() {
         val viewModel =
             ViewModelProvider(this).get(RegistrationViewModel::class.java)
         binding.viewModel = viewModel
-        val categoryList = resources.getStringArray(R.array.category)
 
+        /**
+         * @see FragmentRegistrationBinding.toolbarReg
+         * @see R.menu.top_bar_reg
+         */
         binding.toolbarReg.setNavigationOnClickListener {
             this.findNavController().popBackStack()
         }
@@ -57,7 +64,7 @@ class RegistrationFragment : Fragment() {
             } else false
         }
         /**
-         * TextWatchers
+         * textChangeListeners remove errors
          */
 
         binding.textInputUserEditReg.addTextChangedListener {
@@ -88,6 +95,21 @@ class RegistrationFragment : Fragment() {
             binding.numberReference.error = null
         }
 
+
+        /**
+         * Check if all EditText fields is not empty else show error,
+         * then app tries to connect to the server and send registration data
+         *
+         * App shows Snackbar if connection is failed and if user exist
+         * or reference for Pregnant category is not found on the server
+         *
+         * if everything is correct navigate to KeyVerification fragment
+         *
+         * @see FragmentRegistrationBinding.regButton
+         * @see com.example.socialhelper.verification.KeyVerification
+         *
+         *
+         */
         viewModel.navigateToWait.observe(viewLifecycleOwner, {
 
             if (it == true) {
@@ -165,28 +187,11 @@ class RegistrationFragment : Fragment() {
                     password == passwordConfirm) {
 
 
-                    var info = Info(
+                    val info = Info(
                         id = 1, name = userName, surname = surname,
                         password = password, login = login,
-                        email = email, wasLoggedIn = false, category = category)
-
-                    if (category == categoryList[0] || category == categoryList[2]){
-                        info = Info(
-                            id = 1, name = userName, surname = surname,
-                            password = password, login = login,
-                            email = email, wasLoggedIn = false,
-                            category = category,
-                            reference = 0)
-                    }
-
-                    if (binding.numberReference.isVisible) {
-                        info = Info(
-                            id = 1, name = userName, surname = surname,
-                            password = password, reference = numberEdit.toInt(),
-                            login = login, email = email,
-                            wasLoggedIn = false, category = category)
-                        viewModel.referenceNumber = numberEdit.toInt()
-                    }
+                        email = email, category = category,
+                        reference = numberEdit.toInt())
 
                     viewModel.onInsert(info)
 
@@ -220,7 +225,7 @@ class RegistrationFragment : Fragment() {
                                                     getString(R.string.try_another_login)
                                                 binding.numberReference.error =
                                                     getString(R.string.check_reference)
-                                                if (info.category == categoryList[1]){
+                                                if (info.category == viewModel.categoryList[1]){
                                                     Snackbar.make(
                                                         binding.regButton,
                                                         getString(R.string.user_exist),
@@ -275,6 +280,15 @@ class RegistrationFragment : Fragment() {
             }
         })
 
+        /**
+         * Adapter and clickListener for
+         * @see FragmentRegistrationBinding.spinner
+         *
+         * if category equals Pregnant
+         * @see FragmentRegistrationBinding.numberReference appears
+         * and user have to enter the number of reference
+         */
+
         val application = requireNotNull(activity).application
         ArrayAdapter.createFromResource(
             application,
@@ -287,7 +301,7 @@ class RegistrationFragment : Fragment() {
 
         binding.exposeDownMenu.setOnItemClickListener { adapterView, _, position, _ ->
             when(adapterView.getItemAtPosition(position).toString()){
-                categoryList[0], categoryList[2] -> {
+                viewModel.categoryList[0], viewModel.categoryList[2] -> {
                     binding.numberReference.visibility = View.GONE
                     binding.numberReference.error = null
                     binding.spinner.error = null

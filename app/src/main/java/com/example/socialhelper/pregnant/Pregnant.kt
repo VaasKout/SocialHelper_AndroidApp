@@ -17,8 +17,15 @@ import com.google.android.material.snackbar.Snackbar
 import kotlinx.coroutines.delay
 import kotlinx.coroutines.launch
 
-class PregnantFragment : Fragment() {
-
+class Pregnant : Fragment() {
+    /**
+     * Pregnant client
+     * @see R.layout.fragment_pregnant
+     *
+     * @see FragmentPregnantBinding.getSpotButton
+     * requires to turn on bluetooth, if it's not
+     * and then it tries to send data to arduino
+     */
     override fun onCreateView(
         inflater: LayoutInflater, container: ViewGroup?,
         savedInstanceState: Bundle?): View? {
@@ -27,7 +34,11 @@ class PregnantFragment : Fragment() {
             DataBindingUtil.inflate(inflater, R.layout.fragment_pregnant, container, false)
         val viewModel = ViewModelProvider(this).get(PregnantViewModel::class.java)
         binding.viewModel = viewModel
-
+        /**
+         * @see FragmentPregnantBinding.toolbarPregnant
+         * @see R.menu.tob_bar_pregnant
+         * menuItemClickListener for every icon
+         */
         binding.toolbarPregnant.setOnMenuItemClickListener{
             when(it.itemId){
                 R.id.change_pass -> {
@@ -37,7 +48,7 @@ class PregnantFragment : Fragment() {
                         }
                         .setPositiveButton("Да") { _, _ ->
                             this.findNavController()
-                                .navigate(PregnantFragmentDirections
+                                .navigate(PregnantDirections
                                     .actionPregnantFragmentToChangePassword())
                         }.show()
                     true
@@ -51,7 +62,7 @@ class PregnantFragment : Fragment() {
                             viewModel.onClear()
                             this.findNavController()
                                 .navigate(
-                                    PregnantFragmentDirections
+                                    PregnantDirections
                                         .actionPregnantFragmentToLoginFragment())
                         }.show()
                     true
@@ -59,10 +70,11 @@ class PregnantFragment : Fragment() {
                 else -> false
             }
         }
-
+        //require bluetooth when fragment is started
         lifecycleScope.launchWhenStarted {
                 viewModel.turnOnBluetooth(requireActivity())
         }
+        //observer for FragmentPregnantBinding.getSpotButton
 
         viewModel.spotIsFree.observe(viewLifecycleOwner, {
             var adapter = viewModel.bluetoothReadWrite.btAdapter
@@ -81,8 +93,8 @@ class PregnantFragment : Fragment() {
                             Log.e("adapter", "Adapter is available")
                             if (socket != null){
                                 var i = 0
+                                //trying to connect again
                                 while (!socket.isConnected && i != 3){
-                                    viewModel.bluetoothReadWrite.closeConnection()
                                     viewModel.createConnection()
                                     delay(5000)
                                     Log.e("trying", "trying to connect")
@@ -90,7 +102,7 @@ class PregnantFragment : Fragment() {
                                 }
                                 if (socket.isConnected) {
                                     Log.e("socket", "Socket is available")
-                                    viewModel.sendMessage("1")
+                                        viewModel.sendMessage("1")
                                         binding.getSpotButton.isEnabled = true
                                         binding.getSpotButton.text = getString(R.string.get_spot)
                                         Log.e("sent", "1")
@@ -131,7 +143,6 @@ class PregnantFragment : Fragment() {
 //                })
             }
         })
-
 
         binding.lifecycleOwner = this
         return binding.root

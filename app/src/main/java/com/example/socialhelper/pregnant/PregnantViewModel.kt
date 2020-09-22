@@ -13,21 +13,22 @@ import com.example.socialhelper.repository.InfoRepository
 import kotlinx.coroutines.*
 
 class PregnantViewModel(application: Application) : AndroidViewModel(application) {
-
-//    var bluetoothAnswer = 0
+    //make instance of BluetoothClient()
     val bluetoothReadWrite = BluetoothClient()
+
     private val viewModelJob = Job()
     private val uiScope = CoroutineScope(Dispatchers.Main + viewModelJob)
 
     private val repository: InfoRepository
-    val allInfo: LiveData<Info>
+//    val allInfo: LiveData<Info>
 
     init {
         val infoDao = InfoDatabase.getInfoDatabase(application).infoDao()
         repository = InfoRepository(infoDao)
-        allInfo = repository.allInfo
+//        allInfo = repository.allInfo
     }
 
+    //onClick LiveData and methods
 
     private val _spotIsFree = MutableLiveData<Boolean>()
     val spotIsFree: LiveData<Boolean> = _spotIsFree
@@ -40,6 +41,7 @@ class PregnantViewModel(application: Application) : AndroidViewModel(application
         _spotIsFree.value = false
     }
 
+    //find bluetooth, request to turn on bluetooth
     fun turnOnBluetooth(activity: Activity) {
         if (bluetoothReadWrite.btAdapter == null) {
             bluetoothReadWrite.findAdapter()
@@ -49,9 +51,10 @@ class PregnantViewModel(application: Application) : AndroidViewModel(application
             activity.startActivityForResult(enableBtIntent, BluetoothClient.REQUEST_ENABLE_BT)
         }
     }
-
+    //close connection to prevent socket exceptions, connect to remote device
     suspend fun createConnection() {
         withContext(Dispatchers.IO) {
+            bluetoothReadWrite.closeConnection()
             bluetoothReadWrite.createConnection()
         }
     }
@@ -62,12 +65,7 @@ class PregnantViewModel(application: Application) : AndroidViewModel(application
         }
     }
 
-//    private suspend fun receiveMessage() {
-//        withContext(Dispatchers.IO) {
-//            bluetoothAnswer = bluetoothReadWrite.receiveData()
-//        }
-//    }
-
+    //InfoDao methods
     fun onClear() {
         uiScope.launch {
             deleteInfo()
@@ -80,6 +78,7 @@ class PregnantViewModel(application: Application) : AndroidViewModel(application
         }
     }
 
+    //Destroy all connection after fragment is closed
     override fun onCleared() {
         super.onCleared()
         viewModelJob.cancel()

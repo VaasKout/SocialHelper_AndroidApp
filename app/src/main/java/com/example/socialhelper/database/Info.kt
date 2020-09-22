@@ -4,6 +4,14 @@ import androidx.room.ColumnInfo
 import androidx.room.Entity
 import androidx.room.PrimaryKey
 
+/**
+ * First table based on Room database
+ * it is used to store data of every registered client:
+ * WheelChair, Pregnant and SocialWorker
+ *
+ * InfoDao is Data Access Object with methods to Update, Delete and Insert the table
+ * InfoDatabase is class to initialize database itself
+ */
 @Entity(tableName = "user_info")
 data class Info(
     @PrimaryKey var id: Int = 0,
@@ -16,6 +24,5 @@ data class Info(
     @ColumnInfo (name = "reference") val reference: Int = 0,
     @ColumnInfo (name = "serverID") var serverID: Int = -1,
     @ColumnInfo (name = "serverKey") var serverKey: Int = -1,
-    @ColumnInfo (name = "wasLoggedIn") var wasLoggedIn: Boolean = false,
     @ColumnInfo (name = "wasVerified") var needVerification: Boolean = false
 )

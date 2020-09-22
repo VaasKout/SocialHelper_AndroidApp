@@ -3,6 +3,9 @@ package com.example.socialhelper.database
 import androidx.lifecycle.LiveData
 import androidx.room.*
 
+/**
+ * @see com.example.socialhelper.database.Info
+ */
 @Dao
 interface InfoDao {
     @Insert(onConflict = OnConflictStrategy.IGNORE)

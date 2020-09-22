@@ -18,13 +18,13 @@ class ResponseViewModel(application: Application) : AndroidViewModel(application
         repository = InfoRepository(infoDao)
         userInfo = repository.allInfo
     }
-
+    //Live Data
     private val _navigateBack = MutableLiveData<Boolean>()
     val navigateBack: LiveData<Boolean> = _navigateBack
 
     private val _enter = MutableLiveData<Boolean>()
     val enter: LiveData<Boolean> = _enter
-
+    //onClick methods
     fun onStartBackNavigation() {
         _navigateBack.value = true
     }

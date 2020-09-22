@@ -13,12 +13,16 @@ import com.example.socialhelper.database.WheelData
 import com.example.socialhelper.databinding.RecyclerItemBinding
 
 /**
- * put here liveData with <ViewHolder> type
+ * Adapter for recyclerview in SocialWorker fragment
+ * it extends ListAdapter class, which is inherited from RecyclerView
+ * @see androidx.recyclerview.widget.ListAdapter
+ * @see com.example.socialhelper.socialworker.SocialWorker
  */
 
 class SocialAdapter:
     ListAdapter<WheelData, SocialAdapter.ViewHolder>(NoteDiffCallBack()) {
 
+    //LiveData
     private val _viewAdapter = MutableLiveData<ViewHolder>()
     val viewAdapter: LiveData<ViewHolder> = _viewAdapter
 

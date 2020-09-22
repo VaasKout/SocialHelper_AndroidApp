@@ -18,6 +18,12 @@ import kotlinx.coroutines.launch
 
 class RestorePassword : Fragment() {
 
+    /**
+     * @see R.layout.fragment_restore_password
+     * One of the clients enters it's login and email and
+     * if fields is not empty and correct according to Info database,
+     * client gets it password back on email
+     */
     override fun onCreateView(
         inflater: LayoutInflater, container: ViewGroup?,
         savedInstanceState: Bundle?
@@ -33,14 +39,18 @@ class RestorePassword : Fragment() {
                 viewModel.onDoneNavigateBack()
             }
         })
-
+        /**
+         * textChangeListeners remove errors from EditTextFields
+         */
         binding.loginRestoreEdit.addTextChangedListener {
             binding.loginRestore.error = null
         }
         binding.restoreEmailEdit.addTextChangedListener {
             binding.emailRestore.error = null
         }
-
+        /**
+         * @see FragmentRestorePasswordBinding.sendRestoreRequestButton
+         */
         viewModel.restoreNavigateToLogin.observe(viewLifecycleOwner, {
             if (it == true) {
 

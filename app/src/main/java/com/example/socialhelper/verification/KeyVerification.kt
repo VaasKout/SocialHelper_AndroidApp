@@ -19,7 +19,13 @@ import kotlinx.coroutines.delay
 import kotlinx.coroutines.launch
 
 class KeyVerification : Fragment() {
-
+    /**
+     * Fragment is used to verify your account with key,
+     * sent on email defined in Registration fragment
+     *
+     * @see R.layout.fragment_key_verification
+     * @see com.example.socialhelper.registration.RegistrationFragment
+     */
     override fun onCreateView(
         inflater: LayoutInflater, container: ViewGroup?,
         savedInstanceState: Bundle?): View? {
@@ -77,11 +83,16 @@ class KeyVerification : Fragment() {
                     }.show()
             }
         })
-
+        /**
+         * textChangeListener removes EditText error
+         */
         binding.keyEdit.addTextChangedListener {
             binding.key.error = null
         }
 
+        /**
+         * Send key to the server and check if it's write
+         */
         viewModel.sendKey.observe(viewLifecycleOwner, {
             if (it == true) {
                 val key = binding.keyEdit.text.toString()
@@ -127,7 +138,6 @@ class KeyVerification : Fragment() {
                                         serverID = viewModel.serverId,
                                         serverKey = key.toInt(),
                                         needVerification = false,
-                                        wasLoggedIn = true,
                                         category = info.category)
                                     viewModel.updateInfo(infoInstance)
 

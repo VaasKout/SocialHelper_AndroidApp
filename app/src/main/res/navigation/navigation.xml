@@ -20,7 +20,7 @@
     </fragment>
     <fragment
         android:id="@+id/pregnantFragment"
-        android:name="com.example.socialhelper.pregnant.PregnantFragment"
+        android:name="com.example.socialhelper.pregnant.Pregnant"
         android:label="fragment_pregnant"
         tools:layout="@layout/fragment_pregnant">
         <action

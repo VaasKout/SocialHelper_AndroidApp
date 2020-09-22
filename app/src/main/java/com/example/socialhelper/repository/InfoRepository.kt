@@ -2,7 +2,7 @@ package com.example.socialhelper.repository
 
 import com.example.socialhelper.database.Info
 import com.example.socialhelper.database.InfoDao
-
+//Repository for InfoDao
 class InfoRepository (private val infoDao: InfoDao){
     val allInfo = infoDao.getAllInfo()
 

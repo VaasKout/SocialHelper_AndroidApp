@@ -32,6 +32,11 @@ class WheelChair : Fragment() {
         savedInstanceState: Bundle?
     ): View? {
 
+        /**
+         * WheelChair fragment where client can make an order to transfer in Moscow subway
+         * @see R.layout.fragment_wheel_chair
+         */
+
         val binding: FragmentWheelChairBinding = DataBindingUtil
             .inflate(inflater, R.layout.fragment_wheel_chair, container, false)
         val viewModel =
@@ -39,6 +44,10 @@ class WheelChair : Fragment() {
         binding.viewModel = viewModel
         binding.textTimeResult.text = viewModel.timeField
 
+        /**
+         * @see FragmentWheelChairBinding.toolbarWheelchair
+         * @see R.menu.top_bar_social
+         */
         binding.toolbarWheelchair.setOnMenuItemClickListener{
             when(it.itemId){
                 R.id.exit_from_main -> {
@@ -72,7 +81,7 @@ class WheelChair : Fragment() {
                     true
                 }
                 /**
-                 * map here
+                 * @see com.example.socialhelper.dialog.DialogMap
                  */
                 R.id.map -> {
                     this.findNavController()
@@ -130,6 +139,10 @@ class WheelChair : Fragment() {
             }
         }
 
+        /**
+         * Time picker
+         */
+
         val application = requireNotNull(activity).application
         val timeArray = resources.getStringArray(R.array.time)
         ArrayAdapter.createFromResource(
@@ -164,9 +177,10 @@ class WheelChair : Fragment() {
             }
         }
 
-        binding.timeDropdown.addTextChangedListener {
-            binding.timeMenu.error = null
-        }
+        /**
+         * Send order to the server and navigate to WheelChairWait
+         * @see com.example.socialhelper.wheelchair.WheelChairWait
+         */
 
         viewModel.send.observe(viewLifecycleOwner, {
             if (it == true) {
@@ -328,7 +342,11 @@ class WheelChair : Fragment() {
             }
         }
 
-
+        /**
+         * Adapter for AutoCompleteTextViews with all stations from Moscow subway
+         * @see FragmentWheelChairBinding.startStation
+         * @see FragmentWheelChairBinding.endStation
+         */
         val adapter =  ArrayAdapter(
             requireContext(),
             R.layout.drop_down_menu, allStations
@@ -340,11 +358,14 @@ class WheelChair : Fragment() {
         val inputManager: InputMethodManager =
             requireContext().getSystemService(Context.INPUT_METHOD_SERVICE) as InputMethodManager
 
+
         /**
-         * set *hideSoftInputFromWindow()* only in itemClickListener to prevent bug,
-         * because *fun setImg()* hides keyboard, when you try to type again after
-         * the name of the station is selected
+         * textChangeListener removes EditText errors from fields
          */
+
+        binding.timeDropdown.addTextChangedListener {
+            binding.timeMenu.error = null
+        }
 
 
         binding.startStationEdit.addTextChangedListener {
@@ -363,6 +384,13 @@ class WheelChair : Fragment() {
                 binding.textSecondCircle
             )
         }
+
+        /**
+         * set *hideSoftInputFromWindow()* only in itemClickListener to prevent bug,
+         * because *fun setImg()* hides keyboard, when you try to type again after
+         * the name of the station is selected
+         */
+
 
         binding.startStationEdit.setOnItemClickListener { _, _, _, _ ->
             inputManager.hideSoftInputFromWindow(

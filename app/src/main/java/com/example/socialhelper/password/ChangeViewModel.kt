@@ -6,14 +6,14 @@ import androidx.lifecycle.LiveData
 import androidx.lifecycle.MutableLiveData
 import com.example.socialhelper.database.Info
 import com.example.socialhelper.database.InfoDatabase
-import com.example.socialhelper.network.AndroidClient
+import com.example.socialhelper.network.NetworkClient
 import com.example.socialhelper.repository.InfoRepository
 import kotlinx.coroutines.Dispatchers
 import kotlinx.coroutines.withContext
 
 class ChangeViewModel(application: Application): AndroidViewModel(application){
 
-    val readWrite = AndroidClient()
+    val readWrite = NetworkClient()
     var receiveNewPass = 0
     var sendNewPass = 0
 
@@ -31,7 +31,7 @@ class ChangeViewModel(application: Application): AndroidViewModel(application){
             repository.updateInfo(info)
         }
     }
-
+    //Connect and send new password
     suspend fun connectToServer() {
         withContext(Dispatchers.IO) {
             readWrite.connectSocket()
@@ -49,7 +49,6 @@ class ChangeViewModel(application: Application): AndroidViewModel(application){
                             sendNewPass)
                         receiveNewPass = readWrite.read()
                     }
-
                 }
             }
         }
@@ -57,6 +56,8 @@ class ChangeViewModel(application: Application): AndroidViewModel(application){
 
     private val _changed = MutableLiveData<Boolean>()
     val changed: LiveData<Boolean> = _changed
+
+    //onClick methods
 
     fun onStartChange(){
         _changed.value = true

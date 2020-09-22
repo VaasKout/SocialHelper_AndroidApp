@@ -3,6 +3,9 @@ package com.example.socialhelper.database
 import androidx.lifecycle.LiveData
 import androidx.room.*
 
+/**
+ * @see com.example.socialhelper.database.WheelData
+ */
 @Dao
 interface WheelDao{
     @Insert(onConflict = OnConflictStrategy.IGNORE)

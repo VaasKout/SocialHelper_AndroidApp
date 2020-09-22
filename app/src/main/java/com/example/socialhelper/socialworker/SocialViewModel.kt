@@ -7,13 +7,13 @@ import com.example.socialhelper.database.Info
 import com.example.socialhelper.database.InfoDatabase
 import com.example.socialhelper.database.WheelData
 import com.example.socialhelper.database.WheelDatabase
-import com.example.socialhelper.network.AndroidClient
+import com.example.socialhelper.network.NetworkClient
 import com.example.socialhelper.repository.InfoRepository
 import com.example.socialhelper.repository.WheelRepository
 import kotlinx.coroutines.*
 
 class SocialViewModel(application: Application): AndroidViewModel(application){
-    val readWrite = AndroidClient()
+    val readWrite = NetworkClient()
 
     private val repository: InfoRepository
     private val wheelRepository: WheelRepository
@@ -23,9 +23,11 @@ class SocialViewModel(application: Application): AndroidViewModel(application){
     val allInfo: LiveData<Info>
     val allData: LiveData<List<WheelData>>
 
+    //Coroutines
     private val viewModelJob = Job()
     private val uiScope = CoroutineScope(Dispatchers.Main + viewModelJob)
 
+    //initialize LiveData<Info> and LiveData<List<WheelData>>
     init {
         val infoDao = InfoDatabase.getInfoDatabase(application).infoDao()
         repository = InfoRepository(infoDao)
@@ -35,6 +37,7 @@ class SocialViewModel(application: Application): AndroidViewModel(application){
         allData = wheelRepository.allWheelData
     }
 
+    //Connect to the server and read data from it
     suspend fun connectToServer() {
         withContext(Dispatchers.IO) {
             readWrite.connectSocket()
@@ -44,7 +47,7 @@ class SocialViewModel(application: Application): AndroidViewModel(application){
     suspend fun readData(){
         withContext(Dispatchers.IO){
             if (readWrite.socket != null && readWrite.socket.isConnected) {
-//                readWrite.writeLine("gay")
+//                readWrite.writeLine("request")
                 val name = readWrite.readLine()
                 val first = readWrite.readLine()
                 val second = readWrite.readLine()
@@ -62,6 +65,7 @@ class SocialViewModel(application: Application): AndroidViewModel(application){
         }
     }
 
+    //WheelDataDao methods
     fun onInsert(wheelData: WheelData){
         uiScope.launch {
             insert(wheelData)
@@ -86,18 +90,7 @@ class SocialViewModel(application: Application): AndroidViewModel(application){
         }
     }
 
-//    fun onDeleteAll(){
-//        uiScope.launch {
-//            deleteAll()
-//        }
-//    }
-//
-//    private suspend fun deleteAll(){
-//        withContext(Dispatchers.IO){
-//            wheelRepository.deleteAll()
-//        }
-//    }
-
+    //Check if SocialWorker took an order
     fun onProcess(): Boolean{
         allData.value?.let {allData ->
             return allData.any { it.checked }
@@ -105,9 +98,13 @@ class SocialViewModel(application: Application): AndroidViewModel(application){
         return false
     }
 
-    override fun onCleared() {
-        super.onCleared()
-        viewModelJob.cancel()
+    //Check order status from server
+    suspend fun acceptOrder(){
+        withContext(Dispatchers.IO){
+            if (readWrite.socket != null && readWrite.socket.isConnected) {
+                readWrite.writeLine("accept")
+            }
+        }
     }
 
     suspend fun completeOrder(){
@@ -118,19 +115,16 @@ class SocialViewModel(application: Application): AndroidViewModel(application){
         }
     }
 
-    suspend fun acceptOrder(){
-        withContext(Dispatchers.IO){
-            if (readWrite.socket != null && readWrite.socket.isConnected) {
-               readWrite.writeLine("accept")
-            }
-        }
-    }
-
     suspend fun cancelOrder(){
         withContext(Dispatchers.IO){
             if (readWrite.socket != null && readWrite.socket.isConnected) {
                 readWrite.writeLine("cancel")
             }
         }
+    }
+
+    override fun onCleared() {
+        super.onCleared()
+        viewModelJob.cancel()
     }
 }

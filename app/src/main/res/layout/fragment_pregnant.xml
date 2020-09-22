@@ -21,13 +21,13 @@
                 android:layout_height="?attr/actionBarSize"
                 style="@style/Widget.MaterialComponents.Toolbar.Primary"
                 app:title="@string/app_name"
-                app:menu="@menu/tob_bar_def"/>
+                app:menu="@menu/tob_bar_pregnant"/>
         </com.google.android.material.appbar.AppBarLayout>
 
     <androidx.constraintlayout.widget.ConstraintLayout
         android:layout_width="match_parent"
         android:layout_height="match_parent"
-        tools:context=".pregnant.PregnantFragment"
+        tools:context=".pregnant.Pregnant"
         app:layout_behavior="@string/appbar_scrolling_view_behavior">
 
         <TextView

@@ -7,7 +7,7 @@ import androidx.lifecycle.LiveData
 import androidx.lifecycle.MutableLiveData
 import com.example.socialhelper.database.Info
 import com.example.socialhelper.database.InfoDatabase
-import com.example.socialhelper.network.AndroidClient
+import com.example.socialhelper.network.NetworkClient
 import com.example.socialhelper.repository.InfoRepository
 import kotlinx.coroutines.*
 
@@ -27,7 +27,7 @@ class KeyViewModel(application: Application) : AndroidViewModel(application) {
         allInfo = repository.allInfo
     }
 
-    val readWrite = AndroidClient()
+    val readWrite = NetworkClient()
 
 
     suspend fun connectToServer() {

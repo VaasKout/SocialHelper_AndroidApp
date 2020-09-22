@@ -7,7 +7,7 @@ import androidx.lifecycle.LiveData
 import androidx.lifecycle.MutableLiveData
 import com.example.socialhelper.database.Info
 import com.example.socialhelper.database.InfoDatabase
-import com.example.socialhelper.network.AndroidClient
+import com.example.socialhelper.network.NetworkClient
 import com.example.socialhelper.repository.InfoRepository
 import kotlinx.coroutines.*
 
@@ -15,7 +15,7 @@ class LoginViewModel(application: Application) : AndroidViewModel(application) {
 
     private val repository: InfoRepository
     var allInfo: LiveData<Info>
-    val readWrite = AndroidClient()
+    val readWrite = NetworkClient()
 
     var login = ""
     var password = 0

@@ -19,6 +19,14 @@ import kotlinx.coroutines.delay
 import kotlinx.coroutines.launch
 
 class ChangePassword : Fragment() {
+
+
+/**
+ * @see R.layout.fragment_change_password
+ * Client enters it current password, new password and confirm it,
+ * if fields is not empty and password is correct, according to Info database
+ * new password writes to the server and inserts in database
+ **/
     override fun onCreateView(
         inflater: LayoutInflater, container: ViewGroup?,
         savedInstanceState: Bundle?
@@ -105,9 +113,9 @@ class ChangePassword : Fragment() {
                                             reference = info.reference,
                                             serverID = info.serverID,
                                             serverKey = info.serverKey,
-                                            wasLoggedIn = true,
                                             category = info.category)
                                         viewModel.updateInfo(infoReference)
+                                        //navigate back to main
                                         this@ChangePassword
                                             .findNavController()
                                             .popBackStack()
@@ -119,6 +127,11 @@ class ChangePassword : Fragment() {
             }
             })
         })
+
+        /**
+         * navigate back
+         * @see FragmentChangePasswordBinding.exitFromChangePassword
+         */
 
         binding.exitFromChangePassword.setOnClickListener {
             this.findNavController().popBackStack()

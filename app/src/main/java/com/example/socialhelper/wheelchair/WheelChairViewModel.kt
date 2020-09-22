@@ -9,25 +9,26 @@ import com.example.socialhelper.database.Info
 import com.example.socialhelper.database.InfoDatabase
 import com.example.socialhelper.database.WheelData
 import com.example.socialhelper.database.WheelDatabase
-import com.example.socialhelper.network.AndroidClient
+import com.example.socialhelper.network.NetworkClient
 import com.example.socialhelper.repository.InfoRepository
 import com.example.socialhelper.repository.WheelRepository
 import kotlinx.coroutines.*
 
 class WheelChairViewModel(application: Application): AndroidViewModel(application){
-    val readWrite = AndroidClient()
+    val readWrite = NetworkClient()
 
     private val repository: InfoRepository
     private val wheelRepository: WheelRepository
     val allInfo: LiveData<Info>
     val data: LiveData<WheelData>
+
+    //Coroutines
     private val viewModelJob = Job()
     private val uiScope = CoroutineScope(Dispatchers.Main + viewModelJob)
 
-    private val _send = MutableLiveData<Boolean>()
-    val send: LiveData<Boolean> = _send
     var timeField = ""
 
+    //initialize LiveData<Info> and LifeData<WheelData>
     init {
         val infoDao = InfoDatabase.getInfoDatabase(application).infoDao()
         repository = InfoRepository(infoDao)
@@ -37,6 +38,8 @@ class WheelChairViewModel(application: Application): AndroidViewModel(applicatio
         data = wheelRepository.selectData(1)
     }
 
+
+    //WheelDao methods
     fun onInsert(wheelData: WheelData){
         uiScope.launch {
             insertData(wheelData)
@@ -49,6 +52,13 @@ class WheelChairViewModel(application: Application): AndroidViewModel(applicatio
         }
     }
 
+    suspend fun update(wheelData: WheelData){
+        withContext(Dispatchers.IO){
+            wheelRepository.updateData(wheelData)
+        }
+    }
+
+    //InfoDao methods
     fun onClear(){
         uiScope.launch {
             clear()
@@ -61,12 +71,7 @@ class WheelChairViewModel(application: Application): AndroidViewModel(applicatio
         }
     }
 
-     suspend fun update(wheelData: WheelData){
-        withContext(Dispatchers.IO){
-            wheelRepository.updateData(wheelData)
-        }
-    }
-
+    //Connect and send data to the server
     suspend fun connectToServer() {
         withContext(Dispatchers.IO) {
             readWrite.connectSocket()
@@ -89,6 +94,10 @@ class WheelChairViewModel(application: Application): AndroidViewModel(applicatio
             }
         }
     }
+
+    //onClick methods and LiveData
+    private val _send = MutableLiveData<Boolean>()
+    val send: LiveData<Boolean> = _send
 
     fun onStartSending(){
         _send.value = true

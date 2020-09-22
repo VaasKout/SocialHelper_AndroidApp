@@ -17,8 +17,11 @@ class IntroViewModel(application: Application) : AndroidViewModel(application) {
     val data: LiveData<WheelData>
     private val wheelRepository: WheelRepository
 
+    //Flag is used to avoid bug when animation ends but navigation doesn't happen
+    //after device rotation and onStop() lifecycle method
     var nav = false
 
+    //init data from databases
     init {
         val infoDao = InfoDatabase.getInfoDatabase(application).infoDao()
         repository = InfoRepository(infoDao)

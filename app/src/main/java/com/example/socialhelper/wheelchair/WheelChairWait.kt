@@ -19,6 +19,14 @@ import kotlinx.coroutines.launch
 
 class WheelChairWait : Fragment() {
 
+    /**
+     * This fragment connects to the server and checks state of order
+     * if order is complete or canceled navigates to WheelChair fragment
+     *
+     * @see com.example.socialhelper.wheelchair.WheelChair
+     * @see R.layout.fragment_wheel_chair_wait
+     */
+
     override fun onCreateView(
         inflater: LayoutInflater, container: ViewGroup?,
         savedInstanceState: Bundle?
@@ -29,6 +37,9 @@ class WheelChairWait : Fragment() {
             .get(WaitViewModel::class.java)
         binding.viewModel = viewModel
 
+        /**
+         * Connects to the server when client makes order or presses update icon on toolbar
+         */
 
         fun connect(){
             lifecycleScope.launch {
@@ -75,6 +86,10 @@ class WheelChairWait : Fragment() {
             }
         }
 
+        /**
+         * @see FragmentWheelChairWaitBinding.toolbarWheelchairWait
+         * @see R.menu.top_bar_wait
+         */
         binding.toolbarWheelchairWait.setOnMenuItemClickListener{
             when(it.itemId){
                 R.id.map ->{

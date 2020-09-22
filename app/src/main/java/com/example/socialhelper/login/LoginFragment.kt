@@ -22,13 +22,26 @@ class LoginFragment : Fragment() {
         inflater: LayoutInflater, container: ViewGroup?,
         savedInstanceState: Bundle?): View? {
 
+        /**
+         * @see R.layout.fragment_login
+         */
+
         val binding: FragmentLoginBinding = DataBindingUtil
             .inflate(inflater, R.layout.fragment_login, container, false)
         val viewModel =
             ViewModelProvider(this).get(LoginViewModel::class.java)
         binding.viewModel = viewModel
+        /**
+         * Two category arrays in strings in Russian and English,
+         * watch AutoCompleteTextView adapter in
+         * @see com.example.socialhelper.registration.RegistrationFragment
+         */
         val categoryList = resources.getStringArray(R.array.category)
         val categoryEng = resources.getStringArray(R.array.categoryEng)
+
+        /**
+         * TextChangeListeners remove errors from EditText fields
+         */
 
         binding.loginInputEditText.addTextChangedListener {
             binding.loginTextInput.error = null
@@ -37,6 +50,25 @@ class LoginFragment : Fragment() {
         binding.passwordInputEditText.addTextChangedListener {
             binding.passwordTextInput.error = null
         }
+
+        /**
+         * @see FragmentLoginBinding.loginNextButton onClick observer
+         *
+         * it checks every empty EditText field and sets an error if it's true
+         * if not, it checks Info database, if database is empty, then app tries
+         * to connect to the server and request user,
+         * error if user isn't registered or connection is unavailable
+         *
+         * if database is not empty app checks for correct login and password
+         * if user or password is not correct forgotPassword button appears
+         * @see FragmentLoginBinding.forgotPassword
+         *
+         * if everything is correct and user exists, navigate to specific client fragment
+         *
+         * @see com.example.socialhelper.pregnant.Pregnant
+         * @see com.example.socialhelper.wheelchair.WheelChair
+         * @see com.example.socialhelper.socialworker.SocialWorker
+         */
 
         viewModel.navigateToMainFrag.observe(viewLifecycleOwner, {
             if (it == true) {
@@ -146,7 +178,11 @@ class LoginFragment : Fragment() {
             }
         })
 
-                    viewModel.navigateToSignInFrag.observe(viewLifecycleOwner, {
+        /**
+         * navigate to
+         * @see com.example.socialhelper.registration.RegistrationFragment
+         */
+        viewModel.navigateToSignInFrag.observe(viewLifecycleOwner, {
                         if (it == true) {
                             viewModel.allInfo.let {
                                 viewModel.onClear()

@@ -13,17 +13,33 @@ import java.net.Socket;
 import java.net.SocketAddress;
 import java.net.SocketTimeoutException;
 
-public class AndroidClient implements Closeable {
+public class NetworkClient implements Closeable {
+
+    /**
+     * Network client to write and read data from server
+     * it's based on Socket class
+     * @see java.net.Socket
+     * and two streams with BufferReader and BufferWriter
+     *
+     * At First, every fragment connects to the server by {@link #connectSocket()} method
+     * then, to write data on the server, client have to send String to
+     * define which data is going to be transfered, and after it fragment uses specific
+     * method to send needed data
+     * {@link #writeUserRegData(int, int, String, String, String, String, String)}
+     * @see com.example.socialhelper.registration.RegistrationViewModel
+     * {@link #writeLoginPassword(String, int)}
+     * @see com.example.socialhelper.login.LoginViewModel
+     * {@link #writeRestoreInfo(String, String)}
+     * @see com.example.socialhelper.restoration.RestoreViewModel
+     * {@link #writeWheelchairData(String, String, String, String, String, String, String)}
+     * @see com.example.socialhelper.wheelchair.WheelChairViewModel
+     */
 
     public static final String IP = "192.168.4.172";
     public static final int PORT = 900;
     public Socket socket;
     private BufferedReader reader;
     private BufferedWriter writer;
-
-    /**
-     * Check if connection is available, if not, get logs without throwing IOException
-     */
 
     public void connectSocket() {
         int timeout = 1000;
@@ -85,7 +101,10 @@ public class AndroidClient implements Closeable {
         }
     }
 
-    public void writePregnantData(int number, int password, String name,
+
+
+
+    public void writeUserRegData(int number, int password, String name,
                                   String surname, String login,
                                   String email, String category) {
         write(number);
@@ -102,9 +121,9 @@ public class AndroidClient implements Closeable {
         write(password);
     }
 
-    public void writeRestoreInfo(String login, String post) {
+    public void writeRestoreInfo(String login, String email) {
         writeLine(login);
-        writeLine(post);
+        writeLine(email);
     }
     public void writeWheelchairData(String login, String name, String surname,
                                     String enter, String exit, String time, String comment){
@@ -132,6 +151,12 @@ public class AndroidClient implements Closeable {
         writeLine(type);
     }
 
+    /**
+     * Methods is used to simplify write messages in OutputSteam
+     * and read from InputStream
+     * @param message
+     */
+
     public void writeLine(String message) {
         try {
             writer.write(message);
@@ -150,6 +175,11 @@ public class AndroidClient implements Closeable {
             Log.e("Error", "Unable to write id");
         }
     }
+
+    /**
+     * Closeable closes all streams and sockets after the instance of class is destroyed
+     * @throws IOException
+     */
 
     @Override //close all streams
     public void close() throws IOException {

@@ -21,6 +21,20 @@ class IntroFragment : Fragment() {
         savedInstanceState: Bundle?
     ): View? {
 
+        /**
+         * Intro fragment with text appearance animation
+         * Navigation from here depends on tables
+         *
+         *  if didn't registered navigate to @see LoginFragment
+         *  if key didn't verified navigate to @see KeyVerification
+         *  if key verified and registered navigate to one of three
+         *      clients depends on category @see Pregnant, WheelChair, SocialWorker
+         *  if WheelChair made an order navigate to @see WheelChairWait
+         *
+         * @see R.layout.fragment_intro
+         *
+         */
+
         val binding: FragmentIntroBinding =
             DataBindingUtil.inflate(inflater, R.layout.fragment_intro, container, false)
 
@@ -65,7 +79,7 @@ class IntroFragment : Fragment() {
                             .currentDestination?.id ==
                         R.id.introFragment
                     ) {
-                        if (it == null || (!it.wasLoggedIn && !it.needVerification)) {
+                        if (it == null || !it.needVerification) {
 
                             this@IntroFragment.findNavController()
                                 .navigate(
@@ -79,7 +93,7 @@ class IntroFragment : Fragment() {
                                     .actionIntroFragmentToKeyVerification()
                             )
                         }
-                        if (it != null && it.wasLoggedIn) {
+                        if (it != null) {
 
                             when (it.category) {
                                 categoryList[0], categoryEng[0] -> {

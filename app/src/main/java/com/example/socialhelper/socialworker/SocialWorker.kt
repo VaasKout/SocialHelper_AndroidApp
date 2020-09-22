@@ -24,12 +24,22 @@ class SocialWorker : Fragment() {
     override fun onCreateView(
         inflater: LayoutInflater, container: ViewGroup?,
         savedInstanceState: Bundle?): View? {
-
+        /**
+         * SocialWorker client fragment
+         * @see R.layout.fragment_social_worker
+         * This fragment is based on recycler view,
+         * which updates when server send a new order
+         * or SocialWorker complete one
+         */
         val binding: FragmentSocialWorkerBinding = DataBindingUtil
             .inflate(inflater, R.layout.fragment_social_worker, container, false)
         val viewModel = ViewModelProvider(this)
             .get(SocialViewModel::class.java)
 
+        /**
+         * Method connects app to the sever when
+         * client enters or press update on the toolbar
+         */
         fun connect(){
             lifecycleScope.launchWhenResumed {
                 if (viewModel.readWrite.socket == null){
@@ -62,7 +72,11 @@ class SocialWorker : Fragment() {
             connect()
             viewModel.madeFirstConnection = true
         }
-
+        /**
+         * @see FragmentSocialWorkerBinding.toolbarSocial
+         * @see R.menu.top_bar_social
+         *
+         */
         binding.toolbarSocial.setOnMenuItemClickListener {
             when(it.itemId){
                 R.id.exit_from_main -> {
@@ -113,39 +127,42 @@ class SocialWorker : Fragment() {
         /**
          * Test
          */
-        val data1 = WheelData(
-            id = 1,
-            name = "Bruh1",
-            first = "Библиотека им.Ленина",
-            second = "Александровский сад",
-            time = "14:30",
-            comment = "u gay"
-        )
-
-        val data2 = WheelData(
-            id = 2,
-            name = "Bruh2",
-            first = "Выхино",
-            second = "Комсомольская",
-            time = "4:20",
-        )
-
-        val data3 = WheelData(
-            id = 3,
-            name = "Bruh3",
-            first = "Проспект Большевиков",
-            second = "Проспект Большевиков",
-            time = "Cейчас",
-            comment = "No, u"
-        )
-
-        viewModel.onInsert(data1)
-        viewModel.onInsert(data2)
-        viewModel.onInsert(data3)
+//        val data1 = WheelData(
+//            id = 1,
+//            name = "Bruh1",
+//            first = "Библиотека им.Ленина",
+//            second = "Александровский сад",
+//            time = "14:30",
+//            comment = "u gay"
+//        )
+//
+//        val data2 = WheelData(
+//            id = 2,
+//            name = "Bruh2",
+//            first = "Выхино",
+//            second = "Комсомольская",
+//            time = "4:20",
+//        )
+//
+//        val data3 = WheelData(
+//            id = 3,
+//            name = "Bruh3",
+//            first = "Проспект Большевиков",
+//            second = "Проспект Большевиков",
+//            time = "Cейчас",
+//            comment = "No, u"
+//        )
+//
+//        viewModel.onInsert(data1)
+//        viewModel.onInsert(data2)
+//        viewModel.onInsert(data3)
         /**
          * Test
          */
 
+        /**
+         * Define adapter for recyclerView
+         */
         val socAdapter = SocialAdapter()
         binding.recyclerView.apply {
             adapter = socAdapter
@@ -154,13 +171,24 @@ class SocialWorker : Fragment() {
                 RecyclerView.VERTICAL,
                 false)
         }
-
+        /**
+         * Set list from WheelData database to adapter
+         */
         viewModel.allData.observe(viewLifecycleOwner, {
             it?.let {
                 socAdapter.submitList(it)
             }
         })
 
+        /**
+         * Set different colors for recycler item states
+         * if one order has been taken, every other is disabled
+         *
+         * Adapter uses LiveData<ViewHolder> to setOnClickListener for buttons on every item
+         *
+         * @see R.layout.recycler_item
+         * @see com.example.socialhelper.socialworker.SocialAdapter
+         */
         socAdapter.viewAdapter.observe(viewLifecycleOwner, {adapter ->
 
             fun changeTheme(id: Int){

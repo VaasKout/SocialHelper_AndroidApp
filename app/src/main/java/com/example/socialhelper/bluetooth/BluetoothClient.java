@@ -20,6 +20,10 @@ public class BluetoothClient implements Closeable {
     private BufferedWriter writer = null;
     private BufferedReader reader = null;
 
+    /**
+     * @see com.example.socialhelper.pregnant.Pregnant
+     */
+
     private static final UUID MY_UUID = UUID.fromString("00001101-0000-1000-8000-00805F9B34FB");
     public static final int REQUEST_ENABLE_BT = 1;
 
@@ -33,12 +37,20 @@ public class BluetoothClient implements Closeable {
         return new BufferedWriter(new OutputStreamWriter(btSocket.getOutputStream()));
     }
 
+    /**
+     * Get bluetooth adapter on android
+     */
+
     public void findAdapter() {
         btAdapter = BluetoothAdapter.getDefaultAdapter();
         if (btAdapter == null) {
             Log.e("error", "Bluetooth adapter is not available");
         }
     }
+
+    /**
+     * Connection to specific remote device (arduino with bluetooth)
+     */
 
     public void createConnection() {
         if (btAdapter != null) {
@@ -47,7 +59,7 @@ public class BluetoothClient implements Closeable {
             BluetoothDevice device = btAdapter.getRemoteDevice(address);
 
             try {
-                closeConnection();
+//                closeConnection();
                 btSocket = device.createRfcommSocketToServiceRecord(MY_UUID);
             } catch (IOException e) {
                 Log.e("error", "raspberry socket is not available");
@@ -67,11 +79,20 @@ public class BluetoothClient implements Closeable {
         }
     }
 
+    /**
+     * Send data by bluetooth
+     * @param msg
+     */
+
     public void sendData(String msg) {
         if (btSocket.isConnected()) {
             writeLine(msg);
         }
     }
+
+    /**
+     * Close connection to arduino
+     */
 
     public void closeConnection() {
         if (btSocket != null && btSocket.isConnected()) {
@@ -85,6 +106,11 @@ public class BluetoothClient implements Closeable {
         }
     }
 
+    /**
+     * Method is used to simplify to write message in OutputStream
+     * @param message
+     */
+
     public void writeLine(String message) {
         try {
             writer.write(message);
@@ -94,6 +120,11 @@ public class BluetoothClient implements Closeable {
             Log.e("Error", "Unable to write message to the arduino");
         }
     }
+
+    /**
+     * Closeable closes all streams and sockets after the instance of class is destroyed
+     * @throws IOException
+     */
 
     @Override
     public void close() throws IOException {
