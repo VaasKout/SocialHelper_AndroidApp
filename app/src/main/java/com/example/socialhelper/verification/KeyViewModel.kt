@@ -5,6 +5,7 @@ import android.util.Log
 import androidx.lifecycle.AndroidViewModel
 import androidx.lifecycle.LiveData
 import androidx.lifecycle.MutableLiveData
+import com.example.socialhelper.R
 import com.example.socialhelper.database.Info
 import com.example.socialhelper.database.InfoDatabase
 import com.example.socialhelper.network.NetworkClient
@@ -20,6 +21,11 @@ class KeyViewModel(application: Application) : AndroidViewModel(application) {
     var serverKey = 0
     var serverId = 0
     var notificationShowed = false
+
+    private val categoryEngList: Array<String> =
+        application.resources.getStringArray(R.array.categoryEng)
+    private val categoryList: Array<String> =
+        application.resources.getStringArray(R.array.category)
 
     init {
         val infoDao = InfoDatabase.getInfoDatabase(application).infoDao()
@@ -42,8 +48,19 @@ class KeyViewModel(application: Application) : AndroidViewModel(application) {
                 readWrite.writeLine("verify")
                 if (serverKey != 0) {
                     allInfo.value?.let {
-                        readWrite.verify(serverKey, it.reference,
-                                        it.name, it.surname, it.category)
+
+                        var s = ""
+                        when(it.category){
+                            categoryList[0] -> s = categoryEngList[0]
+                            categoryList[1] -> s = categoryEngList[1]
+                            categoryList[2] -> s = categoryEngList[2]
+                        }
+
+                        readWrite.verify(serverKey,
+                                        it.reference,
+                                        it.name,
+                                        it.surname,
+                                        s)
                         Log.e("data", "sent")
                         serverId = readWrite.read()
                     }
@@ -51,12 +68,6 @@ class KeyViewModel(application: Application) : AndroidViewModel(application) {
             }
         }
     }
-
-//    fun onUpdate(info: Info) {
-//        uiScope.launch {
-//            updateInfo(info)
-//        }
-//    }
 
     suspend fun updateInfo(info: Info) {
         withContext(Dispatchers.IO) {

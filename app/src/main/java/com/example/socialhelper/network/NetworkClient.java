@@ -35,8 +35,8 @@ public class NetworkClient implements Closeable {
      * @see com.example.socialhelper.wheelchair.WheelChairViewModel
      */
 
-    public static final String IP = "192.168.4.172";
-    public static final int PORT = 900;
+    public static final String IP = "192.168.0.110";
+    public static final int PORT = 9000;
     public Socket socket;
     private BufferedReader reader;
     private BufferedWriter writer;
@@ -116,6 +116,8 @@ public class NetworkClient implements Closeable {
         writeLine(category);
     }
 
+
+
     public void writeLoginPassword(String login, int password) {
         writeLine(login);
         write(password);
@@ -141,7 +143,8 @@ public class NetworkClient implements Closeable {
         write(newPassword);
     }
 
-    public void verify(int key, int ref,
+    public void verify(int key,
+                       int ref,
                        String name,
                        String surname, String type){
         write(key);

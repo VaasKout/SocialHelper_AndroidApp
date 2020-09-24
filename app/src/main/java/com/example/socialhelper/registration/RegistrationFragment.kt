@@ -186,14 +186,23 @@ class RegistrationFragment : Fragment() {
                     category.isNotEmpty() &&
                     password == passwordConfirm) {
 
+                    if(binding.numberReference.isVisible){
+                        val info = Info(
+                            id = 1, name = userName, surname = surname,
+                            password = password, login = login,
+                            email = email, category = category,
+                            reference = numberEdit.toInt())
+                        viewModel.onInsert(info)
+                    } else{
+                        val info = Info(
+                            id = 1, name = userName, surname = surname,
+                            password = password, login = login,
+                            email = email, category = category)
+                        viewModel.onInsert(info)
+                    }
 
-                    val info = Info(
-                        id = 1, name = userName, surname = surname,
-                        password = password, login = login,
-                        email = email, category = category,
-                        reference = numberEdit.toInt())
 
-                    viewModel.onInsert(info)
+
 
                     MaterialAlertDialogBuilder(requireContext())
                         .setMessage("Данные введены верно?")
@@ -225,7 +234,8 @@ class RegistrationFragment : Fragment() {
                                                     getString(R.string.try_another_login)
                                                 binding.numberReference.error =
                                                     getString(R.string.check_reference)
-                                                if (info.category == viewModel.categoryList[1]){
+                                                if (info.category == viewModel.categoryList[0] ||
+                                                        info.category == viewModel.categoryList[2]){
                                                     Snackbar.make(
                                                         binding.regButton,
                                                         getString(R.string.user_exist),
@@ -250,7 +260,7 @@ class RegistrationFragment : Fragment() {
                                                     password = info.password,
                                                     login = info.login,
                                                     email = info.email,
-                                                    reference = viewModel.referenceNumber,
+                                                    reference = info.reference,
                                                     needVerification = true,
                                                     category = category)
                                                 viewModel.updateInfo(infoReference)

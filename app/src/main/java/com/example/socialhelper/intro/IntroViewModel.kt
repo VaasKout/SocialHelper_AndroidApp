@@ -28,6 +28,6 @@ class IntroViewModel(application: Application) : AndroidViewModel(application) {
         allInfo = repository.allInfo
         val wheelDao = WheelDatabase.getWheelDatabase(application).wheelDao()
         wheelRepository = WheelRepository(wheelDao)
-        data = wheelDao.selectData(1)
+        data = wheelRepository.allWheelData
     }
 }

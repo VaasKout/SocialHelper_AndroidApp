@@ -42,9 +42,7 @@ class SocialWorker : Fragment() {
          */
         fun connect(){
             lifecycleScope.launchWhenResumed {
-                if (viewModel.readWrite.socket == null){
                     viewModel.connectToServer()
-                }
                 if (!viewModel.readWrite.socket.isConnected){
                     Snackbar.make(
                         binding.recyclerView,
@@ -62,6 +60,15 @@ class SocialWorker : Fragment() {
                     }
                     while (viewModel.readWrite.socket.isConnected){
                         viewModel.readData()
+                        val data = WheelData(
+                            id = 0,
+                            name = viewModel.name,
+                            first = viewModel.first,
+                            second = viewModel.second,
+                            time = viewModel.time,
+                            comment = viewModel.comment
+                        )
+                        viewModel.insert(data)
                         delay(1000)
                     }
                 }
@@ -122,44 +129,6 @@ class SocialWorker : Fragment() {
             }
         }
 
-
-
-        /**
-         * Test
-         */
-//        val data1 = WheelData(
-//            id = 1,
-//            name = "Bruh1",
-//            first = "Библиотека им.Ленина",
-//            second = "Александровский сад",
-//            time = "14:30",
-//            comment = "u gay"
-//        )
-//
-//        val data2 = WheelData(
-//            id = 2,
-//            name = "Bruh2",
-//            first = "Выхино",
-//            second = "Комсомольская",
-//            time = "4:20",
-//        )
-//
-//        val data3 = WheelData(
-//            id = 3,
-//            name = "Bruh3",
-//            first = "Проспект Большевиков",
-//            second = "Проспект Большевиков",
-//            time = "Cейчас",
-//            comment = "No, u"
-//        )
-//
-//        viewModel.onInsert(data1)
-//        viewModel.onInsert(data2)
-//        viewModel.onInsert(data3)
-        /**
-         * Test
-         */
-
         /**
          * Define adapter for recyclerView
          */
@@ -174,9 +143,9 @@ class SocialWorker : Fragment() {
         /**
          * Set list from WheelData database to adapter
          */
-        viewModel.allData.observe(viewLifecycleOwner, {
+        viewModel.data.observe(viewLifecycleOwner, {
             it?.let {
-                socAdapter.submitList(it)
+                socAdapter.submitList(listOf(it))
             }
         })
 
@@ -222,39 +191,12 @@ class SocialWorker : Fragment() {
                     changeTheme(R.color.colorInProcess)
                     adapter.binding.textStatus.text =
                         getString(R.string.status_in_progress)
-                    adapter.binding.buttonCancelRecycler.visibility = View.VISIBLE
             } else if (!viewModel.onProcess() &&
                         !socAdapter.currentList[adapter.adapterPosition].checked){
                         changeTheme(R.color.colorPrimary)
                         adapter.binding.recyclerButton.isEnabled = true
-                        adapter.binding.buttonCancelRecycler.visibility = View.GONE
             }
 
-            adapter.binding.buttonCancelRecycler.setOnClickListener {
-                if (viewModel.onProcess()){
-                    MaterialAlertDialogBuilder(requireContext())
-                        .setMessage("Принять заказ?")
-                        .setNegativeButton("Нет") { _, _ ->
-                        }
-                        .setPositiveButton("Да") { _, _ ->
-                            /**
-                             * cancel order
-                             */
-                            lifecycleScope.launch {
-                                if (viewModel.readWrite.socket.isConnected){
-                                    viewModel.cancelOrder()
-                                } else{
-                                    Snackbar.make(
-                                        binding.recyclerView,
-                                        getString(R.string.retry_later),
-                                        Snackbar.LENGTH_SHORT
-                                    ).show()
-                                    viewModel.triedToConnect = true
-                                }
-                            }
-                        }.show()
-                }
-            }
             adapter.binding.recyclerButton.setOnClickListener {
                 if (!viewModel.onProcess()){
                         MaterialAlertDialogBuilder(requireContext())
@@ -264,7 +206,7 @@ class SocialWorker : Fragment() {
                             .setPositiveButton("Да") { _, _ ->
                                 lifecycleScope.launch {
                                     /**
-                                     *   order received
+                                     *  order accepted
                                      */
 
                                     if (viewModel.readWrite.socket.isConnected){
@@ -304,7 +246,7 @@ class SocialWorker : Fragment() {
                                     socAdapter.currentList[adapter.adapterPosition].checked = false
                                     viewModel.updateData(socAdapter.
                                     currentList[adapter.adapterPosition])
-                                    viewModel.deleteData(socAdapter.currentList[adapter.adapterPosition])
+                                    viewModel.deleteData()
                                     socAdapter.notifyDataSetChanged()
                                 } else {
                                     Snackbar.make(

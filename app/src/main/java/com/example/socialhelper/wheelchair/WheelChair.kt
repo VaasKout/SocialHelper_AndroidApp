@@ -21,6 +21,7 @@ import com.example.socialhelper.R
 import com.example.socialhelper.database.WheelData
 import com.example.socialhelper.databinding.FragmentWheelChairBinding
 import com.google.android.material.dialog.MaterialAlertDialogBuilder
+import com.google.android.material.snackbar.Snackbar
 import kotlinx.coroutines.launch
 import java.text.SimpleDateFormat
 import java.util.*
@@ -224,13 +225,13 @@ class WheelChair : Fragment() {
                     allStations.contains(startStation) &&
                     allStations.contains(endStation)) {
 
-//                    viewModel.allInfo.observe(viewLifecycleOwner, { info ->
+                    viewModel.allInfo.observe(viewLifecycleOwner, { info ->
                     if (explicitTime.isNotEmpty()){
                         time = explicitTime
                     }
-                    var data = WheelData(
+                    val data = WheelData(
                         id = 1,
-                        name = "info.name",
+                        name = info.name,
                         first = startStation,
                         second = endStation,
                         time = time,
@@ -245,35 +246,36 @@ class WheelChair : Fragment() {
                             }
                             .setPositiveButton("Да") { _, _ ->
 
-                                viewModel.data.observe(viewLifecycleOwner, {
                                     lifecycleScope.launch {
-                                        data = WheelData(
+                                    viewModel.data.observe(viewLifecycleOwner, {
+                                        val sendData = WheelData(
                                             id = 1,
-                                            name = "info.name",
+                                            name = info.name,
                                             first = startStation,
                                             second = endStation,
                                             time = time,
                                             comment = comment,
                                             ordered = true
                                         )
-                                        viewModel.update(data)
+                                        viewModel.onUpdate(sendData)
+                                    })
 
                                         binding.buttonHelpRequest.isEnabled = false
                                         binding.buttonHelpRequest.text =
                                             getString(R.string.wait)
-//                                        viewModel.connectToServer()
-//                                        viewModel.requestServer()
-//                                        if (!viewModel.readWrite.socket.isConnected) {
-//                                            Snackbar.make(
-//                                                binding.buttonHelpRequest,
-//                                                getString(R.string.retry_later),
-//                                                Snackbar.LENGTH_SHORT
-//                                            ).show()
-//                                            binding.buttonHelpRequest.isEnabled = true
-//                                            binding.buttonHelpRequest.text =
-//                                                getString(R.string.send)
-//                                            viewModel.onDoneSending()
-//                                        } else {
+                                        viewModel.connectToServer()
+                                        viewModel.requestServer()
+                                        if (!viewModel.readWrite.socket.isConnected) {
+                                            Snackbar.make(
+                                                binding.buttonHelpRequest,
+                                                getString(R.string.retry_later),
+                                                Snackbar.LENGTH_SHORT
+                                            ).show()
+                                            binding.buttonHelpRequest.isEnabled = true
+                                            binding.buttonHelpRequest.text =
+                                                getString(R.string.send)
+                                            viewModel.onDoneSending()
+                                        } else {
                                         if (this@WheelChair
                                                 .findNavController()
                                                 .currentDestination?.id ==
@@ -287,11 +289,10 @@ class WheelChair : Fragment() {
                                             viewModel.onDoneSending()
                                         }
 
-//                                        }
+                                        }
                                     }
-                                })
                             }.show()
-//                    })
+                    })
                 }
             }
         })

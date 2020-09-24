@@ -24,11 +24,12 @@ class RegistrationViewModel(application: Application) : AndroidViewModel(applica
 
     val readWrite = NetworkClient()
     var state: String = ""
-    var referenceNumber = 0
+//    var referenceNumber = 0
 
     private val categoryEngList: Array<String> =
         application.resources.getStringArray(R.array.categoryEng)
-    val categoryList: Array<String> = application.resources.getStringArray(R.array.category)
+    val categoryList: Array<String> =
+        application.resources.getStringArray(R.array.category)
 
     //Live Data
     private val _navigateToWait = MutableLiveData<Boolean>()
@@ -86,7 +87,6 @@ class RegistrationViewModel(application: Application) : AndroidViewModel(applica
         }
     }
 
-
     suspend fun requestServer() {
         withContext(Dispatchers.IO) {
             allInfo.value?.let {
@@ -97,17 +97,32 @@ class RegistrationViewModel(application: Application) : AndroidViewModel(applica
                     categoryList[2] -> s = categoryEngList[2]
                 }
                 if (readWrite.socket != null && readWrite.socket.isConnected) {
-                        readWrite.writeLine("regPregnant")
-                        readWrite.writeUserRegData(
-                            it.reference,
-                            it.password.toInt(),
-                            it.name,
-                            it.surname,
-                            it.login,
-                            it.email,
-                            s)
+                        when(s){
+                           categoryEngList[0], categoryEngList[2] -> {
+                               readWrite.writeLine("userRegData")
+                               readWrite.writeUserRegData(
+                                   0,
+                                   it.password.toInt(),
+                                   it.name,
+                                   it.surname,
+                                   it.login,
+                                   it.email,
+                                   s)
+
+                           } else -> {
+                            readWrite.writeLine("regPregnant")
+                            readWrite.writeUserRegData(
+                                it.reference,
+                                it.password.toInt(),
+                                it.name,
+                                it.surname,
+                                it.login,
+                                it.email,
+                                s)
+                            }
+                        }
+                        state = readWrite.readLine()
                     }
-                    state = readWrite.readLine()
                 }
             }
         }

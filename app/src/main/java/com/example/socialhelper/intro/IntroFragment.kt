@@ -79,7 +79,7 @@ class IntroFragment : Fragment() {
                             .currentDestination?.id ==
                         R.id.introFragment
                     ) {
-                        if (it == null || !it.needVerification) {
+                        if (it == null) {
 
                             this@IntroFragment.findNavController()
                                 .navigate(
@@ -88,13 +88,18 @@ class IntroFragment : Fragment() {
                         }
 
                         if (it != null && it.needVerification) {
+                            if (this@IntroFragment
+                            .findNavController()
+                            .currentDestination?.id ==
+                        R.id.introFragment
+                    ) {
                             this@IntroFragment.findNavController().navigate(
                                 IntroFragmentDirections
                                     .actionIntroFragmentToKeyVerification()
                             )
+                            }
                         }
-                        if (it != null) {
-
+                        if (it != null && !it.needVerification) {
                             when (it.category) {
                                 categoryList[0], categoryEng[0] -> {
                                     viewModel.data.observe(viewLifecycleOwner, { data ->

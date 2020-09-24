@@ -1,14 +1,17 @@
 package com.example.socialhelper.wheelchair
 
 import android.app.Application
+import android.util.Log
 import androidx.lifecycle.AndroidViewModel
 import androidx.lifecycle.LiveData
+import com.example.socialhelper.database.Info
+import com.example.socialhelper.database.InfoDatabase
 import com.example.socialhelper.database.WheelData
 import com.example.socialhelper.database.WheelDatabase
 import com.example.socialhelper.network.NetworkClient
+import com.example.socialhelper.repository.InfoRepository
 import com.example.socialhelper.repository.WheelRepository
-import kotlinx.coroutines.Dispatchers
-import kotlinx.coroutines.withContext
+import kotlinx.coroutines.*
 
 class WaitViewModel(application: Application): AndroidViewModel(application){
     val readWrite = NetworkClient()
@@ -16,13 +19,21 @@ class WaitViewModel(application: Application): AndroidViewModel(application){
     var madeFirstConnection = false
     var state = ""
 
-    val data: LiveData<WheelData>
+    private val repository: InfoRepository
     private val wheelRepository: WheelRepository
+    val allInfo: LiveData<Info>
+    val data: LiveData<WheelData>
+
+    private val viewModelJob = Job()
+    private val uiScope = CoroutineScope(Dispatchers.Main + viewModelJob)
 
     init {
+        val infoDao = InfoDatabase.getInfoDatabase(application).infoDao()
+        repository = InfoRepository(infoDao)
+        allInfo = repository.allInfo
         val wheelDao = WheelDatabase.getWheelDatabase(application).wheelDao()
         wheelRepository = WheelRepository(wheelDao)
-        data = wheelDao.selectData(1)
+        data = wheelRepository.allWheelData
     }
 
     //connect to the server and check state
@@ -34,10 +45,15 @@ class WaitViewModel(application: Application): AndroidViewModel(application){
 
     suspend fun requestServer() {
        withContext(Dispatchers.IO){
-             if (readWrite.socket != null && readWrite.socket.isConnected) {
-                readWrite.writeLine("helpRequest")
-                 state = readWrite.readLine()
-            }
+           allInfo.value?.let {
+               if (readWrite.socket != null && readWrite.socket.isConnected) {
+                   readWrite.writeLine("helpWaitWheel")
+                   readWrite.writeLine(it.login)
+                   state = readWrite.readLine()
+                   Log.e("state", state)
+//                   this.cancel()
+               }
+           }
         }
     }
     //Cancel order

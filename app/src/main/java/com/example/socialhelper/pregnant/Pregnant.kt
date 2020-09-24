@@ -64,6 +64,7 @@ class Pregnant : Fragment() {
                                 .navigate(
                                     PregnantDirections
                                         .actionPregnantFragmentToLoginFragment())
+                            viewModel.onClear()
                         }.show()
                     true
                 }

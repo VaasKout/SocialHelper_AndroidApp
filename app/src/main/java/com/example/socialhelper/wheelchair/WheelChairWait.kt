@@ -42,48 +42,49 @@ class WheelChairWait : Fragment() {
          */
 
         fun connect(){
-            lifecycleScope.launch {
-                if (viewModel.readWrite.socket == null){
-                    viewModel.connectToServer()
-                }
-                if (!viewModel.readWrite.socket.isConnected){
-                    Snackbar.make(
-                        binding.textWait,
-                        getString(R.string.retry_later),
-                        Snackbar.LENGTH_SHORT
-                    ).show()
-                    viewModel.triedToConnect = true
-                } else {
-                    if (viewModel.triedToConnect){
+            viewModel.allInfo.observe(viewLifecycleOwner, {
+                lifecycleScope.launchWhenResumed {
+                        viewModel.connectToServer()
+
+                    if (!viewModel.readWrite.socket.isConnected){
                         Snackbar.make(
                             binding.textWait,
-                            getString(R.string.connected),
+                            getString(R.string.retry_later),
                             Snackbar.LENGTH_SHORT
                         ).show()
-                    }
-                    while (viewModel.readWrite.socket.isConnected){
-                        viewModel.requestServer()
-                        delay(1000)
-                        when(viewModel.state){
-                            "accepted" -> {
-                                binding.textWait.text = getString(R.string.order_accepted)
+                        viewModel.triedToConnect = true
+                    } else {
+                        if (viewModel.triedToConnect){
+                            Snackbar.make(
+                                binding.textWait,
+                                getString(R.string.connected),
+                                Snackbar.LENGTH_SHORT
+                            ).show()
+                        }
+                        while (viewModel.readWrite.socket.isConnected){
+                            viewModel.requestServer()
+                            delay(1000)
+                            when(viewModel.state){
+                                "helpAccepted" -> {
+                                    binding.textWait.text = getString(R.string.order_accepted)
+                                }
+                                "complete" -> {
+                                    binding.textWait.text = getString(R.string.request_complete)
+                                    binding.textWait.setTextColor(
+                                        ContextCompat
+                                            .getColor(requireContext(), R.color.colorPrimary))
+                                    delay(3000)
+                                    this@WheelChairWait
+                                        .findNavController()
+                                        .navigate(WheelChairWaitDirections
+                                            .actionWheelChairWaitToWheelChair())
+                                    viewModel.clear()
+                                } else -> continue
                             }
-                            "complete" -> {
-                                binding.textWait.text = getString(R.string.request_complete)
-                                binding.textWait.setTextColor(
-                                    ContextCompat
-                                    .getColor(requireContext(), R.color.colorPrimary))
-                                delay(3000)
-                                this@WheelChairWait
-                                    .findNavController()
-                                    .navigate(WheelChairWaitDirections
-                                        .actionWheelChairWaitToWheelChair())
-                                viewModel.clear()
-                            } else -> continue
                         }
                     }
                 }
-            }
+            })
         }
 
         /**
@@ -108,29 +109,33 @@ class WheelChairWait : Fragment() {
                             .setNegativeButton("Нет") { _, _ ->
                             }
                             .setPositiveButton("Да") { _, _ ->
-                                lifecycleScope.launch {
-                                    if (viewModel.readWrite.socket.isConnected){
-                                        viewModel.cancelOrder()
-                                        Snackbar.make(
-                                            binding.textWait,
-                                            getString(R.string.order_cancel),
-                                            Snackbar.LENGTH_SHORT
-                                        ).show()
-                                        delay(1000)
-                                        this@WheelChairWait
-                                            .findNavController()
-                                            .navigate(WheelChairWaitDirections
-                                                .actionWheelChairWaitToWheelChair())
-                                        viewModel.clear()
-                                    } else {
-                                        Snackbar.make(
-                                            binding.textWait,
-                                            getString(R.string.retry_later),
-                                            Snackbar.LENGTH_SHORT
-                                        ).show()
-                                        viewModel.triedToConnect = true
-                                    }
-                                }
+//                                lifecycleScope.launch {
+//                                    if (viewModel.readWrite.socket.isConnected){
+//                                        viewModel.cancelOrder()
+//                                        Snackbar.make(
+//                                            binding.textWait,
+//                                            getString(R.string.order_cancel),
+//                                            Snackbar.LENGTH_SHORT
+//                                        ).show()
+//                                        delay(1000)
+//                                        this@WheelChairWait
+//                                            .findNavController()
+//                                            .navigate(WheelChairWaitDirections
+//                                                .actionWheelChairWaitToWheelChair())
+//                                        viewModel.clear()
+//                                    } else {
+//                                        Snackbar.make(
+//                                            binding.textWait,
+//                                            getString(R.string.retry_later),
+//                                            Snackbar.LENGTH_SHORT
+//                                        ).show()
+//                                        viewModel.triedToConnect = true
+//                                    }
+//                                }
+                                this@WheelChairWait
+                                    .findNavController()
+                                    .navigate(WheelChairWaitDirections
+                                        .actionWheelChairWaitToWheelChair())
                             }.show()
                     true
                 }

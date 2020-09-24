@@ -20,12 +20,12 @@ class PregnantViewModel(application: Application) : AndroidViewModel(application
     private val uiScope = CoroutineScope(Dispatchers.Main + viewModelJob)
 
     private val repository: InfoRepository
-//    val allInfo: LiveData<Info>
+    val allInfo: LiveData<Info>
 
     init {
         val infoDao = InfoDatabase.getInfoDatabase(application).infoDao()
         repository = InfoRepository(infoDao)
-//        allInfo = repository.allInfo
+        allInfo = repository.allInfo
     }
 
     //onClick LiveData and methods

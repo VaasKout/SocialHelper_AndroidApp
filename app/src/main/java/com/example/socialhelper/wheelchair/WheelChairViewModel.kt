@@ -35,7 +35,7 @@ class WheelChairViewModel(application: Application): AndroidViewModel(applicatio
         allInfo = repository.allInfo
         val wheelDao = WheelDatabase.getWheelDatabase(application).wheelDao()
         wheelRepository = WheelRepository(wheelDao)
-        data = wheelRepository.selectData(1)
+        data = wheelRepository.allWheelData
     }
 
 
@@ -49,6 +49,12 @@ class WheelChairViewModel(application: Application): AndroidViewModel(applicatio
     private suspend fun insertData(wheelData: WheelData){
         withContext(Dispatchers.IO){
             wheelRepository.insert(wheelData)
+        }
+    }
+
+    fun onUpdate(wheelData: WheelData){
+        uiScope.launch(Dispatchers.IO) {
+            update(wheelData)
         }
     }
 
@@ -88,7 +94,9 @@ class WheelChairViewModel(application: Application): AndroidViewModel(applicatio
                     readWrite.writeLine("helpRequest")
                     readWrite.writeWheelchairData(
                         info.login, info.name, info.surname,
-                        data.first, data.second, data.time, data.comment)
+                        data.first, data.second, data.time,
+                        data.comment)
+                    Log.e("sent", "helprequest")
                     }
                 }
             }

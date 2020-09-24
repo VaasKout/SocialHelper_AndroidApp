@@ -26,10 +26,10 @@
         <action
             android:id="@+id/action_pregnantFragment_to_loginFragment"
             app:destination="@id/loginFragment"
-            app:popUpTo="@id/pregnantFragment"
-            app:popUpToInclusive="true"
             app:enterAnim="@anim/slide_in_left"
-            app:exitAnim="@anim/slide_in_left_next" />
+            app:exitAnim="@anim/slide_in_left_next"
+            app:popUpTo="@id/pregnantFragment"
+            app:popUpToInclusive="true" />
         <action
             android:id="@+id/action_pregnantFragment_to_changePassword"
             app:destination="@id/changePassword"
@@ -184,7 +184,8 @@
             app:exitAnim="@anim/slide_in_right_next"
             app:popEnterAnim="@anim/slide_in_left"
             app:popExitAnim="@anim/slide_in_left_next"
-            app:popUpTo="@id/loginFragment" />
+            app:popUpTo="@id/loginFragment"
+            app:popUpToInclusive="true" />
         <action
             android:id="@+id/action_keyVerification_to_loginFragment"
             app:destination="@id/loginFragment"
