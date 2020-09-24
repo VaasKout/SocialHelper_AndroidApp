@@ -55,7 +55,7 @@ class SocialViewModel(application: Application): AndroidViewModel(application){
     }
 
     suspend fun readData(){
-        withContext(Dispatchers.IO){
+       val job = uiScope.launch(Dispatchers.IO){
             if (readWrite.socket != null && readWrite.socket.isConnected) {
                 readWrite.writeLine("helpGet")
                  login = readWrite.readLine()
@@ -70,19 +70,25 @@ class SocialViewModel(application: Application): AndroidViewModel(application){
                 Log.e("last", str)
             }
         }
+        job.join()
     }
 
     //WheelDataDao methods
 //    private fun onInsert(wheelData: WheelData){
-//        uiScope.launch {
+//       uiScope.launch {
 //            insert(wheelData)
 //        }
 //    }
 
     suspend fun insert(wheelData: WheelData){
-        withContext(Dispatchers.IO){
+       withContext(Dispatchers.IO){
             wheelRepository.insert(wheelData)
-            this.cancel()
+        }
+    }
+
+    fun deleteAll(){
+        uiScope.launch {
+            deleteData()
         }
     }
 

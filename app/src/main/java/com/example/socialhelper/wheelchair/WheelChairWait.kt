@@ -42,10 +42,8 @@ class WheelChairWait : Fragment() {
          */
 
         fun connect(){
-            viewModel.allInfo.observe(viewLifecycleOwner, {
-                lifecycleScope.launchWhenResumed {
+                lifecycleScope.launch {
                         viewModel.connectToServer()
-
                     if (!viewModel.readWrite.socket.isConnected){
                         Snackbar.make(
                             binding.textWait,
@@ -63,7 +61,6 @@ class WheelChairWait : Fragment() {
                         }
                         while (viewModel.readWrite.socket.isConnected){
                             viewModel.requestServer()
-                            delay(1000)
                             when(viewModel.state){
                                 "helpAccepted" -> {
                                     binding.textWait.text = getString(R.string.order_accepted)
@@ -84,7 +81,6 @@ class WheelChairWait : Fragment() {
                         }
                     }
                 }
-            })
         }
 
         /**
@@ -109,29 +105,29 @@ class WheelChairWait : Fragment() {
                             .setNegativeButton("Нет") { _, _ ->
                             }
                             .setPositiveButton("Да") { _, _ ->
-//                                lifecycleScope.launch {
-//                                    if (viewModel.readWrite.socket.isConnected){
-//                                        viewModel.cancelOrder()
-//                                        Snackbar.make(
-//                                            binding.textWait,
-//                                            getString(R.string.order_cancel),
-//                                            Snackbar.LENGTH_SHORT
-//                                        ).show()
-//                                        delay(1000)
-//                                        this@WheelChairWait
-//                                            .findNavController()
-//                                            .navigate(WheelChairWaitDirections
-//                                                .actionWheelChairWaitToWheelChair())
-//                                        viewModel.clear()
-//                                    } else {
-//                                        Snackbar.make(
-//                                            binding.textWait,
-//                                            getString(R.string.retry_later),
-//                                            Snackbar.LENGTH_SHORT
-//                                        ).show()
-//                                        viewModel.triedToConnect = true
-//                                    }
-//                                }
+                                lifecycleScope.launch {
+                                    if (viewModel.readWrite.socket.isConnected){
+                                        viewModel.cancelOrder()
+                                        Snackbar.make(
+                                            binding.textWait,
+                                            getString(R.string.order_cancel),
+                                            Snackbar.LENGTH_SHORT
+                                        ).show()
+                                        delay(1000)
+                                        this@WheelChairWait
+                                            .findNavController()
+                                            .navigate(WheelChairWaitDirections
+                                                .actionWheelChairWaitToWheelChair())
+                                        viewModel.clear()
+                                    } else {
+                                        Snackbar.make(
+                                            binding.textWait,
+                                            getString(R.string.retry_later),
+                                            Snackbar.LENGTH_SHORT
+                                        ).show()
+                                        viewModel.triedToConnect = true
+                                    }
+                                }
                                 this@WheelChairWait
                                     .findNavController()
                                     .navigate(WheelChairWaitDirections

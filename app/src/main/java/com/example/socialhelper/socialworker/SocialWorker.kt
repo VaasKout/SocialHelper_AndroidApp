@@ -24,6 +24,7 @@ class SocialWorker : Fragment() {
     override fun onCreateView(
         inflater: LayoutInflater, container: ViewGroup?,
         savedInstanceState: Bundle?): View? {
+        
         /**
          * SocialWorker client fragment
          * @see R.layout.fragment_social_worker
@@ -31,6 +32,7 @@ class SocialWorker : Fragment() {
          * which updates when server send a new order
          * or SocialWorker complete one
          */
+
         val binding: FragmentSocialWorkerBinding = DataBindingUtil
             .inflate(inflater, R.layout.fragment_social_worker, container, false)
         val viewModel = ViewModelProvider(this)
@@ -41,7 +43,7 @@ class SocialWorker : Fragment() {
          * client enters or press update on the toolbar
          */
         fun connect(){
-            lifecycleScope.launchWhenResumed {
+            lifecycleScope.launch {
                     viewModel.connectToServer()
                 if (!viewModel.readWrite.socket.isConnected){
                     Snackbar.make(
@@ -98,6 +100,7 @@ class SocialWorker : Fragment() {
                                         .actionSocialWorkerToLoginFragment()
                                 )
                         }.show()
+                    viewModel.deleteAll()
                     true
                 }
 

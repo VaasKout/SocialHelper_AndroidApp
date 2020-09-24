@@ -14,6 +14,7 @@ import com.example.socialhelper.repository.WheelRepository
 import kotlinx.coroutines.*
 
 class WaitViewModel(application: Application): AndroidViewModel(application){
+
     val readWrite = NetworkClient()
     var triedToConnect = false
     var madeFirstConnection = false
@@ -44,17 +45,17 @@ class WaitViewModel(application: Application): AndroidViewModel(application){
     }
 
     suspend fun requestServer() {
-       withContext(Dispatchers.IO){
+       val job = uiScope.launch(Dispatchers.IO){
            allInfo.value?.let {
                if (readWrite.socket != null && readWrite.socket.isConnected) {
                    readWrite.writeLine("helpWaitWheel")
                    readWrite.writeLine(it.login)
                    state = readWrite.readLine()
                    Log.e("state", state)
-//                   this.cancel()
                }
            }
         }
+        job.join()
     }
     //Cancel order
     suspend fun cancelOrder(){
