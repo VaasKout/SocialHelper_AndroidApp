@@ -54,6 +54,7 @@ class ChangeViewModel(application: Application): AndroidViewModel(application){
         }
     }
 
+    //LiveData
     private val _changed = MutableLiveData<Boolean>()
     val changed: LiveData<Boolean> = _changed
 

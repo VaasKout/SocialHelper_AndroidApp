@@ -62,16 +62,6 @@ class SocialWorker : Fragment() {
                     }
                     while (viewModel.readWrite.socket.isConnected){
                         viewModel.readData()
-                        val data = WheelData(
-                            id = 0,
-                            name = viewModel.name,
-                            first = viewModel.first,
-                            second = viewModel.second,
-                            time = viewModel.time,
-                            comment = viewModel.comment
-                        )
-                        viewModel.insert(data)
-                        delay(1000)
                     }
                 }
             }
@@ -148,7 +138,7 @@ class SocialWorker : Fragment() {
          */
         viewModel.data.observe(viewLifecycleOwner, {
             it?.let {
-                socAdapter.submitList(listOf(it))
+                socAdapter.submitList(it)
             }
         })
 
@@ -211,7 +201,6 @@ class SocialWorker : Fragment() {
                                     /**
                                      *  order accepted
                                      */
-
                                     if (viewModel.readWrite.socket.isConnected){
                                         viewModel.acceptOrder()
                                         socAdapter.currentList[adapter.adapterPosition].checked = true

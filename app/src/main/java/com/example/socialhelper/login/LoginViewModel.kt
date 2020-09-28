@@ -19,7 +19,6 @@ class LoginViewModel(application: Application) : AndroidViewModel(application) {
 
     var login = ""
     var password = 0
-
     var serverID = 0
     var serverKey = 0
 

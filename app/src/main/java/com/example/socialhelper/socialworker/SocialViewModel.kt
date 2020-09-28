@@ -22,16 +22,7 @@ class SocialViewModel(application: Application): AndroidViewModel(application){
     var madeFirstConnection = false
 
     val allInfo: LiveData<Info>
-    val data: LiveData<WheelData>
-
-    var login = ""
-    var name = ""
-    var surname = ""
-    var first = ""
-    var second = ""
-    var time = ""
-    var comment = ""
-    var str = ""
+    val data: LiveData<List<WheelData>>
 
     //Coroutines
     private val viewModelJob = Job()
@@ -55,25 +46,51 @@ class SocialViewModel(application: Application): AndroidViewModel(application){
     }
 
     suspend fun readData(){
+//        var login = ""
+        var firstName = ""
+//        var lastName = ""
+        var first = ""
+        var second = ""
+        var time = ""
+        var comment = ""
        val job = uiScope.launch(Dispatchers.IO){
-            if (readWrite.socket != null && readWrite.socket.isConnected) {
-                readWrite.writeLine("helpGet")
-                 login = readWrite.readLine()
-                 name = readWrite.readLine()
-                 surname = readWrite.readLine()
-                 first = readWrite.readLine()
-                 second = readWrite.readLine()
-                 time = readWrite.readLine()
-                 comment = readWrite.readLine()
-                 str = readWrite.readLine()
-                Log.e("name", name)
-                Log.e("last", str)
-            }
+           withTimeout(4000){
+               if (readWrite.socket != null && readWrite.socket.isConnected) {
+                   readWrite.writeLine("helpGet")
+//                   login = readWrite.readLine()
+                   firstName = readWrite.readLine()
+//                   lastName = readWrite.readLine()
+                   first = readWrite.readLine()
+                   second = readWrite.readLine()
+                   time = readWrite.readLine()
+                   comment = readWrite.readLine()
+                   Log.e("name", firstName)
+               }
+           }
         }
         job.join()
+        if (time.isNotEmpty()){
+            val data = WheelData(
+                id = 1,
+                name = firstName,
+                first = first,
+                second = second,
+                time = time,
+                comment = comment
+            )
+            insert(data)
+        }
+    }
+
+    //InfoDao method
+    suspend fun clear(){
+        withContext(Dispatchers.IO){
+            repository.deleteInfo()
+        }
     }
 
     //WheelDataDao methods
+
 //    private fun onInsert(wheelData: WheelData){
 //       uiScope.launch {
 //            insert(wheelData)
@@ -89,6 +106,7 @@ class SocialViewModel(application: Application): AndroidViewModel(application){
     fun deleteAll(){
         uiScope.launch {
             deleteData()
+            clear()
         }
     }
 
@@ -107,7 +125,7 @@ class SocialViewModel(application: Application): AndroidViewModel(application){
     //Check if SocialWorker took an order
     fun onProcess(): Boolean{
         data.value?.let {allData ->
-            return allData.checked
+            return allData.any { it.checked }
         }
         return false
     }
@@ -133,6 +151,5 @@ class SocialViewModel(application: Application): AndroidViewModel(application){
     override fun onCleared() {
         super.onCleared()
         viewModelJob.cancel()
-
     }
 }

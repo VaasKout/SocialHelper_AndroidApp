@@ -41,26 +41,10 @@ class IntroFragment : Fragment() {
         val viewModel = ViewModelProvider(this)
             .get(IntroViewModel::class.java)
 
-        val appear =
-            AnimationUtils.loadAnimation(requireContext(), R.anim.fade_in)
-
         val wordList =
             listOf(binding.welcome1, binding.welcome2, binding.welcome3, binding.welcome4)
         val categoryList = resources.getStringArray(R.array.category)
         val categoryEng = resources.getStringArray(R.array.categoryEng)
-
-        lifecycleScope.launchWhenResumed {
-
-            for (i in wordList) {
-                i.alpha = 1.0F
-                i.startAnimation(appear)
-                delay(appear.duration)
-                i.clearAnimation()
-            }
-            viewModel.nav = true
-            delay(appear.duration)
-
-            if (viewModel.nav) {
 
 //            if (this@IntroFragment
 //                        .findNavController()
@@ -69,74 +53,75 @@ class IntroFragment : Fragment() {
 //            this@IntroFragment.findNavController()
 //                                    .navigate(
 //                                        IntroFragmentDirections
-//                                            .actionIntroFragmentToWheelChair())
+//                                            .actionIntroFragmentToSocialWorker())
 //            }
 
-                viewModel.allInfo.observe(viewLifecycleOwner, {
+        lifecycleScope.launchWhenResumed {
+            viewModel.animate(wordList)
+            viewModel.allInfo.observe(viewLifecycleOwner, {
+                if (this@IntroFragment
+                        .findNavController()
+                        .currentDestination?.id ==
+                    R.id.introFragment
+                ) {
+                    if (it == null) {
 
-                    if (this@IntroFragment
-                            .findNavController()
-                            .currentDestination?.id ==
-                        R.id.introFragment
-                    ) {
-                        if (it == null) {
+                        this@IntroFragment.findNavController()
+                            .navigate(
+                                IntroFragmentDirections.actionIntroFragmentToLoginFragment()
+                            )
+                    }
 
-                            this@IntroFragment.findNavController()
-                                .navigate(
-                                    IntroFragmentDirections.actionIntroFragmentToLoginFragment()
-                                )
-                        }
-
-                        if (it != null && it.needVerification) {
-                            if (this@IntroFragment
-                            .findNavController()
-                            .currentDestination?.id ==
-                        R.id.introFragment
-                    ) {
+                    if (it != null && it.needVerification) {
+                        if (this@IntroFragment
+                                .findNavController()
+                                .currentDestination?.id ==
+                            R.id.introFragment
+                        ) {
                             this@IntroFragment.findNavController().navigate(
                                 IntroFragmentDirections
                                     .actionIntroFragmentToKeyVerification()
                             )
-                            }
                         }
-                        if (it != null && !it.needVerification) {
-                            when (it.category) {
-                                categoryList[0], categoryEng[0] -> {
-                                    viewModel.data.observe(viewLifecycleOwner, { data ->
-                                        if (data == null || !data.ordered) {
-                                            this@IntroFragment.findNavController()
-                                                .navigate(
-                                                    IntroFragmentDirections
-                                                        .actionIntroFragmentToWheelChair()
-                                                )
-                                        } else {
-                                            this@IntroFragment.findNavController()
-                                                .navigate(
-                                                    IntroFragmentDirections
-                                                        .actionIntroFragmentToWheelChairWait()
-                                                )
-                                        }
-                                    })
-                                }
-                                categoryList[1], categoryEng[1] -> {
-                                    this@IntroFragment.findNavController()
-                                        .navigate(
-                                            IntroFragmentDirections
-                                                .actionIntroFragmentToPregnantFragment()
-                                        )
-                                }
-                                categoryList[2], categoryEng[2] -> {
-                                    this@IntroFragment.findNavController()
-                                        .navigate(
-                                            IntroFragmentDirections
-                                                .actionIntroFragmentToSocialWorker()
-                                        )
-                                }
+                    }
+                    if (it != null && !it.needVerification) {
+                        when (it.category) {
+                            categoryList[0], categoryEng[0] -> {
+                                viewModel.data.observe(viewLifecycleOwner, { data ->
+                                    if (data == null) {
+                                        this@IntroFragment.findNavController()
+                                            .navigate(
+                                                IntroFragmentDirections
+                                                    .actionIntroFragmentToWheelChair()
+                                            )
+                                    } else {
+                                        this@IntroFragment.findNavController()
+                                            .navigate(
+                                                IntroFragmentDirections
+                                                    .actionIntroFragmentToWheelChairWait()
+                                            )
+                                    }
+                                })
+                            }
+                            categoryList[1], categoryEng[1] -> {
+                                this@IntroFragment.findNavController()
+                                    .navigate(
+                                        IntroFragmentDirections
+                                            .actionIntroFragmentToPregnantFragment()
+                                    )
+                            }
+                            categoryList[2], categoryEng[2] -> {
+                                this@IntroFragment.findNavController()
+                                    .navigate(
+                                        IntroFragmentDirections
+                                            .actionIntroFragmentToSocialWorker()
+                                    )
                             }
                         }
                     }
-                })
-            }
+                }
+
+            })
         }
 
 

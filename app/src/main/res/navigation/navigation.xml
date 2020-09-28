@@ -133,7 +133,7 @@
             app:destination="@id/pregnantFragment"
             app:enterAnim="@anim/slide_in_right"
             app:exitAnim="@anim/slide_in_right_next"
-            app:popUpTo="@id/loginFragment"
+            app:popUpTo="@id/introFragment"
             app:popUpToInclusive="true" />
         <action
             android:id="@+id/action_introFragment_to_keyVerification"
@@ -145,14 +145,14 @@
         <action
             android:id="@+id/action_introFragment_to_responseFragment"
             app:destination="@id/responseFragment"
-            app:popUpTo="@id/loginFragment"
+            app:popUpTo="@id/introFragment"
             app:popUpToInclusive="true"
             app:enterAnim="@anim/slide_in_right"
             app:exitAnim="@anim/slide_in_right_next" />
         <action
             android:id="@+id/action_introFragment_to_socialWorker"
             app:destination="@id/socialWorker"
-            app:popUpTo="@id/loginFragment"
+            app:popUpTo="@id/introFragment"
             app:popUpToInclusive="true"
             app:enterAnim="@anim/slide_in_right"
             app:exitAnim="@anim/slide_in_right_next" />

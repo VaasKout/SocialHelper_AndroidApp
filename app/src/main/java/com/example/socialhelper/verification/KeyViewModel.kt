@@ -16,8 +16,10 @@ class KeyViewModel(application: Application) : AndroidViewModel(application) {
 
     private val repository: InfoRepository
     val allInfo: LiveData<Info>
+
     private val viewModelJob = Job()
     private val uiScope = CoroutineScope(Dispatchers.Main + viewModelJob)
+
     var serverKey = 0
     var serverId = 0
     var notificationShowed = false

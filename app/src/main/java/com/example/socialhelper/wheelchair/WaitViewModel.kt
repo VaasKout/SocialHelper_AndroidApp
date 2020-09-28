@@ -34,7 +34,7 @@ class WaitViewModel(application: Application): AndroidViewModel(application){
         allInfo = repository.allInfo
         val wheelDao = WheelDatabase.getWheelDatabase(application).wheelDao()
         wheelRepository = WheelRepository(wheelDao)
-        data = wheelRepository.allWheelData
+        data = wheelRepository.getData(1)
     }
 
     //connect to the server and check state
@@ -45,15 +45,17 @@ class WaitViewModel(application: Application): AndroidViewModel(application){
     }
 
     suspend fun requestServer() {
-       val job = uiScope.launch(Dispatchers.IO){
-           allInfo.value?.let {
-               if (readWrite.socket != null && readWrite.socket.isConnected) {
-                   readWrite.writeLine("helpWaitWheel")
-                   readWrite.writeLine(it.login)
-                   state = readWrite.readLine()
-                   Log.e("state", state)
-               }
-           }
+        val job = uiScope.launch(Dispatchers.IO) {
+            withTimeout(4000){
+                    allInfo.value?.let {
+                        if (readWrite.socket != null && readWrite.socket.isConnected) {
+                            readWrite.writeLine("helpWaitWheel")
+                            readWrite.writeLine(it.login)
+                            state = readWrite.readLine()
+                            Log.e("state", state)
+                        }
+                    }
+            }
         }
         job.join()
     }
@@ -71,5 +73,10 @@ class WaitViewModel(application: Application): AndroidViewModel(application){
         withContext(Dispatchers.IO){
             wheelRepository.deleteAll()
         }
+    }
+
+    override fun onCleared() {
+        super.onCleared()
+        viewModelJob.cancel()
     }
 }

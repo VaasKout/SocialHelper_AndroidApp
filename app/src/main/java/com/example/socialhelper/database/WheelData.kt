@@ -17,7 +17,7 @@ import androidx.room.PrimaryKey
 
 @Entity(tableName = "wheel_data")
 data class WheelData(
-    @PrimaryKey  val id: Int = 0,
+    @PrimaryKey (autoGenerate = true) val id: Int = 0,
     @ColumnInfo (name = "name") val name: String,
     @ColumnInfo (name = "first") val first: String,
     @ColumnInfo (name = "second") val second: String,

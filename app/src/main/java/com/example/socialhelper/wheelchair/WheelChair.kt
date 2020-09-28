@@ -57,12 +57,13 @@ class WheelChair : Fragment() {
                         .setNegativeButton("Нет") { _, _ ->
                         }
                         .setPositiveButton("Да") { _, _ ->
-                            viewModel.onClear()
+
                             this.findNavController()
                                 .navigate(
                                     WheelChairDirections
-                                        .actionWheelChairToLoginFragment()
-                                )
+                                        .actionWheelChairToLoginFragment())
+
+                            viewModel.onClear()
                         }.show()
 
                     true
@@ -139,7 +140,6 @@ class WheelChair : Fragment() {
                 allStations.add(st)
             }
         }
-
         /**
          * Time picker
          */
@@ -287,8 +287,7 @@ class WheelChair : Fragment() {
                                                         .actionWheelChairToWheelChairWait()
                                                 )
                                             viewModel.onDoneSending()
-                                        }
-
+                                            }
                                         }
                                     }
                             }.show()

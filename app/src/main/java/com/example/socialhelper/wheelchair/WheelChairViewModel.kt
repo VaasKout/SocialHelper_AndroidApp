@@ -35,7 +35,7 @@ class WheelChairViewModel(application: Application): AndroidViewModel(applicatio
         allInfo = repository.allInfo
         val wheelDao = WheelDatabase.getWheelDatabase(application).wheelDao()
         wheelRepository = WheelRepository(wheelDao)
-        data = wheelRepository.allWheelData
+        data = wheelRepository.getData(1)
     }
 
 
