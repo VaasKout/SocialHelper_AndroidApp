@@ -5,7 +5,7 @@ import androidx.lifecycle.AndroidViewModel
 import androidx.lifecycle.LiveData
 import androidx.lifecycle.MutableLiveData
 import com.example.socialhelper.database.Info
-import com.example.socialhelper.database.InfoDatabase
+import com.example.socialhelper.database.DataBase
 import com.example.socialhelper.repository.InfoRepository
 
 class ResponseViewModel(application: Application) : AndroidViewModel(application) {
@@ -14,7 +14,7 @@ class ResponseViewModel(application: Application) : AndroidViewModel(application
     val userInfo: LiveData<Info>
 
     init {
-        val infoDao = InfoDatabase.getInfoDatabase(application).infoDao()
+        val infoDao = DataBase.getInfoDatabase(application).infoDao()
         repository = InfoRepository(infoDao)
         userInfo = repository.allInfo
     }

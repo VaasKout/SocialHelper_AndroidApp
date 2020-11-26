@@ -28,7 +28,7 @@ class KeyVerification : Fragment() {
      */
     override fun onCreateView(
         inflater: LayoutInflater, container: ViewGroup?,
-        savedInstanceState: Bundle?): View? {
+        savedInstanceState: Bundle?): View {
 
         val binding: FragmentKeyVerificationBinding = DataBindingUtil
             .inflate(inflater, R.layout.fragment_key_verification, container, false)

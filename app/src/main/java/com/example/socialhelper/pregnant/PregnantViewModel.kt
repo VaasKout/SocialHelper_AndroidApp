@@ -8,7 +8,7 @@ import android.util.Log
 import androidx.lifecycle.*
 import com.example.socialhelper.bluetooth.BluetoothClient
 import com.example.socialhelper.database.Info
-import com.example.socialhelper.database.InfoDatabase
+import com.example.socialhelper.database.DataBase
 import com.example.socialhelper.repository.InfoRepository
 import kotlinx.coroutines.*
 
@@ -23,7 +23,7 @@ class PregnantViewModel(application: Application) : AndroidViewModel(application
     val allInfo: LiveData<Info>
 
     init {
-        val infoDao = InfoDatabase.getInfoDatabase(application).infoDao()
+        val infoDao = DataBase.getInfoDatabase(application).infoDao()
         repository = InfoRepository(infoDao)
         allInfo = repository.allInfo
     }

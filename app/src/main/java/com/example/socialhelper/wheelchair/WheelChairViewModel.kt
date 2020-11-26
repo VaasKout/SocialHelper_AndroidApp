@@ -6,19 +6,16 @@ import androidx.lifecycle.AndroidViewModel
 import androidx.lifecycle.LiveData
 import androidx.lifecycle.MutableLiveData
 import com.example.socialhelper.database.Info
-import com.example.socialhelper.database.InfoDatabase
+import com.example.socialhelper.database.DataBase
 import com.example.socialhelper.database.WheelData
-import com.example.socialhelper.database.WheelDatabase
 import com.example.socialhelper.network.NetworkClient
 import com.example.socialhelper.repository.InfoRepository
-import com.example.socialhelper.repository.WheelRepository
 import kotlinx.coroutines.*
 
 class WheelChairViewModel(application: Application): AndroidViewModel(application){
     val readWrite = NetworkClient()
 
     private val repository: InfoRepository
-    private val wheelRepository: WheelRepository
     val allInfo: LiveData<Info>
     val data: LiveData<WheelData>
 
@@ -30,12 +27,10 @@ class WheelChairViewModel(application: Application): AndroidViewModel(applicatio
 
     //initialize LiveData<Info> and LifeData<WheelData>
     init {
-        val infoDao = InfoDatabase.getInfoDatabase(application).infoDao()
+        val infoDao = DataBase.getInfoDatabase(application).infoDao()
         repository = InfoRepository(infoDao)
         allInfo = repository.allInfo
-        val wheelDao = WheelDatabase.getWheelDatabase(application).wheelDao()
-        wheelRepository = WheelRepository(wheelDao)
-        data = wheelRepository.getData(1)
+        data = repository.getWheelData(1)
     }
 
 
@@ -48,7 +43,7 @@ class WheelChairViewModel(application: Application): AndroidViewModel(applicatio
 
     private suspend fun insertData(wheelData: WheelData){
         withContext(Dispatchers.IO){
-            wheelRepository.insert(wheelData)
+            repository.insertWheel(wheelData)
         }
     }
 
@@ -58,9 +53,9 @@ class WheelChairViewModel(application: Application): AndroidViewModel(applicatio
         }
     }
 
-    suspend fun update(wheelData: WheelData){
+    private suspend fun update(wheelData: WheelData){
         withContext(Dispatchers.IO){
-            wheelRepository.updateData(wheelData)
+            repository.updateWheel(wheelData)
         }
     }
 

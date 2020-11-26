@@ -9,21 +9,21 @@ import androidx.room.RoomDatabase
  * @see com.example.socialhelper.database.Info
  */
 
-@Database(entities = [Info::class], version = 1, exportSchema = false)
-abstract class InfoDatabase : RoomDatabase() {
+@Database(entities = [Info::class, WheelData::class], version = 1, exportSchema = false)
+abstract class DataBase : RoomDatabase() {
     abstract fun infoDao(): InfoDao
 
     companion object {
         @Volatile
-        private var INSTANCE: InfoDatabase? = null
+        private var INSTANCE: DataBase? = null
 
-        fun getInfoDatabase(context: Context): InfoDatabase {
+        fun getInfoDatabase(context: Context): DataBase {
             synchronized(this) {
                 var instance = INSTANCE
                 if (instance == null) {
                     instance = Room.databaseBuilder(
                         context.applicationContext,
-                        InfoDatabase::class.java,
+                        DataBase::class.java,
                         "user_info",
                     ).fallbackToDestructiveMigration()
                         .build()

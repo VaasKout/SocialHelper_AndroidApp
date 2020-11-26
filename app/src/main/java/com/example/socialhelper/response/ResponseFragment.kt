@@ -20,7 +20,7 @@ class ResponseFragment : Fragment() {
      */
     override fun onCreateView(
         inflater: LayoutInflater, container: ViewGroup?,
-        savedInstanceState: Bundle?): View? {
+        savedInstanceState: Bundle?): View {
 
         val binding: FragmentResponseBinding =
             DataBindingUtil.inflate(inflater, R.layout.fragment_response, container, false)

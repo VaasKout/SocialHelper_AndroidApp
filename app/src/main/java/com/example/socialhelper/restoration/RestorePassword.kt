@@ -27,7 +27,7 @@ class RestorePassword : Fragment() {
     override fun onCreateView(
         inflater: LayoutInflater, container: ViewGroup?,
         savedInstanceState: Bundle?
-    ): View? {
+    ): View {
         val binding: FragmentRestorePasswordBinding = DataBindingUtil
             .inflate(inflater, R.layout.fragment_restore_password, container, false)
         val viewModel = ViewModelProvider(this).get(RestoreViewModel::class.java)

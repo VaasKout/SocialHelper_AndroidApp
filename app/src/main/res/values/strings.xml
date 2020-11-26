@@ -94,7 +94,6 @@
     <string name="connected">Подключено</string>
     <string name="order_accepted">Заказ принят</string>
     <string name="order_cancel">Заказ отменён</string>
-    <string name="cancel">Отменить</string>
     <string name="subway_map">Карта метро</string>
     <string name="close">Close</string>
     <string name="first_station">First Station</string>

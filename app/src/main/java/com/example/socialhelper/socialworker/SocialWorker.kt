@@ -13,7 +13,6 @@ import androidx.navigation.fragment.findNavController
 import androidx.recyclerview.widget.LinearLayoutManager
 import androidx.recyclerview.widget.RecyclerView
 import com.example.socialhelper.R
-import com.example.socialhelper.database.WheelData
 import com.example.socialhelper.databinding.FragmentSocialWorkerBinding
 import com.google.android.material.dialog.MaterialAlertDialogBuilder
 import com.google.android.material.snackbar.Snackbar
@@ -23,7 +22,7 @@ import kotlinx.coroutines.launch
 class SocialWorker : Fragment() {
     override fun onCreateView(
         inflater: LayoutInflater, container: ViewGroup?,
-        savedInstanceState: Bundle?): View? {
+        savedInstanceState: Bundle?): View {
         
         /**
          * SocialWorker client fragment
@@ -238,7 +237,7 @@ class SocialWorker : Fragment() {
                                     socAdapter.currentList[adapter.adapterPosition].checked = false
                                     viewModel.updateData(socAdapter.
                                     currentList[adapter.adapterPosition])
-                                    viewModel.deleteData()
+                                    viewModel.deleteAll()
                                     socAdapter.notifyDataSetChanged()
                                 } else {
                                     Snackbar.make(

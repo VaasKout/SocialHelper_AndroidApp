@@ -31,7 +31,7 @@ class WheelChair : Fragment() {
     override fun onCreateView(
         inflater: LayoutInflater, container: ViewGroup?,
         savedInstanceState: Bundle?
-    ): View? {
+    ): View {
 
         /**
          * WheelChair fragment where client can make an order to transfer in Moscow subway
@@ -164,7 +164,8 @@ class WheelChair : Fragment() {
                         cal.set(Calendar.MINUTE, minute)
                         binding.textTimeResult.text =
                             SimpleDateFormat("HH:mm", Locale.ENGLISH).format(cal.time)
-                        viewModel.timeField = binding.textTimeResult.text.toString()
+                        viewModel.timeField =
+                            SimpleDateFormat("HH:mm", Locale.ENGLISH).format(cal.time)
                     }
                     TimePickerDialog(
                         context, timeSetListener, cal.get(Calendar.HOUR_OF_DAY),

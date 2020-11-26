@@ -30,7 +30,7 @@ class WheelChairWait : Fragment() {
     override fun onCreateView(
         inflater: LayoutInflater, container: ViewGroup?,
         savedInstanceState: Bundle?
-    ): View? {
+    ): View {
         val binding: FragmentWheelChairWaitBinding = DataBindingUtil
             .inflate(inflater, R.layout.fragment_wheel_chair_wait, container, false)
         val viewModel = ViewModelProvider(this)

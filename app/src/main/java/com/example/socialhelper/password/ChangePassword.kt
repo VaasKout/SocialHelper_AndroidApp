@@ -30,7 +30,7 @@ class ChangePassword : Fragment() {
     override fun onCreateView(
         inflater: LayoutInflater, container: ViewGroup?,
         savedInstanceState: Bundle?
-    ): View? {
+    ): View {
         val binding: FragmentChangePasswordBinding = DataBindingUtil
                 .inflate(inflater, R.layout.fragment_change_password, container, false)
         val viewModel =

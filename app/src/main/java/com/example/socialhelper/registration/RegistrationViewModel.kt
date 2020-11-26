@@ -6,7 +6,7 @@ import androidx.lifecycle.LiveData
 import androidx.lifecycle.MutableLiveData
 import com.example.socialhelper.R
 import com.example.socialhelper.database.Info
-import com.example.socialhelper.database.InfoDatabase
+import com.example.socialhelper.database.DataBase
 import com.example.socialhelper.network.NetworkClient
 import com.example.socialhelper.repository.InfoRepository
 import kotlinx.coroutines.*
@@ -17,7 +17,7 @@ class RegistrationViewModel(application: Application) : AndroidViewModel(applica
     val allInfo: LiveData<Info>
 
     init {
-        val infoDao = InfoDatabase.getInfoDatabase(application).infoDao()
+        val infoDao = DataBase.getInfoDatabase(application).infoDao()
         repository = InfoRepository(infoDao)
         allInfo = repository.allInfo
     }
@@ -58,7 +58,7 @@ class RegistrationViewModel(application: Application) : AndroidViewModel(applica
 
     private suspend fun insertInfo(info: Info) {
         withContext(Dispatchers.IO) {
-            repository.insert(info)
+            repository.insertInfo(info)
         }
     }
 

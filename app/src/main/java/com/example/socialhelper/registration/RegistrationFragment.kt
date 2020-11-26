@@ -28,7 +28,8 @@ class RegistrationFragment : Fragment() {
      */
     override fun onCreateView(
         inflater: LayoutInflater, container: ViewGroup?,
-        savedInstanceState: Bundle?): View? {
+        savedInstanceState: Bundle?
+    ): View {
 
         val binding: FragmentRegistrationBinding = DataBindingUtil
             .inflate(inflater, R.layout.fragment_registration, container, false)
@@ -79,7 +80,7 @@ class RegistrationFragment : Fragment() {
             binding.login.error = null
         }
 
-        binding.surnameEditInput.addTextChangedListener{
+        binding.surnameEditInput.addTextChangedListener {
             binding.surnameInputReg.error = null
         }
 
@@ -125,48 +126,49 @@ class RegistrationFragment : Fragment() {
 
 
                 if (userName.isEmpty()) {
-                        binding.userInputReg.error = getString(R.string.user_input_error)
-                        viewModel.onDoneNavigating()
+                    binding.userInputReg.error = getString(R.string.user_input_error)
+                    viewModel.onDoneNavigating()
                 }
 
                 if (password.isEmpty()) {
-                        binding.passwordInputReg.error = getString(R.string.password_input_error)
-                        viewModel.onDoneNavigating()
+                    binding.passwordInputReg.error = getString(R.string.password_input_error)
+                    viewModel.onDoneNavigating()
                 }
 
                 if (login.isEmpty()) {
-                        binding.login.error = getString(R.string.enter_login)
-                        viewModel.onDoneNavigating()
+                    binding.login.error = getString(R.string.enter_login)
+                    viewModel.onDoneNavigating()
                 }
 
                 if (surname.isEmpty()) {
-                        binding.surnameInputReg.error = getString(R.string.surname_input_error)
-                        viewModel.onDoneNavigating()
+                    binding.surnameInputReg.error = getString(R.string.surname_input_error)
+                    viewModel.onDoneNavigating()
                 }
 
                 if (passwordConfirm.isEmpty()) {
-                        binding.confirmPassword.error = getString(R.string.confirm_password)
-                        viewModel.onDoneNavigating()
+                    binding.confirmPassword.error = getString(R.string.confirm_password)
+                    viewModel.onDoneNavigating()
                 }
 
                 if (email.isEmpty()) {
-                        binding.email.error = "Введите почту"
-                        viewModel.onDoneNavigating()
+                    binding.email.error = "Введите почту"
+                    viewModel.onDoneNavigating()
 
                 } else if (email.isNotEmpty() &&
                     (!email.contains("@") ||
-                            !email.contains("."))) {
-                        binding.email.error = getString(R.string.wrong_email_input)
+                            !email.contains("."))
+                ) {
+                    binding.email.error = getString(R.string.wrong_email_input)
                 }
 
                 if (category.isEmpty()) {
-                        binding.spinner.error = getString(R.string.choose_category)
-                        viewModel.onDoneNavigating()
+                    binding.spinner.error = getString(R.string.choose_category)
+                    viewModel.onDoneNavigating()
                 }
 
                 if (numberEdit.isEmpty() && binding.numberReference.isVisible) {
-                        binding.numberReference.error = getString(R.string.enter_reference_number)
-                        viewModel.onDoneNavigating()
+                    binding.numberReference.error = getString(R.string.enter_reference_number)
+                    viewModel.onDoneNavigating()
                 }
 
                 if (passwordConfirm != password) {
@@ -184,25 +186,25 @@ class RegistrationFragment : Fragment() {
                     surname.isNotEmpty() &&
                     binding.numberReference.error.isNullOrEmpty() &&
                     category.isNotEmpty() &&
-                    password == passwordConfirm) {
+                    password == passwordConfirm
+                ) {
 
-                    if(binding.numberReference.isVisible){
+                    if (binding.numberReference.isVisible) {
                         val info = Info(
                             id = 1, name = userName, surname = surname,
                             password = password, login = login,
                             email = email, category = category,
-                            reference = numberEdit.toInt())
+                            reference = numberEdit.toInt()
+                        )
                         viewModel.onInsert(info)
-                    } else{
+                    } else {
                         val info = Info(
                             id = 1, name = userName, surname = surname,
                             password = password, login = login,
-                            email = email, category = category)
+                            email = email, category = category
+                        )
                         viewModel.onInsert(info)
                     }
-
-
-
 
                     MaterialAlertDialogBuilder(requireContext())
                         .setMessage("Данные введены верно?")
@@ -210,7 +212,7 @@ class RegistrationFragment : Fragment() {
                             viewModel.onDoneNavigating()
                         }
                         .setPositiveButton("Да") { _, _ ->
-                            viewModel.allInfo.observe(viewLifecycleOwner, {info ->
+                            viewModel.allInfo.observe(viewLifecycleOwner, { info ->
                                 lifecycleScope.launch {
                                     binding.regButton.isEnabled = false
                                     binding.regButton.text = getString(R.string.wait)
@@ -235,13 +237,14 @@ class RegistrationFragment : Fragment() {
                                                 binding.numberReference.error =
                                                     getString(R.string.check_reference)
                                                 if (info.category == viewModel.categoryList[0] ||
-                                                        info.category == viewModel.categoryList[2]){
+                                                    info.category == viewModel.categoryList[2]
+                                                ) {
                                                     Snackbar.make(
                                                         binding.regButton,
                                                         getString(R.string.user_exist),
                                                         Snackbar.LENGTH_SHORT
                                                     ).show()
-                                                } else{
+                                                } else {
                                                     Snackbar.make(
                                                         binding.regButton,
                                                         getString(R.string.pregnant_exist),
@@ -249,10 +252,12 @@ class RegistrationFragment : Fragment() {
                                                     ).show()
                                                 }
                                                 binding.regButton.isEnabled = true
-                                                binding.regButton.text = getString(R.string.register)
+                                                binding.regButton.text =
+                                                    getString(R.string.register)
                                                 viewModel.onDoneNavigating()
-                                            } "wait" -> {
-                                            Log.e("state", viewModel.state)
+                                            }
+                                            "wait" -> {
+                                                Log.e("state", viewModel.state)
                                                 val infoReference = Info(
                                                     id = info.id,
                                                     name = info.name,
@@ -262,24 +267,30 @@ class RegistrationFragment : Fragment() {
                                                     email = info.email,
                                                     reference = info.reference,
                                                     needVerification = true,
-                                                    category = category)
+                                                    category = category
+                                                )
                                                 viewModel.updateInfo(infoReference)
                                                 this@RegistrationFragment.findNavController()
                                                     .navigate(
                                                         RegistrationFragmentDirections
-                                                            .actionRegistrationFragmentToKeyVerification())
+                                                            .actionRegistrationFragmentToKeyVerification()
+                                                    )
                                                 viewModel.onDoneNavigating()
-                                            } else ->{
-                                            Log.e("error",
-                                                "unknown response: ${viewModel.state}")
-                                            Snackbar.make(
-                                                binding.regButton,
-                                                getString(R.string.retry_later),
-                                                Snackbar.LENGTH_SHORT
-                                            ).show()
-                                            binding.regButton.isEnabled = true
-                                            binding.regButton.text = getString(R.string.register)
-                                            viewModel.onDoneNavigating()
+                                            }
+                                            else -> {
+                                                Log.e(
+                                                    "error",
+                                                    "unknown response: ${viewModel.state}"
+                                                )
+                                                Snackbar.make(
+                                                    binding.regButton,
+                                                    getString(R.string.retry_later),
+                                                    Snackbar.LENGTH_SHORT
+                                                ).show()
+                                                binding.regButton.isEnabled = true
+                                                binding.regButton.text =
+                                                    getString(R.string.register)
+                                                viewModel.onDoneNavigating()
                                             }
                                         }
                                     }
@@ -310,7 +321,7 @@ class RegistrationFragment : Fragment() {
         }
 
         binding.exposeDownMenu.setOnItemClickListener { adapterView, _, position, _ ->
-            when(adapterView.getItemAtPosition(position).toString()){
+            when (adapterView.getItemAtPosition(position).toString()) {
                 viewModel.categoryList[0], viewModel.categoryList[2] -> {
                     binding.numberReference.visibility = View.GONE
                     binding.numberReference.error = null
