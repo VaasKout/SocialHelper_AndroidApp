@@ -5,6 +5,7 @@ import android.util.Log
 import androidx.lifecycle.AndroidViewModel
 import androidx.lifecycle.LiveData
 import androidx.lifecycle.MutableLiveData
+import androidx.lifecycle.viewModelScope
 import com.example.socialhelper.database.Info
 import com.example.socialhelper.database.DataBase
 import com.example.socialhelper.network.NetworkClient
@@ -21,9 +22,6 @@ class LoginViewModel(application: Application) : AndroidViewModel(application) {
     var password = 0
     var serverID = 0
     var serverKey = 0
-
-    private val viewModelJob = Job()
-    private val uiScope = CoroutineScope(Dispatchers.Main + viewModelJob)
 
 
     init {
@@ -79,7 +77,7 @@ class LoginViewModel(application: Application) : AndroidViewModel(application) {
     }
 
     fun onClear() {
-        uiScope.launch {
+        viewModelScope.launch {
             deleteInfo()
         }
     }
@@ -127,10 +125,5 @@ class LoginViewModel(application: Application) : AndroidViewModel(application) {
 
     fun onDoneNavigationToRestore() {
         _navigateToRestoreFrag.value = false
-    }
-
-    override fun onCleared() {
-        super.onCleared()
-        viewModelJob.cancel()
     }
 }

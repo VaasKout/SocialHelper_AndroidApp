@@ -59,7 +59,6 @@ class ChangeViewModel(application: Application): AndroidViewModel(application){
     val changed: LiveData<Boolean> = _changed
 
     //onClick methods
-
     fun onStartChange(){
         _changed.value = true
     }

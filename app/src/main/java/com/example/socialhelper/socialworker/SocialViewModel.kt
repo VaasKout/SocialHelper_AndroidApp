@@ -4,6 +4,7 @@ import android.app.Application
 import android.util.Log
 import androidx.lifecycle.AndroidViewModel
 import androidx.lifecycle.LiveData
+import androidx.lifecycle.viewModelScope
 import com.example.socialhelper.database.Info
 import com.example.socialhelper.database.DataBase
 import com.example.socialhelper.database.WheelData
@@ -20,10 +21,6 @@ class SocialViewModel(application: Application): AndroidViewModel(application){
 
     val allInfo: LiveData<Info>
     val data: LiveData<List<WheelData>>
-
-    //Coroutines
-    private val viewModelJob = Job()
-    private val uiScope = CoroutineScope(Dispatchers.Main + viewModelJob)
 
     //initialize LiveData<Info> and LiveData<List<WheelData>>
     init {
@@ -48,7 +45,7 @@ class SocialViewModel(application: Application): AndroidViewModel(application){
         var second = ""
         var time = ""
         var comment = ""
-       val job = uiScope.launch(Dispatchers.IO){
+       val job = viewModelScope.launch(Dispatchers.IO){
            withTimeout(4000){
                if (readWrite.socket != null && readWrite.socket.isConnected) {
                    readWrite.writeLine("helpGet")
@@ -99,7 +96,7 @@ class SocialViewModel(application: Application): AndroidViewModel(application){
     }
 
     fun deleteAll(){
-        uiScope.launch {
+        viewModelScope.launch {
             deleteWheelData()
             clear()
         }
@@ -141,10 +138,5 @@ class SocialViewModel(application: Application): AndroidViewModel(application){
                 readWrite.writeLine("complete")
             }
         }
-    }
-
-    override fun onCleared() {
-        super.onCleared()
-        viewModelJob.cancel()
     }
 }

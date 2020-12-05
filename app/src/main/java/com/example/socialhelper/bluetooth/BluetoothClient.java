@@ -54,7 +54,7 @@ public class BluetoothClient implements Closeable {
 
     public void createConnection() {
         if (btAdapter != null) {
-            // MAC-адрес Bluetooth модуля
+            // MAC-address Bluetooth module
             String address = "98:D3:11:F8:72:6B";
             BluetoothDevice device = btAdapter.getRemoteDevice(address);
 

@@ -5,6 +5,7 @@ import android.util.Log
 import androidx.lifecycle.AndroidViewModel
 import androidx.lifecycle.LiveData
 import androidx.lifecycle.MutableLiveData
+import androidx.lifecycle.viewModelScope
 import com.example.socialhelper.R
 import com.example.socialhelper.database.Info
 import com.example.socialhelper.database.DataBase
@@ -16,9 +17,6 @@ class KeyViewModel(application: Application) : AndroidViewModel(application) {
 
     private val repository: InfoRepository
     val allInfo: LiveData<Info>
-
-    private val viewModelJob = Job()
-    private val uiScope = CoroutineScope(Dispatchers.Main + viewModelJob)
 
     var serverKey = 0
     var serverId = 0
@@ -78,7 +76,7 @@ class KeyViewModel(application: Application) : AndroidViewModel(application) {
     }
 
     fun onClear() {
-        uiScope.launch {
+        viewModelScope.launch {
             deleteInfo()
         }
     }
@@ -120,10 +118,5 @@ class KeyViewModel(application: Application) : AndroidViewModel(application) {
 
     fun onDoneShow() {
         _showNotification.value = false
-    }
-
-    override fun onCleared() {
-        super.onCleared()
-        viewModelJob.cancel()
     }
 }

@@ -11,6 +11,7 @@ import androidx.lifecycle.lifecycleScope
 import androidx.navigation.fragment.findNavController
 import com.example.socialhelper.R
 import com.example.socialhelper.databinding.FragmentIntroBinding
+import kotlinx.coroutines.launch
 
 class IntroFragment : Fragment() {
     override fun onCreateView(
@@ -54,7 +55,7 @@ class IntroFragment : Fragment() {
 //                                            .actionIntroFragmentToSocialWorker())
 //            }
 
-        lifecycleScope.launchWhenResumed {
+        lifecycleScope.launch {
             viewModel.animate(wordList)
             viewModel.allInfo.observe(viewLifecycleOwner, {
                 if (this@IntroFragment

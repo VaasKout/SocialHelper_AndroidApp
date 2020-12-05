@@ -5,6 +5,7 @@ import android.util.Log
 import androidx.lifecycle.AndroidViewModel
 import androidx.lifecycle.LiveData
 import androidx.lifecycle.MutableLiveData
+import androidx.lifecycle.viewModelScope
 import com.example.socialhelper.database.Info
 import com.example.socialhelper.database.DataBase
 import com.example.socialhelper.database.WheelData
@@ -12,16 +13,12 @@ import com.example.socialhelper.network.NetworkClient
 import com.example.socialhelper.repository.InfoRepository
 import kotlinx.coroutines.*
 
-class WheelChairViewModel(application: Application): AndroidViewModel(application){
+class WheelChairViewModel(application: Application) : AndroidViewModel(application) {
     val readWrite = NetworkClient()
 
     private val repository: InfoRepository
     val allInfo: LiveData<Info>
     val data: LiveData<WheelData>
-
-    //Coroutines
-    private val viewModelJob = Job()
-    private val uiScope = CoroutineScope(Dispatchers.Main + viewModelJob)
 
     var timeField = ""
 
@@ -35,39 +32,39 @@ class WheelChairViewModel(application: Application): AndroidViewModel(applicatio
 
 
     //WheelDao methods
-    fun onInsert(wheelData: WheelData){
-        uiScope.launch {
+    fun onInsert(wheelData: WheelData) {
+        viewModelScope.launch {
             insertData(wheelData)
         }
     }
 
-    private suspend fun insertData(wheelData: WheelData){
-        withContext(Dispatchers.IO){
+    private suspend fun insertData(wheelData: WheelData) {
+        withContext(Dispatchers.IO) {
             repository.insertWheel(wheelData)
         }
     }
 
-    fun onUpdate(wheelData: WheelData){
-        uiScope.launch(Dispatchers.IO) {
+    fun onUpdate(wheelData: WheelData) {
+        viewModelScope.launch(Dispatchers.IO) {
             update(wheelData)
         }
     }
 
-    private suspend fun update(wheelData: WheelData){
-        withContext(Dispatchers.IO){
+    private suspend fun update(wheelData: WheelData) {
+        withContext(Dispatchers.IO) {
             repository.updateWheel(wheelData)
         }
     }
 
     //InfoDao methods
-    fun onClear(){
-        uiScope.launch {
+    fun onClear() {
+        viewModelScope.launch {
             clear()
         }
     }
 
-    private suspend fun clear(){
-        withContext(Dispatchers.IO){
+    private suspend fun clear() {
+        withContext(Dispatchers.IO) {
             repository.deleteInfo()
         }
     }
@@ -80,18 +77,20 @@ class WheelChairViewModel(application: Application): AndroidViewModel(applicatio
     }
 
     suspend fun requestServer() {
-        withContext(Dispatchers.IO){
-            allInfo.value?.let {info ->
-           data.value?.let { data ->
-                Log.e("data", "is not null - id ${data.id}")
-                if (readWrite.socket != null
-                    && readWrite.socket.isConnected ){
-                    readWrite.writeLine("helpRequest")
-                    readWrite.writeWheelchairData(
-                        info.login, info.name, info.surname,
-                        data.first, data.second, data.time,
-                        data.comment)
-                    Log.e("sent", "helprequest")
+        withContext(Dispatchers.IO) {
+            allInfo.value?.let { info ->
+                data.value?.let { data ->
+                    Log.e("data", "is not null - id ${data.id}")
+                    if (readWrite.socket != null
+                        && readWrite.socket.isConnected
+                    ) {
+                        readWrite.writeLine("helpRequest")
+                        readWrite.writeWheelchairData(
+                            info.login, info.name, info.surname,
+                            data.first, data.second, data.time,
+                            data.comment
+                        )
+                        Log.e("sent", "helprequest")
                     }
                 }
             }
@@ -102,15 +101,11 @@ class WheelChairViewModel(application: Application): AndroidViewModel(applicatio
     private val _send = MutableLiveData<Boolean>()
     val send: LiveData<Boolean> = _send
 
-    fun onStartSending(){
+    fun onStartSending() {
         _send.value = true
     }
-    fun onDoneSending(){
-        _send.value = false
-    }
 
-    override fun onCleared() {
-        super.onCleared()
-        viewModelJob.cancel()
+    fun onDoneSending() {
+        _send.value = false
     }
 }

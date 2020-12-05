@@ -16,9 +16,6 @@ class PregnantViewModel(application: Application) : AndroidViewModel(application
     //make instance of BluetoothClient()
     val bluetoothReadWrite = BluetoothClient()
 
-    private val viewModelJob = Job()
-    private val uiScope = CoroutineScope(Dispatchers.Main + viewModelJob)
-
     private val repository: InfoRepository
     val allInfo: LiveData<Info>
 
@@ -67,7 +64,7 @@ class PregnantViewModel(application: Application) : AndroidViewModel(application
 
     //InfoDao methods
     fun onClear() {
-        uiScope.launch {
+        viewModelScope.launch {
             deleteInfo()
         }
     }
@@ -81,7 +78,6 @@ class PregnantViewModel(application: Application) : AndroidViewModel(application
     //Destroy all connection after fragment is closed
     override fun onCleared() {
         super.onCleared()
-        viewModelJob.cancel()
         bluetoothReadWrite.closeConnection()
         bluetoothReadWrite.btSocket = null
         Log.e("closed", "Port closed")

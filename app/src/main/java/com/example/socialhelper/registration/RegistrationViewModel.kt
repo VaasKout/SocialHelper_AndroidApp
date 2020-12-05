@@ -4,6 +4,7 @@ import android.app.Application
 import androidx.lifecycle.AndroidViewModel
 import androidx.lifecycle.LiveData
 import androidx.lifecycle.MutableLiveData
+import androidx.lifecycle.viewModelScope
 import com.example.socialhelper.R
 import com.example.socialhelper.database.Info
 import com.example.socialhelper.database.DataBase
@@ -45,13 +46,10 @@ class RegistrationViewModel(application: Application) : AndroidViewModel(applica
         _navigateToWait.value = true
     }
 
-    //Coroutines
-    private val viewModelJob = Job()
-    private val uiScope = CoroutineScope(Dispatchers.Main + viewModelJob)
 
     //Database methods
     fun onInsert(info: Info) {
-        uiScope.launch {
+        viewModelScope.launch {
             insertInfo(info)
         }
     }
@@ -70,7 +68,7 @@ class RegistrationViewModel(application: Application) : AndroidViewModel(applica
     }
 
     fun onClear() {
-        uiScope.launch {
+        viewModelScope.launch {
             deleteInfo()
         }
     }
@@ -80,6 +78,7 @@ class RegistrationViewModel(application: Application) : AndroidViewModel(applica
             repository.deleteInfo()
         }
     }
+
     //Connect and write data to the server
     suspend fun connectToServer() {
         withContext(Dispatchers.IO) {
@@ -91,25 +90,27 @@ class RegistrationViewModel(application: Application) : AndroidViewModel(applica
         withContext(Dispatchers.IO) {
             allInfo.value?.let {
                 var s = ""
-                when(it.category){
+                when (it.category) {
                     categoryList[0] -> s = categoryEngList[0]
                     categoryList[1] -> s = categoryEngList[1]
                     categoryList[2] -> s = categoryEngList[2]
                 }
                 if (readWrite.socket != null && readWrite.socket.isConnected) {
-                        when(s){
-                           categoryEngList[0], categoryEngList[2] -> {
-                               readWrite.writeLine("userRegData")
-                               readWrite.writeUserRegData(
-                                   0,
-                                   it.password.toInt(),
-                                   it.name,
-                                   it.surname,
-                                   it.login,
-                                   it.email,
-                                   s)
+                    when (s) {
+                        categoryEngList[0], categoryEngList[2] -> {
+                            readWrite.writeLine("userRegData")
+                            readWrite.writeUserRegData(
+                                0,
+                                it.password.toInt(),
+                                it.name,
+                                it.surname,
+                                it.login,
+                                it.email,
+                                s
+                            )
 
-                           } else -> {
+                        }
+                        else -> {
                             readWrite.writeLine("regPregnant")
                             readWrite.writeUserRegData(
                                 it.reference,
@@ -118,17 +119,13 @@ class RegistrationViewModel(application: Application) : AndroidViewModel(applica
                                 it.surname,
                                 it.login,
                                 it.email,
-                                s)
-                            }
+                                s
+                            )
                         }
-                        state = readWrite.readLine()
                     }
+                    state = readWrite.readLine()
                 }
             }
         }
-
-    override fun onCleared() {
-        super.onCleared()
-        viewModelJob.cancel()
     }
 }
