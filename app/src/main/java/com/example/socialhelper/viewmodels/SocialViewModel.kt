@@ -1,4 +1,4 @@
-package com.example.socialhelper.socialworker
+package com.example.socialhelper.viewmodels
 
 import android.app.Application
 import android.util.Log
@@ -12,7 +12,7 @@ import com.example.socialhelper.network.NetworkClient
 import com.example.socialhelper.repository.InfoRepository
 import kotlinx.coroutines.*
 
-class SocialViewModel(application: Application): AndroidViewModel(application){
+class SocialViewModel(application: Application) : AndroidViewModel(application) {
     val readWrite = NetworkClient()
 
     private val repository: InfoRepository
@@ -37,7 +37,7 @@ class SocialViewModel(application: Application): AndroidViewModel(application){
         }
     }
 
-    suspend fun readData(){
+    suspend fun readData() {
 //        var login = ""
         var firstName = ""
 //        var lastName = ""
@@ -45,23 +45,23 @@ class SocialViewModel(application: Application): AndroidViewModel(application){
         var second = ""
         var time = ""
         var comment = ""
-       val job = viewModelScope.launch(Dispatchers.IO){
-           withTimeout(4000){
-               if (readWrite.socket != null && readWrite.socket.isConnected) {
-                   readWrite.writeLine("helpGet")
+        val job = viewModelScope.launch(Dispatchers.IO) {
+            withTimeout(4000) {
+                if (readWrite.socket != null && readWrite.socket.isConnected) {
+                    readWrite.writeLine("helpGet")
 //                   login = readWrite.readLine()
-                   firstName = readWrite.readLine()
+                    firstName = readWrite.readLine()
 //                   lastName = readWrite.readLine()
-                   first = readWrite.readLine()
-                   second = readWrite.readLine()
-                   time = readWrite.readLine()
-                   comment = readWrite.readLine()
-                   Log.e("name", firstName)
-               }
-           }
+                    first = readWrite.readLine()
+                    second = readWrite.readLine()
+                    time = readWrite.readLine()
+                    comment = readWrite.readLine()
+                    Log.e("name", firstName)
+                }
+            }
         }
         job.join()
-        if (time.isNotEmpty()){
+        if (time.isNotEmpty()) {
             val data = WheelData(
                 id = 1,
                 name = firstName,
@@ -75,8 +75,8 @@ class SocialViewModel(application: Application): AndroidViewModel(application){
     }
 
     //InfoDao method
-    private suspend fun clear(){
-        withContext(Dispatchers.IO){
+    private suspend fun clear() {
+        withContext(Dispatchers.IO) {
             repository.deleteInfo()
         }
     }
@@ -89,42 +89,42 @@ class SocialViewModel(application: Application): AndroidViewModel(application){
 //        }
 //    }
 
-    private suspend fun insert(wheelData: WheelData){
-       withContext(Dispatchers.IO){
+    private suspend fun insert(wheelData: WheelData) {
+        withContext(Dispatchers.IO) {
             repository.insertWheel(wheelData)
         }
     }
 
-    fun deleteAll(){
+    fun deleteAll() {
         viewModelScope.launch {
             deleteWheelData()
             clear()
         }
     }
 
-    private suspend fun deleteWheelData(){
-        withContext(Dispatchers.IO){
+    private suspend fun deleteWheelData() {
+        withContext(Dispatchers.IO) {
             repository.deleteAllWheel()
         }
     }
 
-    suspend fun updateData(wheelData: WheelData){
-        withContext(Dispatchers.IO){
+    suspend fun updateData(wheelData: WheelData) {
+        withContext(Dispatchers.IO) {
             repository.updateWheel(wheelData)
         }
     }
 
     //Check if SocialWorker took an order
-    fun onProcess(): Boolean{
-        data.value?.let {allData ->
+    fun onProcess(): Boolean {
+        data.value?.let { allData ->
             return allData.any { it.checked }
         }
         return false
     }
 
     //Check order status from server
-    suspend fun acceptOrder(){
-        withContext(Dispatchers.IO){
+    suspend fun acceptOrder() {
+        withContext(Dispatchers.IO) {
             if (readWrite.socket != null && readWrite.socket.isConnected) {
                 readWrite.writeLine("accepted")
                 Log.e("accept", "yes")
@@ -132,8 +132,8 @@ class SocialViewModel(application: Application): AndroidViewModel(application){
         }
     }
 
-    suspend fun completeOrder(){
-        withContext(Dispatchers.IO){
+    suspend fun completeOrder() {
+        withContext(Dispatchers.IO) {
             if (readWrite.socket != null && readWrite.socket.isConnected) {
                 readWrite.writeLine("complete")
             }

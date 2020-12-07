@@ -1,4 +1,4 @@
-package com.example.socialhelper.intro
+package com.example.socialhelper.viewmodels
 
 import android.app.Application
 import android.view.animation.AnimationUtils
@@ -27,7 +27,7 @@ class IntroViewModel(application: Application) : AndroidViewModel(application) {
         data = repository.allWheelData
     }
 
-    suspend fun animate(list: List<TextView>){
+    suspend fun animate(list: List<TextView>) {
         val appear =
             AnimationUtils.loadAnimation(getApplication(), R.anim.fade_in)
         for (i in list) {

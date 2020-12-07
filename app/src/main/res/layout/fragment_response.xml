@@ -5,13 +5,13 @@
     <data>
         <variable
             name="viewModel"
-            type="com.example.socialhelper.response.ResponseViewModel"/>
+            type="com.example.socialhelper.viewmodels.ResponseViewModel"/>
     </data>
 
     <androidx.constraintlayout.widget.ConstraintLayout
         android:layout_width="match_parent"
         android:layout_height="match_parent"
-        tools:context="com.example.socialhelper.response.ResponseFragment"
+        tools:context="com.example.socialhelper.ui.ResponseFragment"
         android:padding="16dp">
 
         <TextView

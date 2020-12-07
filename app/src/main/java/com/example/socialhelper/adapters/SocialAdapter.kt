@@ -1,4 +1,4 @@
-package com.example.socialhelper.socialworker
+package com.example.socialhelper.adapters
 
 import android.view.LayoutInflater
 import android.view.ViewGroup
@@ -16,10 +16,10 @@ import com.example.socialhelper.databinding.RecyclerItemBinding
  * Adapter for recyclerview in SocialWorker fragment
  * it extends ListAdapter class, which is inherited from RecyclerView
  * @see androidx.recyclerview.widget.ListAdapter
- * @see com.example.socialhelper.socialworker.SocialWorker
+ * @see com.example.socialhelper.ui.SocialWorkerFragment
  */
 
-class SocialAdapter:
+class SocialAdapter :
     ListAdapter<WheelData, SocialAdapter.ViewHolder>(NoteDiffCallBack()) {
 
     //LiveData
@@ -37,16 +37,16 @@ class SocialAdapter:
         return ViewHolder(binding)
     }
 
-    inner class ViewHolder(val binding: RecyclerItemBinding):
+    inner class ViewHolder(val binding: RecyclerItemBinding) :
         RecyclerView.ViewHolder(binding.root) {
-        fun bind(wheelData: WheelData){
+        fun bind(wheelData: WheelData) {
             binding.wheelData = wheelData
             _viewAdapter.value = this
         }
     }
 }
 
-class NoteDiffCallBack : DiffUtil.ItemCallback<WheelData>(){
+class NoteDiffCallBack : DiffUtil.ItemCallback<WheelData>() {
     override fun areItemsTheSame(oldItem: WheelData, newItem: WheelData): Boolean {
         return oldItem.id == newItem.id
     }

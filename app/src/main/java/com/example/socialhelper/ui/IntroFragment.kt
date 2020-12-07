@@ -1,4 +1,4 @@
-package com.example.socialhelper.intro
+package com.example.socialhelper.ui
 
 import android.os.Bundle
 import android.view.LayoutInflater
@@ -11,6 +11,7 @@ import androidx.lifecycle.lifecycleScope
 import androidx.navigation.fragment.findNavController
 import com.example.socialhelper.R
 import com.example.socialhelper.databinding.FragmentIntroBinding
+import com.example.socialhelper.viewmodels.IntroViewModel
 import kotlinx.coroutines.launch
 
 class IntroFragment : Fragment() {
@@ -78,8 +79,7 @@ class IntroFragment : Fragment() {
                             R.id.introFragment
                         ) {
                             this@IntroFragment.findNavController().navigate(
-                                IntroFragmentDirections
-                                    .actionIntroFragmentToKeyVerification()
+                                IntroFragmentDirections.actionIntroFragmentToKeyVerification()
                             )
                         }
                     }
@@ -90,14 +90,12 @@ class IntroFragment : Fragment() {
                                     if (data == null) {
                                         this@IntroFragment.findNavController()
                                             .navigate(
-                                                IntroFragmentDirections
-                                                    .actionIntroFragmentToWheelChair()
+                                                IntroFragmentDirections.actionIntroFragmentToWheelChair()
                                             )
                                     } else {
                                         this@IntroFragment.findNavController()
                                             .navigate(
-                                                IntroFragmentDirections
-                                                    .actionIntroFragmentToWheelChairWait()
+                                                IntroFragmentDirections.actionIntroFragmentToWheelChairWait()
                                             )
                                     }
                                 })
@@ -105,15 +103,13 @@ class IntroFragment : Fragment() {
                             categoryList[1], categoryEng[1] -> {
                                 this@IntroFragment.findNavController()
                                     .navigate(
-                                        IntroFragmentDirections
-                                            .actionIntroFragmentToPregnantFragment()
+                                        IntroFragmentDirections.actionIntroFragmentToPregnantFragment()
                                     )
                             }
                             categoryList[2], categoryEng[2] -> {
                                 this@IntroFragment.findNavController()
                                     .navigate(
-                                        IntroFragmentDirections
-                                            .actionIntroFragmentToSocialWorker()
+                                        IntroFragmentDirections.actionIntroFragmentToSocialWorker()
                                     )
                             }
                         }

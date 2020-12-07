@@ -1,4 +1,4 @@
-package com.example.socialhelper.registration
+package com.example.socialhelper.viewmodels
 
 import android.app.Application
 import androidx.lifecycle.AndroidViewModel

@@ -6,16 +6,18 @@ import com.example.socialhelper.database.InfoDao
 import com.example.socialhelper.database.WheelData
 
 //Repository for InfoDao
-class InfoRepository (private val infoDao: InfoDao){
+class InfoRepository(private val infoDao: InfoDao) {
     val allInfo = infoDao.getAllInfo()
 
-    suspend fun insertInfo(info: Info){
+    suspend fun insertInfo(info: Info) {
         infoDao.insertInfo(info)
     }
-    suspend fun deleteInfo(){
+
+    suspend fun deleteInfo() {
         infoDao.deleteInfo()
     }
-    suspend fun updateInfo(info: Info){
+
+    suspend fun updateInfo(info: Info) {
         infoDao.updateInfo(info)
     }
 
@@ -25,15 +27,15 @@ class InfoRepository (private val infoDao: InfoDao){
         return infoDao.selectWheelData(key)
     }
 
-    suspend fun insertWheel(wheelData: WheelData){
+    suspend fun insertWheel(wheelData: WheelData) {
         infoDao.insertWheel(wheelData)
     }
 
-    suspend fun updateWheel(wheelData: WheelData){
+    suspend fun updateWheel(wheelData: WheelData) {
         infoDao.updateWheel(wheelData)
     }
 
-    suspend fun deleteAllWheel(){
+    suspend fun deleteAllWheel() {
         infoDao.deleteAllWheel()
     }
 }

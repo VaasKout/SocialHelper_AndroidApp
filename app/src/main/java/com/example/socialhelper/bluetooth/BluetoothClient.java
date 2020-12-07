@@ -6,6 +6,8 @@ import android.bluetooth.BluetoothDevice;
 import android.bluetooth.BluetoothSocket;
 import android.util.Log;
 
+import com.example.socialhelper.ui.PregnantFragment;
+
 import java.io.BufferedReader;
 import java.io.BufferedWriter;
 import java.io.Closeable;
@@ -21,7 +23,7 @@ public class BluetoothClient implements Closeable {
     private BufferedReader reader = null;
 
     /**
-     * @see com.example.socialhelper.pregnant.Pregnant
+     * @see PregnantFragment
      */
 
     private static final UUID MY_UUID = UUID.fromString("00001101-0000-1000-8000-00805F9B34FB");

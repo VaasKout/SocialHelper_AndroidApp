@@ -1,4 +1,4 @@
-package com.example.socialhelper.verification
+package com.example.socialhelper.ui
 
 import android.os.Bundle
 import androidx.fragment.app.Fragment
@@ -13,22 +13,24 @@ import androidx.navigation.fragment.findNavController
 import com.example.socialhelper.R
 import com.example.socialhelper.database.Info
 import com.example.socialhelper.databinding.FragmentKeyVerificationBinding
+import com.example.socialhelper.viewmodels.KeyViewModel
 import com.google.android.material.dialog.MaterialAlertDialogBuilder
 import com.google.android.material.snackbar.Snackbar
 import kotlinx.coroutines.delay
 import kotlinx.coroutines.launch
 
-class KeyVerification : Fragment() {
+class KeyVerificationFragment : Fragment() {
     /**
      * Fragment is used to verify your account with key,
      * sent on email defined in Registration fragment
      *
      * @see R.layout.fragment_key_verification
-     * @see com.example.socialhelper.registration.RegistrationFragment
+     * @see RegistrationFragment
      */
     override fun onCreateView(
         inflater: LayoutInflater, container: ViewGroup?,
-        savedInstanceState: Bundle?): View {
+        savedInstanceState: Bundle?
+    ): View {
 
         val binding: FragmentKeyVerificationBinding = DataBindingUtil
             .inflate(inflater, R.layout.fragment_key_verification, container, false)
@@ -52,7 +54,7 @@ class KeyVerification : Fragment() {
                 MaterialAlertDialogBuilder(requireContext())
                     .setTitle("Ключ верификации отправлен")
                     .setMessage(
-                                "Зайдите на указанную почту, " +
+                        "Зайдите на указанную почту, " +
                                 "eсли письма нет в папке \"Входящие\", " +
                                 "проверьте папку \"Спам\""
                     )
@@ -75,7 +77,7 @@ class KeyVerification : Fragment() {
                     .setPositiveButton("Да") { _, _ ->
                         this.findNavController()
                             .navigate(
-                                KeyVerificationDirections
+                                KeyVerificationFragmentDirections
                                     .actionKeyVerificationToLoginFragment()
                             )
                         viewModel.onClear()
@@ -97,36 +99,36 @@ class KeyVerification : Fragment() {
             if (it == true) {
                 val key = binding.keyEdit.text.toString()
                 if (key.isEmpty()) {
-                        binding.key.error = getString(R.string.empty_field_error)
-                        viewModel.onDoneSendKey()
+                    binding.key.error = getString(R.string.empty_field_error)
+                    viewModel.onDoneSendKey()
                 }
                 if (key.isNotEmpty()) {
                     viewModel.serverKey = key.toInt()
 
                     viewModel.allInfo.observe(viewLifecycleOwner, { info ->
-                    lifecycleScope.launch {
-                        binding.enterKeyButton.isEnabled = false
-                        binding.enterKeyButton.text = getString(R.string.wait)
-                        viewModel.connectToServer()
-                        viewModel.requestServer()
-                        if (!viewModel.readWrite.socket.isConnected) {
-                            Snackbar.make(
-                                binding.enterKeyButton,
-                                getString(R.string.retry_later),
-                                Snackbar.LENGTH_SHORT
-                            ).show()
-                            binding.enterKeyButton.isEnabled = true
-                            binding.enterKeyButton.text = getString(R.string.verify)
-                            viewModel.onDoneSendKey()
-                        } else {
-                            if (viewModel.serverId == 0) {
-                                binding.key.error = getString(R.string.wrong_key)
-                                viewModel.onDoneSendKey()
+                        lifecycleScope.launch {
+                            binding.enterKeyButton.isEnabled = false
+                            binding.enterKeyButton.text = getString(R.string.wait)
+                            viewModel.connectToServer()
+                            viewModel.requestServer()
+                            if (!viewModel.readWrite.socket.isConnected) {
+                                Snackbar.make(
+                                    binding.enterKeyButton,
+                                    getString(R.string.retry_later),
+                                    Snackbar.LENGTH_SHORT
+                                ).show()
                                 binding.enterKeyButton.isEnabled = true
                                 binding.enterKeyButton.text = getString(R.string.verify)
-                                delay(3000)
-                                binding.key.error = null
-                            } else if (viewModel.serverId > 0) {
+                                viewModel.onDoneSendKey()
+                            } else {
+                                if (viewModel.serverId == 0) {
+                                    binding.key.error = getString(R.string.wrong_key)
+                                    viewModel.onDoneSendKey()
+                                    binding.enterKeyButton.isEnabled = true
+                                    binding.enterKeyButton.text = getString(R.string.verify)
+                                    delay(3000)
+                                    binding.key.error = null
+                                } else if (viewModel.serverId > 0) {
                                     binding.key.error = null
                                     val infoInstance = Info(
                                         id = 1,
@@ -138,14 +140,15 @@ class KeyVerification : Fragment() {
                                         serverID = viewModel.serverId,
                                         serverKey = key.toInt(),
                                         needVerification = false,
-                                        category = info.category)
+                                        category = info.category
+                                    )
                                     viewModel.updateInfo(infoInstance)
 
-                                this@KeyVerification.findNavController()
-                                    .navigate(
-                                        KeyVerificationDirections
-                                            .actionKeyVerificationToResponseFragment()
-                                    )
+                                    this@KeyVerificationFragment.findNavController()
+                                        .navigate(
+                                            KeyVerificationFragmentDirections
+                                                .actionKeyVerificationToResponseFragment()
+                                        )
                                     viewModel.onDoneSendKey()
                                 }
                             }

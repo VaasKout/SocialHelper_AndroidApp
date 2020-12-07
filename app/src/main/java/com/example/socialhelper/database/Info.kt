@@ -15,14 +15,14 @@ import androidx.room.PrimaryKey
 @Entity(tableName = "user_info")
 data class Info(
     @PrimaryKey var id: Int = 0,
-    @ColumnInfo (name = "name") var name: String,
-    @ColumnInfo (name = "surname") var surname: String,
-    @ColumnInfo (name = "login") var login: String,
-    @ColumnInfo (name = "password") var password: String,
-    @ColumnInfo (name = "post") var email: String,
-    @ColumnInfo (name = "category") var category: String,
-    @ColumnInfo (name = "reference") val reference: Int = 0,
-    @ColumnInfo (name = "serverID") var serverID: Int = -1,
-    @ColumnInfo (name = "serverKey") var serverKey: Int = -1,
-    @ColumnInfo (name = "wasVerified") var needVerification: Boolean = false
+    @ColumnInfo(name = "name") var name: String,
+    @ColumnInfo(name = "surname") var surname: String,
+    @ColumnInfo(name = "login") var login: String,
+    @ColumnInfo(name = "password") var password: String,
+    @ColumnInfo(name = "post") var email: String,
+    @ColumnInfo(name = "category") var category: String,
+    @ColumnInfo(name = "reference") val reference: Int = 0,
+    @ColumnInfo(name = "serverID") var serverID: Int = -1,
+    @ColumnInfo(name = "serverKey") var serverKey: Int = -1,
+    @ColumnInfo(name = "wasVerified") var needVerification: Boolean = false
 )

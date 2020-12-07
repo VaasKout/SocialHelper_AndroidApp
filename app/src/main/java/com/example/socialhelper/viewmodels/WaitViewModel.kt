@@ -1,4 +1,4 @@
-package com.example.socialhelper.wheelchair
+package com.example.socialhelper.viewmodels
 
 import android.app.Application
 import android.util.Log
@@ -11,7 +11,7 @@ import com.example.socialhelper.network.NetworkClient
 import com.example.socialhelper.repository.InfoRepository
 import kotlinx.coroutines.*
 
-class WaitViewModel(application: Application): AndroidViewModel(application){
+class WaitViewModel(application: Application) : AndroidViewModel(application) {
 
     val readWrite = NetworkClient()
     var triedToConnect = false
@@ -33,30 +33,31 @@ class WaitViewModel(application: Application): AndroidViewModel(application){
     }
 
     //connect to the server and check state
-    suspend fun connectToServer(){
-        withContext(Dispatchers.IO){
+    suspend fun connectToServer() {
+        withContext(Dispatchers.IO) {
             readWrite.connectSocket()
         }
     }
 
     suspend fun requestServer() {
         val job = uiScope.launch(Dispatchers.IO) {
-            withTimeout(4000){
-                    allInfo.value?.let {
-                        if (readWrite.socket != null && readWrite.socket.isConnected) {
-                            readWrite.writeLine("helpWaitWheel")
-                            readWrite.writeLine(it.login)
-                            state = readWrite.readLine()
-                            Log.e("state", state)
-                        }
+            withTimeout(4000) {
+                allInfo.value?.let {
+                    if (readWrite.socket != null && readWrite.socket.isConnected) {
+                        readWrite.writeLine("helpWaitWheel")
+                        readWrite.writeLine(it.login)
+                        state = readWrite.readLine()
+                        Log.e("state", state)
                     }
+                }
             }
         }
         job.join()
     }
+
     //Cancel order
-    suspend fun cancelOrder(){
-        withContext(Dispatchers.IO){
+    suspend fun cancelOrder() {
+        withContext(Dispatchers.IO) {
             if (readWrite.socket != null && readWrite.socket.isConnected) {
                 readWrite.writeLine("cancel")
             }
@@ -64,8 +65,8 @@ class WaitViewModel(application: Application): AndroidViewModel(application){
     }
 
     //Clear WheelData database if order is complete or canceled
-    suspend fun clear(){
-        withContext(Dispatchers.IO){
+    suspend fun clear() {
+        withContext(Dispatchers.IO) {
             repository.deleteAllWheel()
         }
     }

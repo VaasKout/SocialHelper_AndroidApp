@@ -1,4 +1,4 @@
-package com.example.socialhelper.restoration
+package com.example.socialhelper.ui
 
 import android.os.Bundle
 import android.view.LayoutInflater
@@ -12,11 +12,12 @@ import androidx.lifecycle.lifecycleScope
 import androidx.navigation.fragment.findNavController
 import com.example.socialhelper.R
 import com.example.socialhelper.databinding.FragmentRestorePasswordBinding
+import com.example.socialhelper.viewmodels.RestoreViewModel
 import com.google.android.material.dialog.MaterialAlertDialogBuilder
 import com.google.android.material.snackbar.Snackbar
 import kotlinx.coroutines.launch
 
-class RestorePassword : Fragment() {
+class RestorePasswordFragment : Fragment() {
 
     /**
      * @see R.layout.fragment_restore_password
@@ -58,13 +59,13 @@ class RestorePassword : Fragment() {
                 val email = binding.restoreEmailEdit.text.toString()
 
                 if (login.isEmpty()) {
-                        binding.loginRestore.error = getString(R.string.empty_field_error)
-                        viewModel.onDoneRestore()
+                    binding.loginRestore.error = getString(R.string.empty_field_error)
+                    viewModel.onDoneRestore()
                 }
 
                 if (email.isEmpty()) {
-                        binding.emailRestore.error = getString(R.string.empty_field_error)
-                        viewModel.onDoneRestore()
+                    binding.emailRestore.error = getString(R.string.empty_field_error)
+                    viewModel.onDoneRestore()
                 }
 
                 if (login.isNotEmpty() &&
@@ -73,12 +74,12 @@ class RestorePassword : Fragment() {
                     viewModel.allInfo.observe(viewLifecycleOwner, { info ->
                         if (info != null) {
                             if (info.login != login) {
-                                    binding.loginRestore.error = getString(R.string.wrong_login)
-                                    viewModel.onDoneRestore()
+                                binding.loginRestore.error = getString(R.string.wrong_login)
+                                viewModel.onDoneRestore()
                             }
                             if (info.email != email) {
-                                    binding.emailRestore.error = getString(R.string.wrong_email)
-                                    viewModel.onDoneRestore()
+                                binding.emailRestore.error = getString(R.string.wrong_email)
+                                viewModel.onDoneRestore()
                             }
                         } else {
                             lifecycleScope.launch {
@@ -101,7 +102,8 @@ class RestorePassword : Fragment() {
                                                     "проверьте папку \"Спам\""
                                         )
                                         .setPositiveButton("Ок") { _, _ ->
-                                            this@RestorePassword.findNavController().popBackStack()
+                                            this@RestorePasswordFragment.findNavController()
+                                                .popBackStack()
                                             viewModel.onDoneRestore()
                                         }.show()
                                 }

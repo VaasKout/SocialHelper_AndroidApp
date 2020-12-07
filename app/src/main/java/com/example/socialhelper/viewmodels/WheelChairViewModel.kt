@@ -1,4 +1,4 @@
-package com.example.socialhelper.wheelchair
+package com.example.socialhelper.viewmodels
 
 import android.app.Application
 import android.util.Log

@@ -5,7 +5,7 @@
     <data>
         <variable
             name="viewModel"
-            type="com.example.socialhelper.pregnant.PregnantViewModel" />
+            type="com.example.socialhelper.viewmodels.PregnantViewModel" />
     </data>
 
     <androidx.coordinatorlayout.widget.CoordinatorLayout
@@ -27,7 +27,7 @@
     <androidx.constraintlayout.widget.ConstraintLayout
         android:layout_width="match_parent"
         android:layout_height="match_parent"
-        tools:context=".pregnant.Pregnant"
+        tools:context=".ui.PregnantFragment"
         app:layout_behavior="@string/appbar_scrolling_view_behavior">
 
         <TextView

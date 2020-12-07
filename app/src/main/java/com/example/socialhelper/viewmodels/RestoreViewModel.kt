@@ -1,4 +1,4 @@
-package com.example.socialhelper.restoration
+package com.example.socialhelper.viewmodels
 
 import android.app.Application
 import androidx.lifecycle.AndroidViewModel
@@ -25,6 +25,7 @@ class RestoreViewModel(application: Application) : AndroidViewModel(application)
         repository = InfoRepository(infoDao)
         allInfo = repository.allInfo
     }
+
     //Connect and send data
     suspend fun connectToServer() {
         withContext(Dispatchers.IO) {

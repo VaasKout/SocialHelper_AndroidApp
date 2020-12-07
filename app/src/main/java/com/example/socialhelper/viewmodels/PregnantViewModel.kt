@@ -1,4 +1,4 @@
-package com.example.socialhelper.pregnant
+package com.example.socialhelper.viewmodels
 
 import android.app.Activity
 import android.app.Application
@@ -48,6 +48,7 @@ class PregnantViewModel(application: Application) : AndroidViewModel(application
             activity.startActivityForResult(enableBtIntent, BluetoothClient.REQUEST_ENABLE_BT)
         }
     }
+
     //close connection to prevent socket exceptions, connect to remote device
     suspend fun createConnection() {
         withContext(Dispatchers.IO) {
@@ -56,7 +57,7 @@ class PregnantViewModel(application: Application) : AndroidViewModel(application
         }
     }
 
-     suspend fun sendMessage(s: String) {
+    suspend fun sendMessage(s: String) {
         withContext(Dispatchers.IO) {
             bluetoothReadWrite.sendData(s)
         }

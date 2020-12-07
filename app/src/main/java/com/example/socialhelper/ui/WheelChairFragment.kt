@@ -1,4 +1,4 @@
-package com.example.socialhelper.wheelchair
+package com.example.socialhelper.ui
 
 import android.app.TimePickerDialog
 import android.content.Context
@@ -20,13 +20,14 @@ import androidx.navigation.fragment.findNavController
 import com.example.socialhelper.R
 import com.example.socialhelper.database.WheelData
 import com.example.socialhelper.databinding.FragmentWheelChairBinding
+import com.example.socialhelper.viewmodels.WheelChairViewModel
 import com.google.android.material.dialog.MaterialAlertDialogBuilder
 import com.google.android.material.snackbar.Snackbar
 import kotlinx.coroutines.launch
 import java.text.SimpleDateFormat
 import java.util.*
 
-class WheelChair : Fragment() {
+class WheelChairFragment : Fragment() {
 
     override fun onCreateView(
         inflater: LayoutInflater, container: ViewGroup?,
@@ -49,8 +50,8 @@ class WheelChair : Fragment() {
          * @see FragmentWheelChairBinding.toolbarWheelchair
          * @see R.menu.top_bar_social
          */
-        binding.toolbarWheelchair.setOnMenuItemClickListener{
-            when(it.itemId){
+        binding.toolbarWheelchair.setOnMenuItemClickListener {
+            when (it.itemId) {
                 R.id.exit_from_main -> {
                     MaterialAlertDialogBuilder(requireContext())
                         .setMessage("Выйти из аккаунта?")
@@ -60,8 +61,8 @@ class WheelChair : Fragment() {
 
                             this.findNavController()
                                 .navigate(
-                                    WheelChairDirections
-                                        .actionWheelChairToLoginFragment())
+                                    WheelChairFragmentDirections.actionWheelChairToLoginFragment()
+                                )
 
                             viewModel.onClear()
                         }.show()
@@ -76,18 +77,17 @@ class WheelChair : Fragment() {
                         .setPositiveButton("Да") { _, _ ->
                             this.findNavController()
                                 .navigate(
-                                    WheelChairDirections
-                                        .actionWheelChairToChangePassword()
+                                    WheelChairFragmentDirections.actionWheelChairToChangePassword()
                                 )
                         }.show()
                     true
                 }
                 /**
-                 * @see com.example.socialhelper.dialog.DialogMap
+                 * @see DialogMap
                  */
                 R.id.map -> {
                     this.findNavController()
-                        .navigate(WheelChairDirections.actionWheelChairToDialogMap())
+                        .navigate(WheelChairFragmentDirections.actionWheelChairToDialogMap())
                     true
                 }
                 else -> false
@@ -135,8 +135,8 @@ class WheelChair : Fragment() {
             R.drawable.circle_fifteen,
         )
         val allStations = mutableListOf("")
-        for (line in stations){
-            for (st in line){
+        for (line in stations) {
+            for (st in line) {
                 allStations.add(st)
             }
         }
@@ -156,7 +156,7 @@ class WheelChair : Fragment() {
         }
 
         binding.timeDropdown.setOnItemClickListener { adapterView, _, position, _ ->
-            when(adapterView.getItemAtPosition(position).toString()){
+            when (adapterView.getItemAtPosition(position).toString()) {
                 timeArray[1] -> {
                     val cal = Calendar.getInstance()
                     val timeSetListener = TimePickerDialog.OnTimeSetListener { _, hour, minute ->
@@ -181,7 +181,7 @@ class WheelChair : Fragment() {
 
         /**
          * Send order to the server and navigate to WheelChairWait
-         * @see com.example.socialhelper.wheelchair.WheelChairWait
+         * @see WaitFragment
          */
 
         viewModel.send.observe(viewLifecycleOwner, {
@@ -206,15 +206,17 @@ class WheelChair : Fragment() {
                     binding.timeMenu.error = getString(R.string.empty_field_error)
                     viewModel.onDoneSending()
                 }
-                if ( !allStations.contains(startStation) &&
-                    startStation.isNotEmpty()){
+                if (!allStations.contains(startStation) &&
+                    startStation.isNotEmpty()
+                ) {
                     binding.startStation.error =
                         "Выберите станцию, предложенную в выпадающем списке"
                     viewModel.onDoneSending()
                 }
 
                 if (!allStations.contains(endStation) &&
-                    endStation.isNotEmpty()){
+                    endStation.isNotEmpty()
+                ) {
                     binding.endStation.error =
                         "Выберите станцию, предложенную в выпадающем списке"
                     viewModel.onDoneSending()
@@ -224,21 +226,22 @@ class WheelChair : Fragment() {
                     endStation.isNotEmpty() &&
                     time.isNotEmpty() &&
                     allStations.contains(startStation) &&
-                    allStations.contains(endStation)) {
+                    allStations.contains(endStation)
+                ) {
 
                     viewModel.allInfo.observe(viewLifecycleOwner, { info ->
-                    if (explicitTime.isNotEmpty()){
-                        time = explicitTime
-                    }
-                    val data = WheelData(
-                        id = 1,
-                        name = info.name,
-                        first = startStation,
-                        second = endStation,
-                        time = time,
-                        comment = comment
-                    )
-                    viewModel.onInsert(data)
+                        if (explicitTime.isNotEmpty()) {
+                            time = explicitTime
+                        }
+                        val data = WheelData(
+                            id = 1,
+                            name = info.name,
+                            first = startStation,
+                            second = endStation,
+                            time = time,
+                            comment = comment
+                        )
+                        viewModel.onInsert(data)
 
                         MaterialAlertDialogBuilder(requireContext())
                             .setMessage("Данные введены верно?")
@@ -247,7 +250,7 @@ class WheelChair : Fragment() {
                             }
                             .setPositiveButton("Да") { _, _ ->
 
-                                    lifecycleScope.launch {
+                                lifecycleScope.launch {
                                     viewModel.data.observe(viewLifecycleOwner, {
                                         val sendData = WheelData(
                                             id = 1,
@@ -261,36 +264,37 @@ class WheelChair : Fragment() {
                                         viewModel.onUpdate(sendData)
                                     })
 
-                                        binding.buttonHelpRequest.isEnabled = false
+                                    binding.buttonHelpRequest.isEnabled = false
+                                    binding.buttonHelpRequest.text =
+                                        getString(R.string.wait)
+                                    viewModel.connectToServer()
+                                    viewModel.requestServer()
+                                    if (!viewModel.readWrite.socket.isConnected) {
+                                        Snackbar.make(
+                                            binding.buttonHelpRequest,
+                                            getString(R.string.retry_later),
+                                            Snackbar.LENGTH_SHORT
+                                        ).show()
+                                        binding.buttonHelpRequest.isEnabled = true
                                         binding.buttonHelpRequest.text =
-                                            getString(R.string.wait)
-                                        viewModel.connectToServer()
-                                        viewModel.requestServer()
-                                        if (!viewModel.readWrite.socket.isConnected) {
-                                            Snackbar.make(
-                                                binding.buttonHelpRequest,
-                                                getString(R.string.retry_later),
-                                                Snackbar.LENGTH_SHORT
-                                            ).show()
-                                            binding.buttonHelpRequest.isEnabled = true
-                                            binding.buttonHelpRequest.text =
-                                                getString(R.string.send)
-                                            viewModel.onDoneSending()
-                                        } else {
-                                        if (this@WheelChair
+                                            getString(R.string.send)
+                                        viewModel.onDoneSending()
+                                    } else {
+                                        if (this@WheelChairFragment
                                                 .findNavController()
                                                 .currentDestination?.id ==
-                                            R.id.wheelChair){
-                                            this@WheelChair
+                                            R.id.wheelChair
+                                        ) {
+                                            this@WheelChairFragment
                                                 .findNavController()
                                                 .navigate(
-                                                    WheelChairDirections
+                                                    WheelChairFragmentDirections
                                                         .actionWheelChairToWheelChairWait()
                                                 )
                                             viewModel.onDoneSending()
-                                            }
                                         }
                                     }
+                                }
                             }.show()
                     })
                 }
@@ -298,16 +302,16 @@ class WheelChair : Fragment() {
         })
 
 
-        fun setImg(text: String, imageView: ImageView, textView: TextView){
+        fun setImg(text: String, imageView: ImageView, textView: TextView) {
 
             imageView.setImageResource(R.drawable.circle)
             textView.text = ""
-            for(line in stations.indices){
-                if (stations[line].contains(text)){
+            for (line in stations.indices) {
+                if (stations[line].contains(text)) {
                     imageView.setImageResource(img[line])
                     when {
                         line < 7 -> {
-                            textView.text = (line+1).toString()
+                            textView.text = (line + 1).toString()
                             textView.setTextColor(
                                 ContextCompat
                                     .getColor(requireContext(), R.color.text_white)
@@ -319,25 +323,25 @@ class WheelChair : Fragment() {
                                 ContextCompat
                                     .getColor(requireContext(), R.color.text_black)
                             )
-                            if (line == 7){
-                                textView.text = (line+1).toString()
-                            }
-                            else textView.text = getString(R.string.eight_a)
+                            if (line == 7) {
+                                textView.text = (line + 1).toString()
+                            } else textView.text = getString(R.string.eight_a)
 
-                        } line in 9..stations.size -> {
+                        }
+                        line in 9..stations.size -> {
                             textView.text = line.toString()
-                        if (line == 14){
-                            textView.setTextColor(
-                                ContextCompat
-                                    .getColor(requireContext(), R.color.text_black)
-                            )
-                        } else{
-                            textView.setTextColor(
-                                ContextCompat
-                                    .getColor(requireContext(), R.color.text_white)
-                            )
-                                }
-                         }
+                            if (line == 14) {
+                                textView.setTextColor(
+                                    ContextCompat
+                                        .getColor(requireContext(), R.color.text_black)
+                                )
+                            } else {
+                                textView.setTextColor(
+                                    ContextCompat
+                                        .getColor(requireContext(), R.color.text_white)
+                                )
+                            }
+                        }
                     }
                 }
             }
@@ -348,7 +352,7 @@ class WheelChair : Fragment() {
          * @see FragmentWheelChairBinding.startStation
          * @see FragmentWheelChairBinding.endStation
          */
-        val adapter =  ArrayAdapter(
+        val adapter = ArrayAdapter(
             requireContext(),
             R.layout.drop_down_menu, allStations
         )
@@ -363,7 +367,6 @@ class WheelChair : Fragment() {
         /**
          * textChangeListener removes EditText errors from fields
          */
-
         binding.timeDropdown.addTextChangedListener {
             binding.timeMenu.error = null
         }
@@ -396,13 +399,15 @@ class WheelChair : Fragment() {
         binding.startStationEdit.setOnItemClickListener { _, _, _, _ ->
             inputManager.hideSoftInputFromWindow(
                 requireActivity().currentFocus?.windowToken,
-                InputMethodManager.HIDE_NOT_ALWAYS)
+                InputMethodManager.HIDE_NOT_ALWAYS
+            )
         }
 
         binding.endStationEdit.setOnItemClickListener { _, _, _, _ ->
             inputManager.hideSoftInputFromWindow(
                 requireActivity().currentFocus?.windowToken,
-                InputMethodManager.HIDE_NOT_ALWAYS)
+                InputMethodManager.HIDE_NOT_ALWAYS
+            )
         }
 
 

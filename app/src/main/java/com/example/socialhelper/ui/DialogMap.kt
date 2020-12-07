@@ -1,4 +1,4 @@
-package com.example.socialhelper.dialog
+package com.example.socialhelper.ui
 
 import android.os.Bundle
 import androidx.fragment.app.Fragment

@@ -2,6 +2,11 @@ package com.example.socialhelper.network;
 
 import android.util.Log;
 
+import com.example.socialhelper.viewmodels.LoginViewModel;
+import com.example.socialhelper.viewmodels.RegistrationViewModel;
+import com.example.socialhelper.viewmodels.RestoreViewModel;
+import com.example.socialhelper.viewmodels.WheelChairViewModel;
+
 import java.io.BufferedReader;
 import java.io.BufferedWriter;
 import java.io.Closeable;
@@ -18,21 +23,22 @@ public class NetworkClient implements Closeable {
     /**
      * Network client to write and read data from server
      * it's based on Socket class
+     *
      * @see java.net.Socket
      * and two streams with BufferReader and BufferWriter
-     *
+     * <p>
      * At First, every fragment connects to the server by {@link #connectSocket()} method
      * then, to write data on the server, client have to send String to
      * define which data is going to be transfered, and after it fragment uses specific
      * method to send needed data
      * {@link #writeUserRegData(int, int, String, String, String, String, String)}
-     * @see com.example.socialhelper.registration.RegistrationViewModel
+     * @see RegistrationViewModel
      * {@link #writeLoginPassword(String, int)}
-     * @see com.example.socialhelper.login.LoginViewModel
+     * @see LoginViewModel
      * {@link #writeRestoreInfo(String, String)}
-     * @see com.example.socialhelper.restoration.RestoreViewModel
+     * @see RestoreViewModel
      * {@link #writeWheelchairData(String, String, String, String, String, String, String)}
-     * @see com.example.socialhelper.wheelchair.WheelChairViewModel
+     * @see WheelChairViewModel
      */
 
     public static final String IP = "192.168.0.110";
@@ -102,11 +108,9 @@ public class NetworkClient implements Closeable {
     }
 
 
-
-
     public void writeUserRegData(int number, int password, String name,
-                                  String surname, String login,
-                                  String email, String category) {
+                                 String surname, String login,
+                                 String email, String category) {
         write(number);
         write(password);
         writeLine(name);
@@ -115,7 +119,6 @@ public class NetworkClient implements Closeable {
         writeLine(email);
         writeLine(category);
     }
-
 
 
     public void writeLoginPassword(String login, int password) {
@@ -127,8 +130,9 @@ public class NetworkClient implements Closeable {
         writeLine(login);
         writeLine(email);
     }
+
     public void writeWheelchairData(String login, String name, String surname,
-                                    String enter, String exit, String time, String comment){
+                                    String enter, String exit, String time, String comment) {
         writeLine(login);
         writeLine(name);
         writeLine(surname);
@@ -138,7 +142,7 @@ public class NetworkClient implements Closeable {
         writeLine(comment);
     }
 
-    public void changePassword(int id, int newPassword){
+    public void changePassword(int id, int newPassword) {
         write(id);
         write(newPassword);
     }
@@ -146,7 +150,7 @@ public class NetworkClient implements Closeable {
     public void verify(int key,
                        int ref,
                        String name,
-                       String surname, String type){
+                       String surname, String type) {
         write(key);
         write(ref);
         writeLine(name);
@@ -157,6 +161,7 @@ public class NetworkClient implements Closeable {
     /**
      * Methods is used to simplify write messages in OutputSteam
      * and read from InputStream
+     *
      * @param message
      */
 
@@ -181,6 +186,7 @@ public class NetworkClient implements Closeable {
 
     /**
      * Closeable closes all streams and sockets after the instance of class is destroyed
+     *
      * @throws IOException
      */
 

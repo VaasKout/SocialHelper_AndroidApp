@@ -1,4 +1,4 @@
-package com.example.socialhelper.login
+package com.example.socialhelper.viewmodels
 
 import android.app.Application
 import android.util.Log
@@ -68,7 +68,8 @@ class LoginViewModel(application: Application) : AndroidViewModel(application) {
                             email = email,
                             serverID = serverID,
                             serverKey = serverKey,
-                            category = category)
+                            category = category
+                        )
                         insertInfo(info)
                     }
                 }

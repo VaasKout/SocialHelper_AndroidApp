@@ -6,7 +6,7 @@
     <data>
         <variable
             name="viewModel"
-            type="com.example.socialhelper.wheelchair.WaitViewModel" />
+            type="com.example.socialhelper.viewmodels.WaitViewModel" />
     </data>
     <androidx.coordinatorlayout.widget.CoordinatorLayout
         android:layout_width="match_parent"
@@ -34,7 +34,7 @@
             android:layout_width="match_parent"
             android:layout_height="match_parent"
             android:padding="16dp"
-            tools:context=".wheelchair.WheelChairWait">
+            tools:context=".ui.WaitFragment">
 
             <TextView
                 android:id="@+id/textTimeWait"

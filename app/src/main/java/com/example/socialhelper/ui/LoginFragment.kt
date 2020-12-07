@@ -1,4 +1,4 @@
-package com.example.socialhelper.login
+package com.example.socialhelper.ui
 
 import android.os.Bundle
 import android.util.Log
@@ -13,6 +13,7 @@ import androidx.lifecycle.lifecycleScope
 import androidx.navigation.fragment.findNavController
 import com.example.socialhelper.R
 import com.example.socialhelper.databinding.FragmentLoginBinding
+import com.example.socialhelper.viewmodels.LoginViewModel
 import com.google.android.material.snackbar.Snackbar
 import kotlinx.coroutines.launch
 
@@ -20,7 +21,8 @@ class LoginFragment : Fragment() {
 
     override fun onCreateView(
         inflater: LayoutInflater, container: ViewGroup?,
-        savedInstanceState: Bundle?): View {
+        savedInstanceState: Bundle?
+    ): View {
 
         /**
          * @see R.layout.fragment_login
@@ -34,7 +36,7 @@ class LoginFragment : Fragment() {
         /**
          * Two category arrays in strings in Russian and English,
          * watch AutoCompleteTextView adapter in
-         * @see com.example.socialhelper.registration.RegistrationFragment
+         * @see RegistrationFragment
          */
         val categoryList = resources.getStringArray(R.array.category)
         val categoryEng = resources.getStringArray(R.array.categoryEng)
@@ -65,9 +67,9 @@ class LoginFragment : Fragment() {
          *
          * if everything is correct and user exists, navigate to specific client fragment
          *
-         * @see com.example.socialhelper.pregnant.Pregnant
-         * @see com.example.socialhelper.wheelchair.WheelChair
-         * @see com.example.socialhelper.socialworker.SocialWorker
+         * @see PregnantFragment
+         * @see WheelChairFragment
+         * @see SocialWorkerFragment
          */
 
         viewModel.navigateToMainFrag.observe(viewLifecycleOwner, {
@@ -79,16 +81,17 @@ class LoginFragment : Fragment() {
                 binding.passwordTextInput.error = null
 
                 if (login.isEmpty()) {
-                        binding.loginTextInput.error = getString(R.string.user_input_error)
-                        viewModel.onDoneNavigationToMain()
+                    binding.loginTextInput.error = getString(R.string.user_input_error)
+                    viewModel.onDoneNavigationToMain()
                 }
                 if (passwordInput.isEmpty()) {
-                        binding.passwordTextInput.error = getString(R.string.password_input_error)
-                        viewModel.onDoneNavigationToMain()
+                    binding.passwordTextInput.error = getString(R.string.password_input_error)
+                    viewModel.onDoneNavigationToMain()
                 }
 
                 if (login.isNotEmpty() &&
-                    passwordInput.isNotEmpty()) {
+                    passwordInput.isNotEmpty()
+                ) {
 
                     viewModel.login = login
                     viewModel.password = passwordInput.toInt()
@@ -109,21 +112,21 @@ class LoginFragment : Fragment() {
                                 } else if (viewModel.serverID <= 0 ||
                                     viewModel.serverKey <= 0
                                 ) {
-                                        binding.loginTextInput.error =
-                                            getString(R.string.wrong_login_or_password)
-                                        binding.passwordTextInput.error =
-                                            getString(R.string.wrong_login_or_password)
-                                        binding.forgotPassword.visibility = View.VISIBLE
-                                        viewModel.onDoneNavigationToMain()
+                                    binding.loginTextInput.error =
+                                        getString(R.string.wrong_login_or_password)
+                                    binding.passwordTextInput.error =
+                                        getString(R.string.wrong_login_or_password)
+                                    binding.forgotPassword.visibility = View.VISIBLE
+                                    viewModel.onDoneNavigationToMain()
                                 }
                             }
                             if (info != null) {
                                 if (info.serverID <= 0 && info.serverKey <= 0) {
-                                        binding.loginTextInput.error =
-                                            getString(R.string.wrong_login)
-                                        binding.passwordTextInput.error =
-                                            getString(R.string.wrong_password)
-                                        viewModel.onDoneNavigationToMain()
+                                    binding.loginTextInput.error =
+                                        getString(R.string.wrong_login)
+                                    binding.passwordTextInput.error =
+                                        getString(R.string.wrong_password)
+                                    viewModel.onDoneNavigationToMain()
                                 } else {
                                     when {
                                         info.login != login -> {
@@ -149,21 +152,18 @@ class LoginFragment : Fragment() {
                                             ) {
                                                 when (info.category) {
                                                     categoryList[0], categoryEng[0] -> {
-                                                      this@LoginFragment.findNavController()
-                                                          .navigate(LoginFragmentDirections
-                                                              .actionLoginFragmentToWheelChair())
+                                                        this@LoginFragment.findNavController()
+                                                            .navigate(LoginFragmentDirections.actionLoginFragmentToWheelChair())
                                                         viewModel.onDoneNavigationToMain()
                                                     }
                                                     categoryList[1], categoryEng[1] -> {
                                                         this@LoginFragment.findNavController()
-                                                            .navigate(LoginFragmentDirections
-                                                                .actionLoginFragmentToPregnantFragment())
+                                                            .navigate(LoginFragmentDirections.actionLoginFragmentToPregnantFragment())
                                                         viewModel.onDoneNavigationToMain()
                                                     }
                                                     categoryList[2], categoryEng[2] -> {
-                                                       this@LoginFragment.findNavController()
-                                                           .navigate(LoginFragmentDirections
-                                                               .actionLoginFragmentToSocialWorker())
+                                                        this@LoginFragment.findNavController()
+                                                            .navigate(LoginFragmentDirections.actionLoginFragmentToSocialWorker())
                                                         viewModel.onDoneNavigationToMain()
                                                     }
                                                 }
@@ -180,34 +180,34 @@ class LoginFragment : Fragment() {
 
         /**
          * navigate to
-         * @see com.example.socialhelper.registration.RegistrationFragment
+         * @see RegistrationFragment
          */
         viewModel.navigateToSignInFrag.observe(viewLifecycleOwner, {
-                        if (it == true) {
-                            viewModel.allInfo.let {
-                                viewModel.onClear()
-                            }
-                            if (this@LoginFragment
-                                    .findNavController()
-                                    .currentDestination?.id ==
-                                R.id.loginFragment) {
-                                this@LoginFragment.findNavController()
-                                    .navigate(LoginFragmentDirections
-                                        .actionLoginFragmentToRegistrationFragment())
-                                viewModel.onDoneNavigationToSign()
-                            }
-                        }
-                    })
-
-                    viewModel.navigateToRestoreFrag.observe(viewLifecycleOwner, {
-                        if (it == true) {
-                            this.findNavController()
-                                .navigate(LoginFragmentDirections.actionLoginFragmentToRestorePassword())
-                            viewModel.onDoneNavigationToRestore()
-                        }
-                    })
-
-                    binding.lifecycleOwner = this
-                    return binding.root
+            if (it == true) {
+                viewModel.allInfo.let {
+                    viewModel.onClear()
                 }
-        }
+                if (this@LoginFragment
+                        .findNavController()
+                        .currentDestination?.id ==
+                    R.id.loginFragment
+                ) {
+                    this@LoginFragment.findNavController()
+                        .navigate(LoginFragmentDirections.actionLoginFragmentToRegistrationFragment())
+                    viewModel.onDoneNavigationToSign()
+                }
+            }
+        })
+
+        viewModel.navigateToRestoreFrag.observe(viewLifecycleOwner, {
+            if (it == true) {
+                this.findNavController()
+                    .navigate(LoginFragmentDirections.actionLoginFragmentToRestorePassword())
+                viewModel.onDoneNavigationToRestore()
+            }
+        })
+
+        binding.lifecycleOwner = this
+        return binding.root
+    }
+}

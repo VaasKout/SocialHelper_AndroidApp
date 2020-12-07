@@ -1,4 +1,4 @@
-package com.example.socialhelper.registration
+package com.example.socialhelper.ui
 
 import android.os.Bundle
 import android.util.Log
@@ -16,6 +16,7 @@ import androidx.navigation.fragment.findNavController
 import com.example.socialhelper.R
 import com.example.socialhelper.database.Info
 import com.example.socialhelper.databinding.FragmentRegistrationBinding
+import com.example.socialhelper.viewmodels.RegistrationViewModel
 import com.google.android.material.dialog.MaterialAlertDialogBuilder
 import com.google.android.material.snackbar.Snackbar
 import kotlinx.coroutines.launch
@@ -107,7 +108,7 @@ class RegistrationFragment : Fragment() {
          * if everything is correct navigate to KeyVerification fragment
          *
          * @see FragmentRegistrationBinding.regButton
-         * @see com.example.socialhelper.verification.KeyVerification
+         * @see KeyVerificationFragment
          *
          *
          */
@@ -272,8 +273,7 @@ class RegistrationFragment : Fragment() {
                                                 viewModel.updateInfo(infoReference)
                                                 this@RegistrationFragment.findNavController()
                                                     .navigate(
-                                                        RegistrationFragmentDirections
-                                                            .actionRegistrationFragmentToKeyVerification()
+                                                        RegistrationFragmentDirections.actionRegistrationFragmentToKeyVerification()
                                                     )
                                                 viewModel.onDoneNavigating()
                                             }

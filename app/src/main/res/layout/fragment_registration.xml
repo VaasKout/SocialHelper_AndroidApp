@@ -6,7 +6,7 @@
     <data>
         <variable
             name="viewModel"
-            type="com.example.socialhelper.registration.RegistrationViewModel" />
+            type="com.example.socialhelper.viewmodels.RegistrationViewModel" />
     </data>
 
     <androidx.coordinatorlayout.widget.CoordinatorLayout
@@ -41,7 +41,7 @@
                 android:layout_height="match_parent"
                 android:animateLayoutChanges="true"
                 android:padding="16dp"
-                tools:context=".registration.RegistrationFragment">
+                tools:context=".ui.RegistrationFragment">
 
                 <TextView
                     android:id="@+id/enter_name_surname"

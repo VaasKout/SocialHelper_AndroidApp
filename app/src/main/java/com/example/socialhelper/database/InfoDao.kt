@@ -24,7 +24,7 @@ interface InfoDao {
     suspend fun insertWheel(wheelData: WheelData)
 
     @Query("SELECT * from wheel_data")
-    fun getAllWheelData() : LiveData<List<WheelData>>
+    fun getAllWheelData(): LiveData<List<WheelData>>
 
     @Update(onConflict = OnConflictStrategy.IGNORE)
     suspend fun updateWheel(wheelData: WheelData)

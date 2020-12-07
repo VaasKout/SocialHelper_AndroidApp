@@ -8,7 +8,7 @@
         android:paddingEnd="12dp"
         android:paddingStart="12dp"
         android:paddingTop="24dp"
-        tools:context=".intro.IntroFragment">
+        tools:context=".ui.IntroFragment">
 
         <TextView
             android:id="@+id/welcome1"

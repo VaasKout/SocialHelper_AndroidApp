@@ -1,4 +1,4 @@
-package com.example.socialhelper.response
+package com.example.socialhelper.viewmodels
 
 import android.app.Application
 import androidx.lifecycle.AndroidViewModel
@@ -18,12 +18,14 @@ class ResponseViewModel(application: Application) : AndroidViewModel(application
         repository = InfoRepository(infoDao)
         userInfo = repository.allInfo
     }
+
     //Live Data
     private val _navigateBack = MutableLiveData<Boolean>()
     val navigateBack: LiveData<Boolean> = _navigateBack
 
     private val _enter = MutableLiveData<Boolean>()
     val enter: LiveData<Boolean> = _enter
+
     //onClick methods
     fun onStartBackNavigation() {
         _navigateBack.value = true
@@ -33,11 +35,11 @@ class ResponseViewModel(application: Application) : AndroidViewModel(application
         _navigateBack.value = false
     }
 
-    fun onStartEnterNavigation(){
+    fun onStartEnterNavigation() {
         _enter.value = true
     }
 
-    fun onDoneEnterNavigation(){
+    fun onDoneEnterNavigation() {
         _enter.value = false
     }
 }

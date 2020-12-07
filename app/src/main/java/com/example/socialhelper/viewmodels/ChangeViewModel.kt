@@ -1,4 +1,4 @@
-package com.example.socialhelper.password
+package com.example.socialhelper.viewmodels
 
 import android.app.Application
 import androidx.lifecycle.AndroidViewModel
@@ -11,7 +11,7 @@ import com.example.socialhelper.repository.InfoRepository
 import kotlinx.coroutines.Dispatchers
 import kotlinx.coroutines.withContext
 
-class ChangeViewModel(application: Application): AndroidViewModel(application){
+class ChangeViewModel(application: Application) : AndroidViewModel(application) {
 
     val readWrite = NetworkClient()
     var receiveNewPass = 0
@@ -26,11 +26,12 @@ class ChangeViewModel(application: Application): AndroidViewModel(application){
         allInfo = repository.allInfo
     }
 
-    suspend fun updateInfo(info: Info){
-        withContext(Dispatchers.IO){
+    suspend fun updateInfo(info: Info) {
+        withContext(Dispatchers.IO) {
             repository.updateInfo(info)
         }
     }
+
     //Connect and send new password
     suspend fun connectToServer() {
         withContext(Dispatchers.IO) {
@@ -42,11 +43,12 @@ class ChangeViewModel(application: Application): AndroidViewModel(application){
         withContext(Dispatchers.IO) {
             allInfo.value?.let {
                 if (readWrite.socket != null && readWrite.socket.isConnected) {
-                    if (sendNewPass > 0){
+                    if (sendNewPass > 0) {
                         readWrite.writeLine("passChange")
                         readWrite.changePassword(
                             it.serverID,
-                            sendNewPass)
+                            sendNewPass
+                        )
                         receiveNewPass = readWrite.read()
                     }
                 }
@@ -59,11 +61,11 @@ class ChangeViewModel(application: Application): AndroidViewModel(application){
     val changed: LiveData<Boolean> = _changed
 
     //onClick methods
-    fun onStartChange(){
+    fun onStartChange() {
         _changed.value = true
     }
 
-    fun onDoneChange(){
+    fun onDoneChange() {
         _changed.value = false
     }
 }

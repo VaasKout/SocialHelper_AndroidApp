@@ -1,4 +1,4 @@
-package com.example.socialhelper.verification
+package com.example.socialhelper.viewmodels
 
 import android.app.Application
 import android.util.Log
@@ -50,17 +50,19 @@ class KeyViewModel(application: Application) : AndroidViewModel(application) {
                     allInfo.value?.let {
 
                         var s = ""
-                        when(it.category){
+                        when (it.category) {
                             categoryList[0] -> s = categoryEngList[0]
                             categoryList[1] -> s = categoryEngList[1]
                             categoryList[2] -> s = categoryEngList[2]
                         }
 
-                        readWrite.verify(serverKey,
-                                        it.reference,
-                                        it.name,
-                                        it.surname,
-                                        s)
+                        readWrite.verify(
+                            serverKey,
+                            it.reference,
+                            it.name,
+                            it.surname,
+                            s
+                        )
                         Log.e("data", "sent")
                         serverId = readWrite.read()
                     }

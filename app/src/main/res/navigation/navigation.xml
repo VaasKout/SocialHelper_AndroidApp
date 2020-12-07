@@ -5,7 +5,7 @@
     app:startDestination="@id/introFragment">
     <fragment
         android:id="@+id/registrationFragment"
-        android:name="com.example.socialhelper.registration.RegistrationFragment"
+        android:name="com.example.socialhelper.ui.RegistrationFragment"
         android:label="fragment_registration"
         tools:layout="@layout/fragment_registration">
         <action
@@ -20,7 +20,7 @@
     </fragment>
     <fragment
         android:id="@+id/pregnantFragment"
-        android:name="com.example.socialhelper.pregnant.Pregnant"
+        android:name="com.example.socialhelper.ui.PregnantFragment"
         android:label="fragment_pregnant"
         tools:layout="@layout/fragment_pregnant">
         <action
@@ -41,7 +41,7 @@
     </fragment>
     <fragment
         android:id="@+id/loginFragment"
-        android:name="com.example.socialhelper.login.LoginFragment"
+        android:name="com.example.socialhelper.ui.LoginFragment"
         android:label="LoginFragment"
         tools:layout="@layout/fragment_login">
         <action
@@ -84,7 +84,7 @@
     </fragment>
     <fragment
         android:id="@+id/responseFragment"
-        android:name="com.example.socialhelper.response.ResponseFragment"
+        android:name="com.example.socialhelper.ui.ResponseFragment"
         android:label="fragment_response"
         tools:layout="@layout/fragment_response" >
         <action
@@ -118,7 +118,7 @@
     </fragment>
     <fragment
         android:id="@+id/introFragment"
-        android:name="com.example.socialhelper.intro.IntroFragment"
+        android:name="com.example.socialhelper.ui.IntroFragment"
         android:label="IntroFragment"
         tools:layout="@layout/fragment_intro">
         <action
@@ -169,12 +169,12 @@
     </fragment>
     <fragment
         android:id="@+id/restorePassword"
-        android:name="com.example.socialhelper.restoration.RestorePassword"
+        android:name="com.example.socialhelper.ui.RestorePasswordFragment"
         android:label="RestorePassword"
         tools:layout="@layout/fragment_restore_password"/>
     <fragment
         android:id="@+id/keyVerification"
-        android:name="com.example.socialhelper.verification.KeyVerification"
+        android:name="com.example.socialhelper.ui.KeyVerificationFragment"
         android:label="KeyVerification"
         tools:layout="@layout/fragment_key_verification">
         <action
@@ -196,12 +196,12 @@
     </fragment>
     <fragment
         android:id="@+id/changePassword"
-        android:name="com.example.socialhelper.password.ChangePassword"
+        android:name="com.example.socialhelper.ui.ChangePasswordFragment"
         android:label="ChangePassword"
         tools:layout="@layout/fragment_change_password"/>
     <fragment
         android:id="@+id/socialWorker"
-        android:name="com.example.socialhelper.socialworker.SocialWorker"
+        android:name="com.example.socialhelper.ui.SocialWorkerFragment"
         android:label="SocialWorker"
         tools:layout="@layout/fragment_social_worker">
         <action
@@ -227,7 +227,7 @@
     </fragment>
     <fragment
         android:id="@+id/wheelChair"
-        android:name="com.example.socialhelper.wheelchair.WheelChair"
+        android:name="com.example.socialhelper.ui.WheelChairFragment"
         android:label="WheelChair"
         tools:layout="@layout/fragment_wheel_chair">
         <action
@@ -259,7 +259,7 @@
     </fragment>
     <fragment
         android:id="@+id/wheelChairWait"
-        android:name="com.example.socialhelper.wheelchair.WheelChairWait"
+        android:name="com.example.socialhelper.ui.WaitFragment"
         android:label="WheelChairWait"
         tools:layout="@layout/fragment_wheel_chair_wait">
         <action
@@ -276,7 +276,7 @@
     </fragment>
     <fragment
         android:id="@+id/dialogMap"
-        android:name="com.example.socialhelper.dialog.DialogMap"
+        android:name="com.example.socialhelper.ui.DialogMap"
         android:label="DialogMap"
         tools:layout="@layout/fragment_dialog_map"/>
 </navigation>

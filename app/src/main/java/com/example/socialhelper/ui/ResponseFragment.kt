@@ -1,4 +1,4 @@
-package com.example.socialhelper.response
+package com.example.socialhelper.ui
 
 
 import android.os.Bundle
@@ -11,6 +11,7 @@ import androidx.lifecycle.ViewModelProvider
 import androidx.navigation.fragment.findNavController
 import com.example.socialhelper.R
 import com.example.socialhelper.databinding.FragmentResponseBinding
+import com.example.socialhelper.viewmodels.ResponseViewModel
 
 class ResponseFragment : Fragment() {
     /**
@@ -20,7 +21,8 @@ class ResponseFragment : Fragment() {
      */
     override fun onCreateView(
         inflater: LayoutInflater, container: ViewGroup?,
-        savedInstanceState: Bundle?): View {
+        savedInstanceState: Bundle?
+    ): View {
 
         val binding: FragmentResponseBinding =
             DataBindingUtil.inflate(inflater, R.layout.fragment_response, container, false)
@@ -39,24 +41,22 @@ class ResponseFragment : Fragment() {
                 binding.buttonEnterAccount.visibility = View.GONE
             }
 
-            viewModel.enter.observe(viewLifecycleOwner, {enter ->
-                if (enter == true && it.serverID > 0){
-                    when (it.category){
+            viewModel.enter.observe(viewLifecycleOwner, { enter ->
+                if (enter == true && it.serverID > 0) {
+                    when (it.category) {
                         categoryList[0] -> {
                             this.findNavController()
-                                .navigate(ResponseFragmentDirections
-                                .actionResponseFragmentToWheelChair())
+                                .navigate(ResponseFragmentDirections.actionResponseFragmentToWheelChair())
                             viewModel.onDoneEnterNavigation()
                         }
                         categoryList[1] -> {
-                            this.findNavController().navigate(ResponseFragmentDirections
-                                .actionResponseFragmentToPregnantFragment())
+                            this.findNavController()
+                                .navigate(ResponseFragmentDirections.actionResponseFragmentToPregnantFragment())
                             viewModel.onDoneEnterNavigation()
                         }
                         categoryList[2] -> {
                             this.findNavController()
-                                .navigate(ResponseFragmentDirections
-                                    .actionResponseFragmentToSocialWorker())
+                                .navigate(ResponseFragmentDirections.actionResponseFragmentToSocialWorker())
                             viewModel.onDoneEnterNavigation()
                         }
                     }
@@ -67,8 +67,7 @@ class ResponseFragment : Fragment() {
         viewModel.navigateBack.observe(viewLifecycleOwner, {
             if (it == true) {
                 this.findNavController()
-                    .navigate(ResponseFragmentDirections
-                        .actionResponseFragmentToLoginFragment())
+                    .navigate(ResponseFragmentDirections.actionResponseFragmentToLoginFragment())
                 viewModel.onDoneBackNavigation()
             }
         })
